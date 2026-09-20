@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>OpportunityCheck — Verify Before You Trust It</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f9fc;
+      color: #111827;
+    }
+
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 15px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .nav {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 800;
+      color: #111827;
+    }
+
+    .logo span {
+      color: #2563eb;
+    }
+
+    .login {
+      background: transparent;
+      border: 1px solid #d1d5db;
+      padding: 9px 15px;
+      border-radius: 9px;
+      font-weight: 600;
+    }
+
+    .hero {
+      max-width: 900px;
+      margin: auto;
+      text-align: center;
+      padding: 70px 20px 45px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #e8f0ff;
+      color: #2563eb;
+      padding: 8px 13px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(38px, 8vw, 65px);
+      line-height: 1.02;
+      letter-spacing: -2px;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: auto;
+      color: #667085;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    .buttons {
+      margin-top: 28px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .primary {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 14px 21px;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+
+    .secondary {
+      background: white;
+      color: #111827;
+      border: 1px solid #d1d5db;
+      padding: 14px 21px;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+
+    .container {
+      max-width: 1050px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .verify-box {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 18px;
+      padding: 25px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+    }
+
+    .verify-box h2 {
+      margin-bottom: 8px;
+    }
+
+    .verify-box p {
+      color: #667085;
+      margin-bottom: 18px;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .input-row input {
+      flex: 1;
+      min-width: 0;
+      padding: 15px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .result {
+      display: none;
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 12px;
+      background: #fff8e1;
+      border: 1px solid #f4d35e;
+    }
+
+    .status {
+      display: inline-block;
+      background: #fef3c7;
+      color: #92400e;
+      padding: 7px 11px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .categories {
+      margin-top: 45px;
+    }
+
+    .categories h2 {
+      margin-bottom: 18px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 13px;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 20px;
+    }
+
+    .icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+
+    .card h3 {
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+
+    .card p {
+      font-size: 13px;
+      color: #667085;
+      line-height: 1.4;
+    }
+
+    .steps {
+      margin-top: 50px;
+      padding-bottom: 50px;
+    }
+
+    .steps h2 {
+      margin-bottom: 18px;
+    }
+
+    .step-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
+    .step {
+      background: white;
+      border: 1px solid #e5e7eb;
+      padding: 22px;
+      border-radius: 14px;
+    }
+
+    .number {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      background: #e8f0ff;
+      color: #2563eb;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      margin-bottom: 13px;
+    }
+
+    .step p {
+      margin-top: 7px;
+      color: #667085;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    footer {
+      background: #111827;
+      color: white;
+      text-align: center;
+      padding: 25px 15px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 700px) {
+
+      .hero {
+        padding-top: 50px;
+      }
+
+      h1 {
+        font-size: 42px;
+      }
+
+      .input-row {
+        flex-direction: column;
+      }
+
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .step-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .input-row .primary {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 400px) {
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 37px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">
+      Opportunity<span>Check</span>
+    </div>
+
+    <button class="login">
+      Login
+    </button>
+  </div>
+</header>
+
+
+<section class="hero">
+
+  <div class="badge">
+    VERIFY BEFORE YOU TRUST IT
+  </div>
+
+  <h1>
+    Is that opportunity actually real?
+  </h1>
+
+  <p>
+    Verify jobs, scholarships, grants, internships and other
+    online opportunities before you apply, pay money or submit
+    your personal information.
+  </p>
+
+  <div class="buttons">
+
+    <button class="primary" onclick="focusVerifier()">
+      Verify an Opportunity
+    </button>
+
+    <button class="secondary" onclick="showDiscover()">
+      Explore Opportunities
+    </button>
+
+  </div>
+
+</section>
+
+
+<div class="container">
+
+  <section class="verify-box" id="verify">
+
+    <h2>
+      Check an opportunity
+    </h2>
+
+    <p>
+      Paste the opportunity link below to start a verification request.
+    </p>
+
+    <div class="input-row">
+
+      <input
+        id="opportunity"
+        type="text"
+        placeholder="Paste opportunity link..."
+      >
+
+      <button
+        class="primary"
+        onclick="checkOpportunity()"
+      >
+        Check
+      </button>
+
+    </div>
+
+
+    <div class="result" id="result">
+
+      <span class="status">
+        🟡 UNVERIFIED
+      </span>
+
+      <h3 style="margin-top:12px;">
+        Verification requires investigation
+      </h3>
+
+      <p style="margin-top:8px;">
+        This opportunity has been submitted for review.
+        A complete version of OpportunityCheck will examine
+        official sources and evidence before producing a result.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <section class="categories">
+
+    <h2>
+      What can you verify?
+    </h2>
+
+    <div class="grid">
+
+      <div class="card">
+        <div class="icon">💼</div>
+        <h3>Jobs</h3>
+        <p>Check recruitment and employment opportunities.</p>
+      </div>
+
+      <div class="card">
+        <div class="icon">🎓</div>
+        <h3>Scholarships</h3>
+        <p>Investigate education funding opportunities.</p>
+      </div>
+
+      <div class="card">
+        <div class="icon">💰</div>
+        <h3>Grants</h3>
+        <p>Check grants and business funding opportunities.</p>
+      </div>
+
+      <div class="card">
+        <div class="icon">🚀</div>
+        <h3>Internships</h3>
+        <p>Verify internships and career programmes.</p>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section class="steps">
+
+    <h2>
+      How OpportunityCheck works
+    </h2>
+
+    <div class="step-grid">
+
+      <div class="step">
+
+        <div class="number">
+          1
+        </div>
+
+        <h3>
+          Submit
+        </h3>
+
+        <p>
+          Paste a link, message, screenshot or document
+          containing the opportunity.
+        </p>
+
+      </div>
+
+
+      <div class="step">
+
+        <div class="number">
+          2
+        </div>
+
+        <h3>
+          Investigate
+        </h3>
+
+        <p>
+          Evidence is reviewed against official sources,
+          organizations and other relevant information.
+        </p>
+
+      </div>
+
+
+      <div class="step">
+
+        <div class="number">
+          3
+        </div>
+
+        <h3>
+          Understand
+        </h3>
+
+        <p>
+          Receive a clear result together with the evidence
+          behind the verification.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
+
+
+<footer>
+
+  OpportunityCheck — Verify before you trust it.
+
+</footer>
+
+
+<script>
+
+function focusVerifier() {
+
+  document
+    .getElementById("verify")
+    .scrollIntoView({
+      behavior: "smooth"
+    });
+
+  setTimeout(function() {
+
+    document
+      .getElementById("opportunity")
+      .focus();
+
+  }, 500);
+
+}
+
+
+function checkOpportunity() {
+
+  const input =
+    document.getElementById("opportunity");
+
+  const result =
+    document.getElementById("result");
+
+  if (input.value.trim() === "") {
+
+    input.placeholder =
+      "Please paste an opportunity link first";
+
+    input.focus();
+
+    return;
+
+  }
+
+  result.style.display = "block";
+
+}
+
+
+function showDiscover() {
+
+  alert(
+    "The Opportunity Discovery section will be added in the next version."
+  );
+
+}
+
+</script>
+
+</body>
+  </html>
