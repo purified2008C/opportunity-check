@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpportunityCheck — Verify Before You Trust</title>
 
-  <title>OpportunityCheck — Verify Before You Trust It</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     * {
@@ -16,286 +17,454 @@
     body {
       font-family: Arial, sans-serif;
       background: #f7f9fc;
-      color: #111827;
+      color: #172033;
+      line-height: 1.5;
     }
 
-    header {
-      background: #ffffff;
-      border-bottom: 1px solid #e5e7eb;
-      padding: 15px 20px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    .nav {
-      max-width: 1100px;
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      font-size: 20px;
-      font-weight: 800;
-      color: #111827;
-    }
-
-    .logo span {
-      color: #2563eb;
-    }
-
-    .login {
-      background: transparent;
-      border: 1px solid #d1d5db;
-      padding: 9px 15px;
-      border-radius: 9px;
-      font-weight: 600;
-    }
-
-    .hero {
-      max-width: 900px;
-      margin: auto;
-      text-align: center;
-      padding: 70px 20px 45px;
-    }
-
-    .badge {
-      display: inline-block;
-      background: #e8f0ff;
-      color: #2563eb;
-      padding: 8px 13px;
-      border-radius: 30px;
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 18px;
-    }
-
-    h1 {
-      font-size: clamp(38px, 8vw, 65px);
-      line-height: 1.02;
-      letter-spacing: -2px;
-      margin-bottom: 20px;
-    }
-
-    .hero p {
-      max-width: 650px;
-      margin: auto;
-      color: #667085;
-      font-size: 17px;
-      line-height: 1.6;
-    }
-
-    .buttons {
-      margin-top: 28px;
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
+    button,
+    input,
+    textarea {
+      font: inherit;
     }
 
     button {
       cursor: pointer;
-      font-size: 15px;
     }
 
-    .primary {
-      background: #2563eb;
-      color: white;
-      border: none;
-      padding: 14px 21px;
-      border-radius: 10px;
-      font-weight: 700;
+    .hidden {
+      display: none !important;
     }
 
-    .secondary {
+    /* HEADER */
+    header {
       background: white;
-      color: #111827;
-      border: 1px solid #d1d5db;
-      padding: 14px 21px;
-      border-radius: 10px;
-      font-weight: 700;
+      border-bottom: 1px solid #e7ebf2;
+      position: sticky;
+      top: 0;
+      z-index: 20;
     }
 
-    .container {
-      max-width: 1050px;
+    .header-inner {
+      max-width: 1100px;
       margin: auto;
-      padding: 20px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
     }
 
-    .verify-box {
-      background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 18px;
-      padding: 25px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+    .logo {
+      font-size: 21px;
+      font-weight: 800;
+      color: #14532d;
+      cursor: pointer;
     }
 
-    .verify-box h2 {
-      margin-bottom: 8px;
+    .logo span {
+      color: #16a34a;
     }
 
-    .verify-box p {
-      color: #667085;
-      margin-bottom: 18px;
-    }
-
-    .input-row {
+    .top-actions {
       display: flex;
       gap: 10px;
+      align-items: center;
     }
 
-    .input-row input {
-      flex: 1;
-      min-width: 0;
-      padding: 15px;
-      border: 1px solid #d1d5db;
+    /* BUTTONS */
+    .btn {
+      border: none;
       border-radius: 10px;
-      font-size: 15px;
-      outline: none;
+      padding: 12px 18px;
+      font-weight: 700;
+      transition: 0.2s;
     }
 
-    .result {
-      display: none;
-      margin-top: 18px;
-      padding: 18px;
-      border-radius: 12px;
-      background: #fff8e1;
-      border: 1px solid #f4d35e;
+    .btn-primary {
+      background: #15803d;
+      color: white;
     }
 
-    .status {
+    .btn-primary:hover {
+      background: #166534;
+    }
+
+    .btn-outline {
+      background: white;
+      color: #15803d;
+      border: 1px solid #15803d;
+    }
+
+    .btn-danger {
+      background: #dc2626;
+      color: white;
+    }
+
+    .btn-light {
+      background: #eef7f1;
+      color: #166534;
+    }
+
+    /* LANDING */
+    .hero {
+      max-width: 1100px;
+      margin: auto;
+      padding: 80px 20px 60px;
+      text-align: center;
+    }
+
+    .badge {
       display: inline-block;
-      background: #fef3c7;
-      color: #92400e;
-      padding: 7px 11px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 800;
+      background: #e8f7ed;
+      color: #166534;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 20px;
     }
 
-    .categories {
-      margin-top: 45px;
+    .hero h1 {
+      font-size: clamp(38px, 7vw, 68px);
+      line-height: 1.05;
+      max-width: 800px;
+      margin: auto;
+      color: #10251a;
     }
 
-    .categories h2 {
-      margin-bottom: 18px;
+    .hero h1 span {
+      color: #15803d;
     }
 
-    .grid {
+    .hero p {
+      max-width: 650px;
+      margin: 22px auto;
+      color: #64748b;
+      font-size: 18px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .safety {
+      max-width: 650px;
+      margin: 35px auto 0;
+      padding: 14px 18px;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      border-radius: 12px;
+      color: #9a3412;
+      font-size: 14px;
+    }
+
+    /* SECTIONS */
+    .section {
+      max-width: 1100px;
+      margin: auto;
+      padding: 50px 20px;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .section-title h2 {
+      font-size: 32px;
+    }
+
+    .section-title p {
+      color: #64748b;
+      margin-top: 8px;
+    }
+
+    .cards {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 13px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
     }
 
     .card {
       background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 20px;
+      border: 1px solid #e7ebf2;
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.03);
     }
 
-    .icon {
-      font-size: 28px;
+    .card-icon {
+      font-size: 30px;
       margin-bottom: 12px;
     }
 
     .card h3 {
-      font-size: 16px;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .card p {
-      font-size: 13px;
-      color: #667085;
-      line-height: 1.4;
+      color: #64748b;
     }
 
-    .steps {
-      margin-top: 50px;
-      padding-bottom: 50px;
+    /* APP */
+    .app {
+      max-width: 1100px;
+      margin: auto;
+      padding: 35px 20px 100px;
     }
 
-    .steps h2 {
-      margin-bottom: 18px;
+    .welcome {
+      margin-bottom: 25px;
     }
 
-    .step-grid {
+    .welcome h2 {
+      font-size: 30px;
+    }
+
+    .welcome p {
+      color: #64748b;
+    }
+
+    .app-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
+      grid-template-columns: 220px 1fr;
+      gap: 20px;
     }
 
-    .step {
+    .sidebar {
       background: white;
-      border: 1px solid #e5e7eb;
-      padding: 22px;
-      border-radius: 14px;
+      border: 1px solid #e7ebf2;
+      border-radius: 15px;
+      padding: 12px;
+      height: fit-content;
     }
 
-    .number {
-      width: 34px;
-      height: 34px;
+    .nav-btn {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      padding: 13px;
       border-radius: 9px;
-      background: #e8f0ff;
-      color: #2563eb;
-      display: grid;
-      place-items: center;
-      font-weight: 800;
-      margin-bottom: 13px;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: #475569;
     }
 
-    .step p {
-      margin-top: 7px;
-      color: #667085;
+    .nav-btn:hover,
+    .nav-btn.active {
+      background: #eaf7ee;
+      color: #166534;
+    }
+
+    .content {
+      min-width: 0;
+    }
+
+    .panel {
+      background: white;
+      border: 1px solid #e7ebf2;
+      border-radius: 16px;
+      padding: 25px;
+      margin-bottom: 20px;
+    }
+
+    .panel h3 {
+      margin-bottom: 8px;
+    }
+
+    .panel-subtitle {
+      color: #64748b;
+      margin-bottom: 20px;
+    }
+
+    /* FORMS */
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 7px;
       font-size: 14px;
-      line-height: 1.5;
     }
 
+    input,
+    textarea {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      outline: none;
+      background: white;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: #16a34a;
+      box-shadow: 0 0 0 3px rgba(22,163,74,.1);
+    }
+
+    textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* STATUS */
+    .status {
+      display: inline-block;
+      padding: 7px 11px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .verified {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .unverified {
+      background: #f1f5f9;
+      color: #475569;
+    }
+
+    .suspicious {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .contradicted {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    /* MODAL */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,.65);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      z-index: 100;
+    }
+
+    .modal-box {
+      background: white;
+      width: 100%;
+      max-width: 430px;
+      border-radius: 18px;
+      padding: 28px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .close {
+      border: none;
+      background: #f1f5f9;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      font-size: 20px;
+    }
+
+    .switch-auth {
+      text-align: center;
+      margin-top: 15px;
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    .link {
+      color: #15803d;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .message {
+      margin-bottom: 15px;
+      padding: 12px;
+      border-radius: 9px;
+      font-size: 14px;
+    }
+
+    .message.error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .message.success {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    /* FOOTER */
     footer {
-      background: #111827;
+      background: #10251a;
       color: white;
       text-align: center;
-      padding: 25px 15px;
-      font-size: 13px;
+      padding: 30px 20px;
     }
 
-    @media (max-width: 700px) {
+    footer p {
+      color: #bbf7d0;
+      font-size: 14px;
+    }
 
+    /* MOBILE */
+    @media (max-width: 800px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .app-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        display: flex;
+        overflow-x: auto;
+        gap: 5px;
+      }
+
+      .nav-btn {
+        min-width: max-content;
+        margin: 0;
+      }
+    }
+
+    @media (max-width: 500px) {
       .hero {
-        padding-top: 50px;
+        padding-top: 55px;
       }
 
-      h1 {
-        font-size: 42px;
+      .top-actions .btn {
+        padding: 9px 12px;
+        font-size: 13px;
       }
 
-      .input-row {
-        flex-direction: column;
-      }
-
-      .grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .step-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .input-row .primary {
-        width: 100%;
-      }
-    }
-
-    @media (max-width: 400px) {
-
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      h1 {
-        font-size: 37px;
+      .panel {
+        padding: 18px;
       }
     }
   </style>
@@ -304,266 +473,949 @@
 <body>
 
 <header>
-  <div class="nav">
-    <div class="logo">
+  <div class="header-inner">
+    <div class="logo" onclick="showLanding()">
       Opportunity<span>Check</span>
     </div>
 
-    <button class="login">
-      Login
-    </button>
+    <div class="top-actions" id="headerActions">
+      <button class="btn btn-outline" onclick="openAuth('login')">
+        Login
+      </button>
+
+      <button class="btn btn-primary" onclick="openAuth('signup')">
+        Sign Up
+      </button>
+    </div>
   </div>
 </header>
 
 
-<section class="hero">
+<!-- LANDING PAGE -->
 
-  <div class="badge">
-    VERIFY BEFORE YOU TRUST IT
+<main id="landingPage">
+
+  <section class="hero">
+    <div class="badge">🇳🇬 Built for opportunity seekers</div>
+
+    <h1>
+      Is that opportunity<br>
+      <span>actually real?</span>
+    </h1>
+
+    <p>
+      OpportunityCheck helps you investigate opportunities,
+      understand the available evidence, and make more informed decisions
+      before you trust or act on an opportunity.
+    </p>
+
+    <div class="hero-buttons">
+      <button class="btn btn-primary" onclick="openAuth('signup')">
+        Verify an Opportunity
+      </button>
+
+      <button class="btn btn-outline" onclick="showDiscover()">
+        Explore Opportunities
+      </button>
+    </div>
+
+    <div class="safety">
+      ⚠️ <strong>Safety first:</strong>
+      Never submit passwords, OTPs, PINs, bank login details,
+      or other sensitive credentials for verification.
+    </div>
+  </section>
+
+
+  <section class="section">
+    <div class="section-title">
+      <h2>How OpportunityCheck Works</h2>
+      <p>Evidence first. Clear information. Better decisions.</p>
+    </div>
+
+    <div class="cards">
+
+      <div class="card">
+        <div class="card-icon">🔎</div>
+        <h3>Submit</h3>
+        <p>
+          Submit an opportunity using a URL, written information,
+          screenshot, or document.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">📋</div>
+        <h3>Review</h3>
+        <p>
+          Available evidence is reviewed and the opportunity is
+          assessed carefully.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🛡️</div>
+        <h3>Understand</h3>
+        <p>
+          See the status, explanation and supporting evidence before
+          deciding what to do next.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <section class="section">
+    <div class="section-title">
+      <h2>What the Results Mean</h2>
+    </div>
+
+    <div class="cards">
+
+      <div class="card">
+        <span class="status verified">VERIFIED</span>
+        <p style="margin-top:12px;">
+          Available evidence supports the opportunity.
+        </p>
+      </div>
+
+      <div class="card">
+        <span class="status unverified">UNVERIFIED</span>
+        <p style="margin-top:12px;">
+          There isn't enough reliable evidence to confirm it.
+        </p>
+      </div>
+
+      <div class="card">
+        <span class="status suspicious">SUSPICIOUS</span>
+        <p style="margin-top:12px;">
+          Important warning signs require additional caution.
+        </p>
+      </div>
+
+      <div class="card">
+        <span class="status contradicted">CONTRADICTED</span>
+        <p style="margin-top:12px;">
+          Available evidence conflicts with important claims.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+
+<!-- APPLICATION -->
+
+<section id="appPage" class="app hidden">
+
+  <div class="welcome">
+    <h2 id="welcomeName">Welcome to OpportunityCheck</h2>
+    <p>Check opportunities and keep track of your submissions.</p>
   </div>
 
-  <h1>
-    Is that opportunity actually real?
-  </h1>
+  <div class="app-grid">
 
-  <p>
-    Verify jobs, scholarships, grants, internships and other
-    online opportunities before you apply, pay money or submit
-    your personal information.
-  </p>
+    <aside class="sidebar">
 
-  <div class="buttons">
+      <button class="nav-btn active" onclick="openTab('dashboard')">
+        🏠 Dashboard
+      </button>
 
-    <button class="primary" onclick="focusVerifier()">
-      Verify an Opportunity
-    </button>
+      <button class="nav-btn" onclick="openTab('verify')">
+        🔎 Verify
+      </button>
 
-    <button class="secondary" onclick="showDiscover()">
-      Explore Opportunities
-    </button>
+      <button class="nav-btn" onclick="openTab('discover')">
+        🌍 Discover
+      </button>
 
+      <button class="nav-btn" onclick="openTab('history')">
+        🕘 History
+      </button>
+
+      <button class="nav-btn" onclick="openTab('profile')">
+        👤 Profile
+      </button>
+
+      <button class="nav-btn" onclick="logout()">
+        🚪 Logout
+      </button>
+
+    </aside>
+
+
+    <div class="content">
+
+      <!-- DASHBOARD -->
+
+      <div id="tab-dashboard" class="tab">
+
+        <div class="panel">
+          <h3>Start checking an opportunity</h3>
+
+          <p class="panel-subtitle">
+            Have you received an opportunity you're unsure about?
+          </p>
+
+          <button class="btn btn-primary" onclick="openTab('verify')">
+            Verify an Opportunity
+          </button>
+        </div>
+
+        <div class="panel">
+          <h3>Important</h3>
+
+          <p class="panel-subtitle">
+            OpportunityCheck provides evidence-based information.
+            A verification result is not a guarantee that an opportunity
+            will benefit you.
+          </p>
+
+          <div class="safety">
+            Never submit passwords, OTPs, PINs or banking credentials.
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- VERIFY -->
+
+      <div id="tab-verify" class="tab hidden">
+
+        <div class="panel">
+
+          <h3>Verify an Opportunity</h3>
+
+          <p class="panel-subtitle">
+            Give us the information you have about the opportunity.
+          </p>
+
+          <div class="form-group">
+            <label>Opportunity URL</label>
+            <input
+              type="url"
+              id="opportunityUrl"
+              placeholder="https://example.com/opportunity"
+            >
+          </div>
+
+          <div class="form-group">
+            <label>What did you receive?</label>
+            <textarea
+              id="opportunityText"
+              placeholder="Paste the opportunity details here..."
+            ></textarea>
+          </div>
+
+          <div class="safety">
+            ⚠️ Do not include passwords, OTPs, PINs or banking login details.
+          </div>
+
+          <br>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" onclick="submitOpportunity()">
+              Submit for Review
+            </button>
+
+            <button class="btn btn-light" onclick="clearVerifyForm()">
+              Clear
+            </button>
+          </div>
+
+          <div id="submitMessage"></div>
+
+        </div>
+
+      </div>
+
+
+      <!-- DISCOVER -->
+
+      <div id="tab-discover" class="tab hidden">
+
+        <div class="panel">
+          <h3>Discover Opportunities</h3>
+
+          <p class="panel-subtitle">
+            Opportunities that have been reviewed can appear here.
+          </p>
+
+          <div class="card">
+            <h3>Coming Soon</h3>
+            <p>
+              Reviewed opportunities will be displayed here as the
+              OpportunityCheck community grows.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- HISTORY -->
+
+      <div id="tab-history" class="tab hidden">
+
+        <div class="panel">
+
+          <h3>Your Verification History</h3>
+
+          <p class="panel-subtitle">
+            Your submitted opportunities will appear here.
+          </p>
+
+          <div id="historyList">
+            <p style="color:#64748b;">
+              No submissions yet.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- PROFILE -->
+
+      <div id="tab-profile" class="tab hidden">
+
+        <div class="panel">
+
+          <h3>Your Profile</h3>
+
+          <div class="form-group">
+            <label>Name</label>
+            <input id="profileName" type="text" disabled>
+          </div>
+
+          <div class="form-group">
+            <label>Email</label>
+            <input id="profileEmail" type="email" disabled>
+          </div>
+
+          <button class="btn btn-danger" onclick="logout()">
+            Logout
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
   </div>
 
 </section>
 
 
-<div class="container">
+<!-- AUTH MODAL -->
 
-  <section class="verify-box" id="verify">
+<div id="authModal" class="modal hidden">
 
-    <h2>
-      Check an opportunity
-    </h2>
+  <div class="modal-box">
 
-    <p>
-      Paste the opportunity link below to start a verification request.
-    </p>
+    <div class="modal-header">
+      <h2 id="authTitle">Login</h2>
 
-    <div class="input-row">
+      <button class="close" onclick="closeAuth()">
+        ×
+      </button>
+    </div>
 
-      <input
-        id="opportunity"
-        type="text"
-        placeholder="Paste opportunity link..."
-      >
+    <div id="authMessage"></div>
 
-      <button
-        class="primary"
-        onclick="checkOpportunity()"
-      >
-        Check
+
+    <!-- LOGIN -->
+
+    <form id="loginForm" onsubmit="login(event)">
+
+      <div class="form-group">
+        <label>Email</label>
+        <input
+          type="email"
+          id="loginEmail"
+          placeholder="you@example.com"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input
+          type="password"
+          id="loginPassword"
+          placeholder="Your password"
+          required
+        >
+      </div>
+
+      <button class="btn btn-primary" style="width:100%;" type="submit">
+        Login
       </button>
 
-    </div>
-
-
-    <div class="result" id="result">
-
-      <span class="status">
-        🟡 UNVERIFIED
-      </span>
-
-      <h3 style="margin-top:12px;">
-        Verification requires investigation
-      </h3>
-
-      <p style="margin-top:8px;">
-        This opportunity has been submitted for review.
-        A complete version of OpportunityCheck will examine
-        official sources and evidence before producing a result.
-      </p>
-
-    </div>
-
-  </section>
-
-
-  <section class="categories">
-
-    <h2>
-      What can you verify?
-    </h2>
-
-    <div class="grid">
-
-      <div class="card">
-        <div class="icon">💼</div>
-        <h3>Jobs</h3>
-        <p>Check recruitment and employment opportunities.</p>
+      <div class="switch-auth">
+        Don't have an account?
+        <span class="link" onclick="switchAuth('signup')">
+          Sign Up
+        </span>
       </div>
 
-      <div class="card">
-        <div class="icon">🎓</div>
-        <h3>Scholarships</h3>
-        <p>Investigate education funding opportunities.</p>
+    </form>
+
+
+    <!-- SIGN UP -->
+
+    <form id="signupForm" class="hidden" onsubmit="signup(event)">
+
+      <div class="form-group">
+        <label>Full Name</label>
+        <input
+          type="text"
+          id="signupName"
+          placeholder="Your full name"
+          required
+        >
       </div>
 
-      <div class="card">
-        <div class="icon">💰</div>
-        <h3>Grants</h3>
-        <p>Check grants and business funding opportunities.</p>
+      <div class="form-group">
+        <label>Email</label>
+        <input
+          type="email"
+          id="signupEmail"
+          placeholder="you@example.com"
+          required
+        >
       </div>
 
-      <div class="card">
-        <div class="icon">🚀</div>
-        <h3>Internships</h3>
-        <p>Verify internships and career programmes.</p>
+      <div class="form-group">
+        <label>Password</label>
+        <input
+          type="password"
+          id="signupPassword"
+          placeholder="At least 6 characters"
+          minlength="6"
+          required
+        >
       </div>
 
-    </div>
+      <button class="btn btn-primary" style="width:100%;" type="submit">
+        Create Account
+      </button>
 
-  </section>
-
-
-  <section class="steps">
-
-    <h2>
-      How OpportunityCheck works
-    </h2>
-
-    <div class="step-grid">
-
-      <div class="step">
-
-        <div class="number">
-          1
-        </div>
-
-        <h3>
-          Submit
-        </h3>
-
-        <p>
-          Paste a link, message, screenshot or document
-          containing the opportunity.
-        </p>
-
+      <div class="switch-auth">
+        Already have an account?
+        <span class="link" onclick="switchAuth('login')">
+          Login
+        </span>
       </div>
 
+    </form>
 
-      <div class="step">
-
-        <div class="number">
-          2
-        </div>
-
-        <h3>
-          Investigate
-        </h3>
-
-        <p>
-          Evidence is reviewed against official sources,
-          organizations and other relevant information.
-        </p>
-
-      </div>
-
-
-      <div class="step">
-
-        <div class="number">
-          3
-        </div>
-
-        <h3>
-          Understand
-        </h3>
-
-        <p>
-          Receive a clear result together with the evidence
-          behind the verification.
-        </p>
-
-      </div>
-
-    </div>
-
-  </section>
-
+  </div>
 </div>
 
 
 <footer>
-
-  OpportunityCheck — Verify before you trust it.
-
+  <p>
+    © 2026 OpportunityCheck — Verify before you trust.
+  </p>
 </footer>
 
 
 <script>
+  /*
+    ==========================================================
+    SUPABASE CONFIGURATION
+    ==========================================================
 
-function focusVerifier() {
+    IMPORTANT:
+    Replace the two values below with your Supabase project
+    URL and ANON/PUBLISHABLE KEY.
 
-  document
-    .getElementById("verify")
-    .scrollIntoView({
-      behavior: "smooth"
-    });
+    DO NOT put your Supabase service_role key here.
+  */
 
-  setTimeout(function() {
+  const SUPABASE_URL ="https://qyjqrwymguvovjzurllt.supabase.co";
+  const SUPABASE_ANON_KEY ="sb_publishable_24AQd7lyWO00umLldX2zXQ_6GdVt7QO";
 
-    document
-      .getElementById("opportunity")
-      .focus();
+  let supabaseClient = null;
 
-  }, 500);
-
-}
-
-
-function checkOpportunity() {
-
-  const input =
-    document.getElementById("opportunity");
-
-  const result =
-    document.getElementById("result");
-
-  if (input.value.trim() === "") {
-
-    input.placeholder =
-      "Please paste an opportunity link first";
-
-    input.focus();
-
-    return;
-
+  if (
+    SUPABASE_URL !== "YOUR_SUPABASE_URL" &&
+    SUPABASE_ANON_KEY !== "YOUR_SUPABASE_ANON_KEY"
+  ) {
+    supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY
+    );
   }
 
-  result.style.display = "block";
 
-}
+  /* ---------------- AUTH MODAL ---------------- */
+
+  function openAuth(type) {
+    document.getElementById("authModal").classList.remove("hidden");
+    switchAuth(type);
+  }
+
+  function closeAuth() {
+    document.getElementById("authModal").classList.add("hidden");
+    clearAuthMessage();
+  }
+
+  function switchAuth(type) {
+    const loginForm = document.getElementById("loginForm");
+    const signupForm = document.getElementById("signupForm");
+    const title = document.getElementById("authTitle");
+
+    clearAuthMessage();
+
+    if (type === "signup") {
+      loginForm.classList.add("hidden");
+      signupForm.classList.remove("hidden");
+      title.textContent = "Create your account";
+    } else {
+      signupForm.classList.add("hidden");
+      loginForm.classList.remove("hidden");
+      title.textContent = "Welcome back";
+    }
+  }
 
 
-function showDiscover() {
+  function showAuthMessage(message, type = "error") {
+    const box = document.getElementById("authMessage");
 
-  alert(
-    "The Opportunity Discovery section will be added in the next version."
-  );
+    box.innerHTML = `
+      <div class="message ${type}">
+        ${escapeHtml(message)}
+      </div>
+    `;
+  }
 
-}
+
+  function clearAuthMessage() {
+    document.getElementById("authMessage").innerHTML = "";
+  }
+
+
+  /* ---------------- SIGN UP ---------------- */
+
+  async function signup(event) {
+    event.preventDefault();
+
+    if (!supabaseClient) {
+      showAuthMessage(
+        "Supabase is not connected yet. Add your Supabase URL and anon/publishable key in the code."
+      );
+      return;
+    }
+
+    const name = document.getElementById("signupName").value.trim();
+    const email = document.getElementById("signupEmail").value.trim();
+    const password = document.getElementById("signupPassword").value;
+
+    if (!name || !email || !password) {
+      showAuthMessage("Please complete all fields.");
+      return;
+    }
+
+    showAuthMessage("Creating your account...", "success");
+
+    try {
+      const { data, error } = await supabaseClient.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: name
+          }
+        }
+      });
+
+      if (error) {
+        showAuthMessage(error.message);
+        return;
+      }
+
+      if (data.session) {
+        showAuthMessage("Account created successfully.", "success");
+
+        setTimeout(() => {
+          closeAuth();
+          showApp(data.user);
+        }, 500);
+
+      } else {
+        showAuthMessage(
+          "Account created. Check your email if email confirmation is required, then log in.",
+          "success"
+        );
+      }
+
+    } catch (error) {
+      showAuthMessage(
+        "Something went wrong. Please try again."
+      );
+    }
+  }
+
+
+  /* ---------------- LOGIN ---------------- */
+
+  async function login(event) {
+    event.preventDefault();
+
+    if (!supabaseClient) {
+      showAuthMessage(
+        "Supabase is not connected yet. Add your Supabase URL and anon/publishable key in the code."
+      );
+      return;
+    }
+
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value;
+
+    if (!email || !password) {
+      showAuthMessage("Please enter your email and password.");
+      return;
+    }
+
+    showAuthMessage("Signing you in...", "success");
+
+    try {
+      const { data, error } =
+        await supabaseClient.auth.signInWithPassword({
+          email,
+          password
+        });
+
+      if (error) {
+        showAuthMessage(error.message);
+        return;
+      }
+
+      closeAuth();
+      showApp(data.user);
+
+    } catch (error) {
+      showAuthMessage(
+        "Unable to sign in right now. Please try again."
+      );
+    }
+  }
+
+
+  /* ---------------- LOGOUT ---------------- */
+
+  async function logout() {
+
+    if (supabaseClient) {
+      await supabaseClient.auth.signOut();
+    }
+
+    document.getElementById("appPage").classList.add("hidden");
+    document.getElementById("landingPage").classList.remove("hidden");
+
+    document.getElementById("headerActions").innerHTML = `
+      <button class="btn btn-outline" onclick="openAuth('login')">
+        Login
+      </button>
+
+      <button class="btn btn-primary" onclick="openAuth('signup')">
+        Sign Up
+      </button>
+    `;
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+
+
+  /* ---------------- SHOW APP ---------------- */
+
+  function showApp(user) {
+
+    document.getElementById("landingPage").classList.add("hidden");
+    document.getElementById("appPage").classList.remove("hidden");
+
+    const name =
+      user?.user_metadata?.full_name ||
+      user?.email?.split("@")[0] ||
+      "there";
+
+    document.getElementById("welcomeName").textContent =
+      `Welcome, ${name}`;
+
+    document.getElementById("profileName").value =
+      user?.user_metadata?.full_name || "";
+
+    document.getElementById("profileEmail").value =
+      user?.email || "";
+
+    document.getElementById("headerActions").innerHTML = `
+      <button class="btn btn-primary" onclick="openTab('verify')">
+        Verify
+      </button>
+    `;
+
+    openTab("dashboard");
+  }
+
+
+  /* ---------------- CHECK SESSION ---------------- */
+
+  async function checkSession() {
+
+    if (!supabaseClient) return;
+
+    const {
+      data: { session }
+    } = await supabaseClient.auth.getSession();
+
+    if (session?.user) {
+      showApp(session.user);
+    }
+
+    supabaseClient.auth.onAuthStateChange(
+      (event, session) => {
+
+        if (event === "SIGNED_IN" && session?.user) {
+          showApp(session.user);
+        }
+
+        if (event === "SIGNED_OUT") {
+          document.getElementById("appPage")
+            .classList.add("hidden");
+
+          document.getElementById("landingPage")
+            .classList.remove("hidden");
+        }
+      }
+    );
+  }
+
+
+  /* ---------------- TABS ---------------- */
+
+  function openTab(tabName) {
+
+    document.querySelectorAll(".tab").forEach(tab => {
+      tab.classList.add("hidden");
+    });
+
+    const selected =
+      document.getElementById("tab-" + tabName);
+
+    if (selected) {
+      selected.classList.remove("hidden");
+    }
+
+    document.querySelectorAll(".nav-btn").forEach(btn => {
+      btn.classList.remove("active");
+    });
+
+    const buttons = document.querySelectorAll(".nav-btn");
+
+    buttons.forEach(button => {
+      if (
+        button.textContent
+          .toLowerCase()
+          .includes(tabName.toLowerCase())
+      ) {
+        button.classList.add("active");
+      }
+    });
+  }
+
+
+  function showLanding() {
+
+    document.getElementById("appPage").classList.add("hidden");
+    document.getElementById("landingPage").classList.remove("hidden");
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+
+
+  function showDiscover() {
+
+    openAuth("signup");
+  }
+
+
+  /* ---------------- SUBMIT OPPORTUNITY ---------------- */
+
+  function submitOpportunity() {
+
+    const url =
+      document.getElementById("opportunityUrl").value.trim();
+
+    const text =
+      document.getElementById("opportunityText").value.trim();
+
+    const message =
+      document.getElementById("submitMessage");
+
+    if (!url && !text) {
+
+      message.innerHTML = `
+        <div class="message error">
+          Please provide a URL or opportunity details.
+        </div>
+      `;
+
+      return;
+    }
+
+    const dangerousWords = [
+      "password",
+      "otp",
+      "pin",
+      "bank login",
+      "login password"
+    ];
+
+    const combined =
+      (url + " " + text).toLowerCase();
+
+    const containsSensitive =
+      dangerousWords.some(word =>
+        combined.includes(word)
+      );
+
+    if (containsSensitive) {
+
+      message.innerHTML = `
+        <div class="message error">
+          Please remove passwords, OTPs, PINs or banking
+          credentials before submitting.
+        </div>
+      `;
+
+      return;
+    }
+
+    message.innerHTML = `
+      <div class="message success">
+        Your opportunity has been submitted for review.
+        The verification status will appear once it has been reviewed.
+      </div>
+    `;
+
+    saveLocalSubmission(url, text);
+
+    document.getElementById("opportunityUrl").value = "";
+    document.getElementById("opportunityText").value = "";
+
+    loadHistory();
+  }
+
+
+  function clearVerifyForm() {
+
+    document.getElementById("opportunityUrl").value = "";
+    document.getElementById("opportunityText").value = "";
+    document.getElementById("submitMessage").innerHTML = "";
+  }
+
+
+  /* ---------------- LOCAL HISTORY ---------------- */
+
+  function saveLocalSubmission(url, text) {
+
+    const current =
+      JSON.parse(
+        localStorage.getItem("opportunitycheck_history") || "[]"
+      );
+
+    current.unshift({
+      url,
+      text,
+      status: "UNVERIFIED",
+      date: new Date().toLocaleString()
+    });
+
+    localStorage.setItem(
+      "opportunitycheck_history",
+      JSON.stringify(current)
+    );
+  }
+
+
+  function loadHistory() {
+
+    const history =
+      JSON.parse(
+        localStorage.getItem("opportunitycheck_history") || "[]"
+      );
+
+    const list =
+      document.getElementById("historyList");
+
+    if (!history.length) {
+
+      list.innerHTML = `
+        <p style="color:#64748b;">
+          No submissions yet.
+        </p>
+      `;
+
+      return;
+    }
+
+    list.innerHTML = history.map(item => `
+
+      <div class="card" style="margin-bottom:12px;">
+
+        <span class="status unverified">
+          ${escapeHtml(item.status)}
+        </span>
+
+        <p style="margin-top:10px;">
+          ${escapeHtml(
+            item.url ||
+            item.text.substring(0, 120)
+          )}
+        </p>
+
+        <small style="color:#64748b;">
+          ${escapeHtml(item.date)}
+        </small>
+
+      </div>
+
+    `).join("");
+  }
+
+
+  /* ---------------- SECURITY HELPER ---------------- */
+
+  function escapeHtml(value) {
+
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+
+  /* ---------------- START ---------------- */
+
+  checkSession();
+  loadHistory();
 
 </script>
 
 </body>
-  </html>
+        </html>
