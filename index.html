@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>OpportunityCheck — Verify Before You Trust</title>
+<title>OpportunityCheck — Find. Check. Trust.</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 *{
@@ -14,28 +16,31 @@
 }
 
 :root{
-  --primary:#2563eb;
-  --primary-dark:#1d4ed8;
-  --secondary:#0f172a;
-  --text:#172033;
-  --muted:#64748b;
-  --bg:#f8fafc;
+  --primary:#14532d;
+  --primary-light:#dcfce7;
+  --secondary:#166534;
+  --dark:#17201a;
+  --text:#374151;
+  --muted:#6b7280;
+  --light:#f7faf8;
   --white:#ffffff;
-  --border:#e2e8f0;
-  --success:#16a34a;
-  --warning:#d97706;
-  --danger:#dc2626;
-  --shadow:0 12px 35px rgba(15,23,42,.08);
+  --border:#e5e7eb;
+  --danger:#b91c1c;
+  --warning:#92400e;
+  --shadow:0 10px 30px rgba(0,0,0,.07);
 }
 
 body{
-  font-family:Inter,Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--light);
+  color:var(--dark);
   line-height:1.6;
 }
 
-button,input,textarea,select{
+button,
+input,
+textarea,
+select{
   font:inherit;
 }
 
@@ -47,22 +52,20 @@ button{
   display:none!important;
 }
 
-/* NAVIGATION */
+/* HEADER */
 
-.navbar{
+header{
+  background:#fff;
+  border-bottom:1px solid var(--border);
   position:sticky;
   top:0;
   z-index:100;
-  background:rgba(255,255,255,.96);
-  backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--border);
 }
 
-.nav-inner{
-  max-width:1200px;
+.nav{
+  max-width:1150px;
   margin:auto;
-  min-height:72px;
-  padding:0 20px;
+  padding:15px 20px;
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -70,118 +73,72 @@ button{
 }
 
 .logo{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-size:21px;
+  font-size:22px;
   font-weight:800;
-  color:var(--secondary);
+  color:var(--primary);
+  text-decoration:none;
 }
 
-.logo-mark{
-  width:40px;
-  height:40px;
-  border-radius:12px;
-  display:grid;
-  place-items:center;
-  color:white;
-  background:linear-gradient(135deg,#2563eb,#06b6d4);
+.logo span{
+  color:#111827;
 }
 
 .nav-links{
   display:flex;
   align-items:center;
-  gap:7px;
+  gap:8px;
 }
 
 .nav-links button{
-  background:none;
   border:0;
+  background:transparent;
   padding:9px 12px;
-  color:#475569;
-  font-weight:600;
+  color:#374151;
   border-radius:8px;
 }
 
 .nav-links button:hover{
-  background:#eff6ff;
-  color:var(--primary);
+  background:#f3f4f6;
 }
 
-.nav-actions{
-  display:flex;
-  gap:8px;
-}
-
-.btn{
-  border:0;
-  border-radius:10px;
-  padding:11px 17px;
-  font-weight:700;
-  transition:.2s;
-}
-
-.btn-primary{
-  background:var(--primary);
-  color:white;
-}
-
-.btn-primary:hover{
-  background:var(--primary-dark);
-  transform:translateY(-1px);
-}
-
-.btn-outline{
-  background:white;
-  color:var(--primary);
-  border:1px solid #bfdbfe;
-}
-
-.btn-dark{
-  background:var(--secondary);
-  color:white;
-}
-
-.btn-danger{
-  background:#fee2e2;
-  color:#991b1b;
-}
-
-.mobile-menu{
+.menu-btn{
   display:none;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:8px 11px;
 }
 
 /* HERO */
 
 .hero{
-  max-width:1200px;
+  background:linear-gradient(135deg,#f0fdf4,#ffffff);
+  padding:75px 20px 65px;
+}
+
+.hero-inner{
+  max-width:1050px;
   margin:auto;
-  padding:80px 20px 60px;
-  display:grid;
-  grid-template-columns:1.1fr .9fr;
-  gap:50px;
-  align-items:center;
+  text-align:center;
 }
 
 .badge{
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
-  padding:7px 12px;
-  background:#eff6ff;
-  color:#1d4ed8;
-  border-radius:999px;
+  display:inline-block;
+  background:var(--primary-light);
+  color:var(--primary);
+  padding:7px 13px;
+  border-radius:50px;
   font-size:13px;
   font-weight:700;
   margin-bottom:18px;
 }
 
 .hero h1{
-  font-size:clamp(42px,6vw,70px);
-  line-height:1.03;
-  letter-spacing:-2.5px;
-  margin-bottom:20px;
-  color:#0f172a;
+  font-size:clamp(36px,7vw,62px);
+  line-height:1.08;
+  max-width:800px;
+  margin:0 auto 20px;
+  letter-spacing:-1.5px;
 }
 
 .hero h1 span{
@@ -189,174 +146,266 @@ button{
 }
 
 .hero p{
-  color:var(--muted);
-  font-size:18px;
   max-width:650px;
-  margin-bottom:28px;
+  margin:0 auto 35px;
+  font-size:18px;
+  color:var(--text);
 }
 
-.hero-buttons{
+.hero-actions{
   display:flex;
-  gap:12px;
+  justify-content:center;
   flex-wrap:wrap;
+  gap:14px;
 }
 
-.hero-card{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:25px;
-  padding:25px;
-  box-shadow:var(--shadow);
-}
-
-.hero-card h3{
-  margin-bottom:17px;
-}
-
-.trust-row{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:14px;
-  border:1px solid var(--border);
-  border-radius:13px;
-  margin-top:11px;
-}
-
-.trust-icon{
-  width:40px;
-  height:40px;
+.primary-btn,
+.secondary-btn{
   border-radius:10px;
-  display:grid;
-  place-items:center;
-  background:#eff6ff;
+  padding:14px 22px;
+  font-weight:700;
+  border:2px solid var(--primary);
+  min-width:210px;
+}
+
+.primary-btn{
+  background:var(--primary);
+  color:white;
+}
+
+.secondary-btn{
+  background:white;
+  color:var(--primary);
+}
+
+.primary-btn:hover{
+  background:var(--secondary);
+}
+
+.secondary-btn:hover{
+  background:#f0fdf4;
 }
 
 /* SECTIONS */
 
-.section{
-  max-width:1200px;
+section{
+  padding:65px 20px;
+}
+
+.section-inner{
+  max-width:1100px;
   margin:auto;
-  padding:70px 20px;
 }
 
-.section-header{
+.section-title{
   text-align:center;
-  max-width:700px;
-  margin:0 auto 35px;
+  margin-bottom:35px;
 }
 
-.section-header h2{
-  font-size:36px;
-  line-height:1.2;
-  margin-bottom:10px;
-}
-
-.section-header p{
-  color:var(--muted);
-}
-
-.cards{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:20px;
-}
-
-.card{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:25px;
-  box-shadow:0 6px 22px rgba(15,23,42,.04);
-}
-
-.feature-icon{
-  width:50px;
-  height:50px;
-  display:grid;
-  place-items:center;
-  border-radius:14px;
-  background:#eff6ff;
-  font-size:23px;
-  margin-bottom:16px;
-}
-
-.card h3{
+.section-title h2{
+  font-size:32px;
   margin-bottom:8px;
 }
 
-.card p{
+.section-title p{
   color:var(--muted);
 }
 
-/* APP */
+/* SIMPLE ACTIONS */
 
-.app-shell{
-  max-width:1200px;
-  margin:30px auto;
-  padding:0 20px;
+.actions-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:22px;
 }
 
-.app-header{
-  background:linear-gradient(135deg,#0f172a,#1e3a8a);
-  color:white;
-  border-radius:24px;
+.action-card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:18px;
   padding:30px;
+  box-shadow:var(--shadow);
+}
+
+.action-icon{
+  width:55px;
+  height:55px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:14px;
+  background:var(--primary-light);
+  font-size:27px;
+  margin-bottom:18px;
+}
+
+.action-card h3{
+  font-size:23px;
+  margin-bottom:8px;
+}
+
+.action-card p{
+  color:var(--muted);
   margin-bottom:20px;
 }
 
-.app-header h2{
-  font-size:30px;
-  margin-bottom:6px;
-}
-
-.app-header p{
-  color:#cbd5e1;
-}
-
-.app-grid{
-  display:grid;
-  grid-template-columns:240px 1fr;
-  gap:20px;
-}
-
-.sidebar{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:12px;
-  height:max-content;
-}
-
-.side-btn{
-  width:100%;
+.action-card button{
   border:0;
-  background:white;
-  padding:13px;
-  text-align:left;
-  border-radius:10px;
+  background:var(--primary);
+  color:#fff;
+  padding:12px 18px;
+  border-radius:8px;
   font-weight:700;
-  color:#475569;
-  margin-bottom:4px;
 }
 
-.side-btn.active,
-.side-btn:hover{
-  background:#eff6ff;
-  color:var(--primary);
+/* CATEGORIES */
+
+.categories{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
 }
 
-.app-content{
-  min-width:0;
+.category{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:20px 10px;
+  text-align:center;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.category:hover{
+  transform:translateY(-2px);
+  border-color:#86efac;
+}
+
+.category .emoji{
+  font-size:28px;
+  margin-bottom:7px;
+}
+
+.category strong{
+  display:block;
+  font-size:14px;
+}
+
+/* SEARCH */
+
+.search-box{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:22px;
+  box-shadow:var(--shadow);
+  margin-bottom:30px;
+}
+
+.search-row{
+  display:grid;
+  grid-template-columns:1fr 180px 140px;
+  gap:10px;
+}
+
+input,
+textarea,
+select{
+  width:100%;
+  border:1px solid #d1d5db;
+  border-radius:9px;
+  padding:13px;
+  background:#fff;
+  outline:none;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(20,83,45,.1);
+}
+
+.search-row button{
+  border:0;
+  border-radius:9px;
+  background:var(--primary);
+  color:white;
+  font-weight:700;
+}
+
+/* OPPORTUNITIES */
+
+.results{
+  display:grid;
+  gap:16px;
+}
+
+.opportunity{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:22px;
+}
+
+.opportunity-top{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.opportunity h3{
+  font-size:20px;
+}
+
+.org{
+  color:var(--muted);
+  font-size:14px;
+}
+
+.verified{
+  color:#166534;
+  background:#dcfce7;
+  padding:5px 9px;
+  border-radius:30px;
+  height:max-content;
+  font-size:12px;
+  font-weight:700;
+}
+
+.opportunity p{
+  margin:12px 0;
+  color:var(--text);
+}
+
+.details{
+  display:flex;
+  flex-wrap:wrap;
+  gap:15px;
+  color:#4b5563;
+  font-size:14px;
+}
+
+.view-btn{
+  margin-top:16px;
+  border:0;
+  background:var(--primary);
+  color:white;
+  padding:10px 15px;
+  border-radius:8px;
+  font-weight:700;
 }
 
 /* VERIFY */
 
-.verify-card{
+.verify-box{
+  max-width:750px;
+  margin:auto;
   background:white;
   border:1px solid var(--border);
-  border-radius:20px;
-  padding:25px;
+  border-radius:18px;
+  padding:30px;
+  box-shadow:var(--shadow);
 }
 
 .form-group{
@@ -369,365 +418,213 @@ button{
   margin-bottom:7px;
 }
 
-.input,
-textarea,
-select{
-  width:100%;
-  border:1px solid #cbd5e1;
-  border-radius:10px;
-  padding:12px 14px;
-  outline:none;
-  background:white;
-}
-
-.input:focus,
-textarea:focus,
-select:focus{
-  border-color:var(--primary);
-  box-shadow:0 0 0 3px rgba(37,99,235,.1);
-}
-
-textarea{
-  min-height:130px;
-  resize:vertical;
-}
-
-/* EVIDENCE */
-
-.evidence-options{
+.evidence-buttons{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:10px;
   margin-bottom:15px;
 }
 
-.evidence-option{
+.evidence-btn{
+  padding:13px 8px;
   border:1px solid var(--border);
-  background:white;
-  border-radius:12px;
+  background:#fff;
+  border-radius:9px;
+  font-weight:700;
+}
+
+.evidence-btn.active{
+  background:var(--primary-light);
+  border-color:#4ade80;
+  color:var(--primary);
+}
+
+.submit-btn{
+  width:100%;
+  border:0;
   padding:15px;
-  text-align:center;
+  background:var(--primary);
+  color:#fff;
+  border-radius:9px;
   font-weight:700;
-  color:#475569;
-  cursor:pointer;
-}
-
-.evidence-option.active{
-  border-color:var(--primary);
-  background:#eff6ff;
-  color:var(--primary);
-}
-
-.evidence-panel{
-  display:none;
-  padding:18px;
-  background:#f8fafc;
-  border:1px dashed #cbd5e1;
-  border-radius:13px;
-}
-
-.evidence-panel.active{
-  display:block;
-}
-
-.upload-area{
-  border:2px dashed #93c5fd;
-  border-radius:14px;
-  padding:30px 15px;
-  text-align:center;
-  background:#eff6ff;
-}
-
-.upload-area input{
-  margin-top:12px;
-}
-
-.file-name{
   margin-top:10px;
-  font-weight:700;
-  color:var(--primary);
 }
 
-/* OPPORTUNITIES */
+/* ORGANIZATION */
 
-.filters{
-  display:grid;
-  grid-template-columns:1.5fr 1fr 1fr;
-  gap:10px;
-  margin-bottom:20px;
+.organization{
+  background:#17201a;
+  color:#fff;
 }
 
-.opportunity-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:18px;
+.organization .section-title p{
+  color:#d1d5db;
 }
 
-.opportunity-card{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:20px;
-}
-
-.opp-top{
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
-  margin-bottom:10px;
-}
-
-.opp-type{
-  font-size:12px;
-  font-weight:800;
-  background:#eff6ff;
-  color:#1d4ed8;
-  padding:5px 9px;
-  border-radius:999px;
-}
-
-.verified{
-  color:var(--success);
-  font-weight:800;
-  font-size:13px;
-}
-
-.deadline{
-  margin-top:13px;
-  color:#64748b;
-  font-size:14px;
-}
-
-.opp-actions{
-  display:flex;
-  gap:8px;
-  margin-top:17px;
-}
-
-/* COMPANY */
-
-.company-box{
-  background:linear-gradient(135deg,#eff6ff,#ecfeff);
-  border:1px solid #bfdbfe;
-  border-radius:20px;
+.organization-box{
+  max-width:700px;
+  margin:auto;
+  background:#202b23;
   padding:30px;
+  border-radius:16px;
 }
 
-.company-box h2{
-  margin-bottom:8px;
+.organization-box label{
+  display:block;
+  margin-bottom:7px;
+  font-weight:700;
 }
 
-/* DASHBOARD */
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:15px;
-  margin-bottom:20px;
+.organization-box .form-group{
+  margin-bottom:16px;
 }
 
-.stat{
-  background:white;
+.organization-box input,
+.organization-box textarea{
+  background:#fff;
+}
+
+/* AUTH */
+
+.auth-box{
+  max-width:450px;
+  margin:auto;
+  background:#fff;
   border:1px solid var(--border);
   border-radius:16px;
-  padding:20px;
-}
-
-.stat-number{
-  font-size:30px;
-  font-weight:800;
-}
-
-.stat-label{
-  color:var(--muted);
-}
-
-/* STATUS */
-
-.status{
-  display:inline-block;
-  padding:5px 9px;
-  border-radius:999px;
-  font-size:12px;
-  font-weight:800;
-}
-
-.status.pending{
-  background:#fef3c7;
-  color:#92400e;
-}
-
-.status.verified{
-  background:#dcfce7;
-  color:#166534;
-}
-
-.status.rejected{
-  background:#fee2e2;
-  color:#991b1b;
-}
-
-/* MODAL */
-
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(15,23,42,.65);
-  z-index:500;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-}
-
-.modal.show{
-  display:flex;
-}
-
-.modal-box{
-  width:min(450px,100%);
-  background:white;
-  border-radius:20px;
-  padding:27px;
-  position:relative;
-}
-
-.close{
-  position:absolute;
-  top:14px;
-  right:16px;
-  border:0;
-  background:none;
-  font-size:25px;
-  cursor:pointer;
+  padding:30px;
+  box-shadow:var(--shadow);
 }
 
 .auth-tabs{
   display:grid;
   grid-template-columns:1fr 1fr;
-  margin:20px 0;
-  background:#f1f5f9;
-  border-radius:10px;
-  padding:4px;
+  margin-bottom:20px;
 }
 
-.auth-tab{
+.auth-tabs button{
+  padding:11px;
   border:0;
-  background:transparent;
+  background:#f3f4f6;
+}
+
+.auth-tabs button.active{
+  background:var(--primary);
+  color:white;
+}
+
+.message{
+  margin-top:12px;
   padding:10px;
   border-radius:8px;
-  font-weight:700;
+  font-size:14px;
 }
 
-.auth-tab.active{
-  background:white;
-  box-shadow:0 2px 8px rgba(0,0,0,.06);
+.success{
+  background:#dcfce7;
+  color:#166534;
 }
 
-/* TOAST */
-
-.toast{
-  position:fixed;
-  right:20px;
-  bottom:20px;
-  z-index:1000;
-  background:#0f172a;
-  color:white;
-  padding:14px 18px;
-  border-radius:10px;
-  display:none;
-  max-width:350px;
-}
-
-.toast.show{
-  display:block;
+.error{
+  background:#fee2e2;
+  color:#991b1b;
 }
 
 /* FOOTER */
 
 footer{
-  background:#0f172a;
-  color:white;
-  padding:45px 20px;
-  margin-top:40px;
+  background:#111827;
+  color:#d1d5db;
+  padding:35px 20px;
 }
 
 .footer-inner{
-  max-width:1200px;
+  max-width:1100px;
   margin:auto;
   display:flex;
   justify-content:space-between;
-  gap:25px;
+  gap:20px;
+  flex-wrap:wrap;
 }
 
-footer p{
-  color:#94a3b8;
+footer strong{
+  color:#fff;
 }
 
-/* RESPONSIVE */
+/* MOBILE */
 
-@media(max-width:900px){
-  .hero{
-    grid-template-columns:1fr;
-  }
+@media(max-width:800px){
 
-  .cards{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .app-grid{
-    grid-template-columns:1fr;
-  }
-
-  .sidebar{
-    display:flex;
-    overflow-x:auto;
-    gap:5px;
-  }
-
-  .side-btn{
-    min-width:max-content;
-    margin:0;
-  }
-}
-
-@media(max-width:700px){
-  .nav-links,
-  .nav-actions{
+  .nav-links{
     display:none;
   }
 
-  .mobile-menu{
+  .menu-btn{
     display:block;
-    border:0;
-    background:white;
-    font-size:25px;
+  }
+
+  .nav-links.open{
+    display:flex;
+    position:absolute;
+    top:65px;
+    left:0;
+    right:0;
+    background:#fff;
+    border-bottom:1px solid var(--border);
+    padding:12px;
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .actions-grid{
+    grid-template-columns:1fr;
+  }
+
+  .categories{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .search-row{
+    grid-template-columns:1fr;
+  }
+
+  .evidence-buttons{
+    grid-template-columns:1fr;
   }
 
   .hero{
-    padding-top:50px;
+    padding-top:55px;
+  }
+}
+
+@media(max-width:500px){
+
+  section{
+    padding:50px 15px;
+  }
+
+  .hero{
+    padding-left:15px;
+    padding-right:15px;
   }
 
   .hero h1{
-    font-size:43px;
+    font-size:39px;
   }
 
-  .cards,
-  .opportunity-grid,
-  .stats{
-    grid-template-columns:1fr;
+  .hero p{
+    font-size:16px;
   }
 
-  .filters{
-    grid-template-columns:1fr;
+  .primary-btn,
+  .secondary-btn{
+    width:100%;
   }
 
-  .evidence-options{
-    grid-template-columns:1fr;
-  }
-
-  .footer-inner{
-    flex-direction:column;
+  .verify-box,
+  .organization-box,
+  .auth-box{
+    padding:20px;
   }
 }
 </style>
@@ -735,683 +632,558 @@ footer p{
 
 <body>
 
-<!-- NAVIGATION -->
+<header>
+  <nav class="nav">
 
-<nav class="navbar">
-  <div class="nav-inner">
+    <a href="#home" class="logo">
+      Opportunity<span>Check</span>
+    </a>
 
-    <div class="logo">
-      <div class="logo-mark">✓</div>
-      <span>OpportunityCheck</span>
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+
+    <div class="nav-links" id="navLinks">
+      <button onclick="goTo('home')">Home</button>
+      <button onclick="goTo('find')">Find Opportunities</button>
+      <button onclick="goTo('verify')">Check Opportunity</button>
+      <button onclick="goTo('organizations')">Organizations</button>
+      <button onclick="goTo('auth')">Login / Sign Up</button>
     </div>
 
-    <div class="nav-links">
-      <button onclick="showSection('home')">Home</button>
-      <button onclick="showSection('verify')">Verify</button>
-      <button onclick="showSection('opportunities')">Find Opportunities</button>
-      <button onclick="showSection('company')">For Organizations</button>
-    </div>
-
-    <div class="nav-actions">
-      <button class="btn btn-outline" onclick="openAuth('login')">Login</button>
-      <button class="btn btn-primary" onclick="openAuth('signup')">Get Started</button>
-    </div>
-
-    <button class="mobile-menu" onclick="toggleMobile()">☰</button>
-
-  </div>
-</nav>
+  </nav>
+</header>
 
 
 <!-- HOME -->
 
-<section id="homeSection">
+<main id="home">
 
-  <div class="hero">
+<section class="hero">
 
-    <div>
+  <div class="hero-inner">
 
-      <div class="badge">🛡️ Verify before you trust</div>
+    <div class="badge">YOUR OPPORTUNITY, CHECKED</div>
 
-      <h1>
-        Don't let a fake opportunity
-        <span>cost you.</span>
-      </h1>
+    <h1>
+      Find opportunities.<br>
+      <span>Check before you trust.</span>
+    </h1>
 
-      <p>
-        OpportunityCheck helps people investigate opportunities,
-        discover legitimate opportunities and make more informed
-        decisions before they submit personal information or money.
-      </p>
-
-      <div class="hero-buttons">
-        <button class="btn btn-primary" onclick="showSection('verify')">
-          🔍 Verify an Opportunity
-        </button>
-
-        <button class="btn btn-outline" onclick="showSection('opportunities')">
-          🌍 Find Opportunities
-        </button>
-      </div>
-
-    </div>
-
-    <div class="hero-card">
-
-      <h3>How OpportunityCheck works</h3>
-
-      <div class="trust-row">
-        <div class="trust-icon">🔗</div>
-        <div>
-          <strong>Provide evidence</strong>
-          <p>Link, text or image.</p>
-        </div>
-      </div>
-
-      <div class="trust-row">
-        <div class="trust-icon">🔎</div>
-        <div>
-          <strong>Review</strong>
-          <p>Information is examined.</p>
-        </div>
-      </div>
-
-      <div class="trust-row">
-        <div class="trust-icon">🛡️</div>
-        <div>
-          <strong>Make an informed decision</strong>
-          <p>See the available verification information.</p>
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="section">
-
-    <div class="section-header">
-      <h2>One platform. Multiple ways to stay informed.</h2>
-      <p>
-        Whether you received a suspicious message or are searching
-        for a new opportunity, OpportunityCheck gives you tools to investigate.
-      </p>
-    </div>
-
-    <div class="cards">
-
-      <div class="card">
-        <div class="feature-icon">🔍</div>
-        <h3>Verify Opportunities</h3>
-        <p>
-          Submit a link, paste the opportunity text, or upload an image
-          such as a flyer or screenshot.
-        </p>
-      </div>
-
-      <div class="card">
-        <div class="feature-icon">🌍</div>
-        <h3>Find Opportunities</h3>
-        <p>
-          Explore scholarships, jobs, internships, grants,
-          fellowships, competitions and other opportunities.
-        </p>
-      </div>
-
-      <div class="card">
-        <div class="feature-icon">🏢</div>
-        <h3>Organization Verification</h3>
-        <p>
-          Organizations can request verification and build
-          trust with people who discover their opportunities.
-        </p>
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- APP -->
-
-<section id="appSection" class="hidden">
-
-  <div class="app-shell">
-
-    <div class="app-header">
-      <h2 id="welcomeTitle">Welcome to OpportunityCheck</h2>
-      <p>Your personal verification and opportunity dashboard.</p>
-    </div>
-
-    <div class="app-grid">
-
-      <aside class="sidebar">
-
-        <button class="side-btn active" onclick="appTab('dashboard',this)">
-          📊 Dashboard
-        </button>
-
-        <button class="side-btn" onclick="appTab('verify',this)">
-          🔍 Verify
-        </button>
-
-        <button class="side-btn" onclick="appTab('opportunities',this)">
-          🌍 Opportunities
-        </button>
-
-        <button class="side-btn" onclick="appTab('company',this)">
-          🏢 Organization
-        </button>
-
-        <button class="side-btn" onclick="appTab('history',this)">
-          🕒 History
-        </button>
-
-        <button class="side-btn" onclick="logout()">
-          🚪 Logout
-        </button>
-
-      </aside>
-
-
-      <main class="app-content">
-
-
-        <!-- DASHBOARD -->
-
-        <div id="dashboardTab">
-
-          <div class="stats">
-
-            <div class="stat">
-              <div class="stat-number" id="verifyCount">0</div>
-              <div class="stat-label">Verification requests</div>
-            </div>
-
-            <div class="stat">
-              <div class="stat-number" id="savedCount">0</div>
-              <div class="stat-label">Saved opportunities</div>
-            </div>
-
-            <div class="stat">
-              <div class="stat-number">0</div>
-              <div class="stat-label">Organization requests</div>
-            </div>
-
-          </div>
-
-          <div class="card">
-            <h3>Welcome 👋</h3>
-            <p style="margin-top:8px">
-              Use the menu to verify an opportunity, discover opportunities,
-              or request organization verification.
-            </p>
-          </div>
-
-        </div>
-
-
-        <!-- VERIFY -->
-
-        <div id="verifyTab" class="hidden">
-
-          <div class="verify-card">
-
-            <h2>🔍 Verify an Opportunity</h2>
-
-            <p style="color:#64748b;margin:7px 0 25px">
-              Provide information about the opportunity using
-              <strong>one</strong> of the options below.
-            </p>
-
-            <div class="form-group">
-
-              <label>Opportunity name</label>
-
-              <input
-                id="opportunityName"
-                class="input"
-                placeholder="Example: 2026 Youth Scholarship"
-              >
-
-            </div>
-
-
-            <div class="form-group">
-
-              <label>Organization/company name</label>
-
-              <input
-                id="organizationName"
-                class="input"
-                placeholder="Who is offering the opportunity?"
-              >
-
-            </div>
-
-
-            <div class="form-group">
-
-              <label>How do you want to provide the opportunity?</label>
-
-              <div class="evidence-options">
-
-                <button
-                  class="evidence-option active"
-                  onclick="chooseEvidence('link',this)">
-                  🔗<br>Paste Link
-                </button>
-
-                <button
-                  class="evidence-option"
-                  onclick="chooseEvidence('text',this)">
-                  📝<br>Paste Text
-                </button>
-
-                <button
-                  class="evidence-option"
-                  onclick="chooseEvidence('image',this)">
-                  🖼️<br>Upload Image
-                </button>
-
-              </div>
-
-            </div>
-
-
-            <!-- LINK -->
-
-            <div id="linkEvidence" class="evidence-panel active">
-
-              <label><strong>Opportunity link</strong></label>
-
-              <input
-                id="evidenceLink"
-                class="input"
-                type="url"
-                placeholder="https://example.com/opportunity"
-              >
-
-              <small style="color:#64748b">
-                Paste the website or social-media link where you found it.
-              </small>
-
-            </div>
-
-
-            <!-- TEXT -->
-
-            <div id="textEvidence" class="evidence-panel">
-
-              <label><strong>Opportunity text</strong></label>
-
-              <textarea
-                id="evidenceText"
-                placeholder="Paste the message or details of the opportunity here..."
-              ></textarea>
-
-            </div>
-
-
-            <!-- IMAGE -->
-
-            <div id="imageEvidence" class="evidence-panel">
-
-              <div class="upload-area">
-
-                <div style="font-size:40px">🖼️</div>
-
-                <strong>Upload an opportunity image</strong>
-
-                <p style="color:#64748b">
-                  You can upload a screenshot, flyer, poster or other image.
-                </p>
-
-                <input
-                  id="evidenceImage"
-                  type="file"
-                  accept="image/*"
-                  onchange="showFileName(this)"
-                >
-
-                <div id="fileName" class="file-name"></div>
-
-              </div>
-
-            </div>
-
-
-            <div style="margin-top:20px">
-
-              <button
-                class="btn btn-primary"
-                onclick="submitVerification()">
-                🔍 Submit for Verification
-              </button>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- OPPORTUNITIES -->
-
-        <div id="opportunitiesTab" class="hidden">
-
-          <div class="card" style="margin-bottom:20px">
-
-            <h2>🌍 Find Opportunities</h2>
-
-            <p style="color:#64748b">
-              Explore opportunities shared on OpportunityCheck.
-            </p>
-
-          </div>
-
-          <div class="filters">
-
-            <input
-              id="searchOpportunity"
-              class="input"
-              placeholder="Search opportunities..."
-              oninput="filterOpportunities()"
-            >
-
-            <select
-              id="typeFilter"
-              class="input"
-              onchange="filterOpportunities()">
-
-              <option value="">All categories</option>
-              <option value="Scholarship">Scholarships</option>
-              <option value="Job">Jobs</option>
-              <option value="Internship">Internships</option>
-              <option value="Grant">Grants</option>
-              <option value="Fellowship">Fellowships</option>
-              <option value="Competition">Competitions</option>
-
-            </select>
-
-            <select class="input">
-
-              <option>All locations</option>
-              <option>Remote</option>
-              <option>Nigeria</option>
-              <option>Africa</option>
-              <option>International</option>
-
-            </select>
-
-          </div>
-
-
-          <div id="opportunityGrid" class="opportunity-grid">
-
-            <div class="opportunity-card" data-type="Scholarship">
-
-              <div class="opp-top">
-                <span class="opp-type">Scholarship</span>
-                <span class="verified">✓ Verified</span>
-              </div>
-
-              <h3>Youth Education Scholarship</h3>
-
-              <p style="color:#64748b">
-                Educational support opportunity for eligible students.
-              </p>
-
-              <div class="deadline">
-                📅 Deadline: Example date
-              </div>
-
-              <div class="opp-actions">
-
-                <button class="btn btn-primary">
-                  View Details
-                </button>
-
-                <button
-                  class="btn btn-outline"
-                  onclick="saveOpportunity(this)">
-                  ☆ Save
-                </button>
-
-              </div>
-
-            </div>
-
-
-            <div class="opportunity-card" data-type="Internship">
-
-              <div class="opp-top">
-                <span class="opp-type">Internship</span>
-                <span class="verified">✓ Verified</span>
-              </div>
-
-              <h3>Technology Internship</h3>
-
-              <p style="color:#64748b">
-                Internship opportunity for students and young professionals.
-              </p>
-
-              <div class="deadline">
-                📅 Deadline: Example date
-              </div>
-
-              <div class="opp-actions">
-
-                <button class="btn btn-primary">
-                  View Details
-                </button>
-
-                <button
-                  class="btn btn-outline"
-                  onclick="saveOpportunity(this)">
-                  ☆ Save
-                </button>
-
-              </div>
-
-            </div>
-
-
-          </div>
-
-        </div>
-
-
-        <!-- COMPANY -->
-
-        <div id="companyTab" class="hidden">
-
-          <div class="company-box">
-
-            <h2>🏢 Organization Verification</h2>
-
-            <p>
-              Are you representing an organization that wants people
-              to know that your opportunities are genuine?
-            </p>
-
-          </div>
-
-          <div class="verify-card" style="margin-top:20px">
-
-            <div class="form-group">
-
-              <label>Organization name</label>
-
-              <input
-                id="companyName"
-                class="input"
-                placeholder="Your organization name"
-              >
-
-            </div>
-
-
-            <div class="form-group">
-
-              <label>Official website</label>
-
-              <input
-                id="companyWebsite"
-                class="input"
-                type="url"
-                placeholder="https://yourorganization.com"
-              >
-
-            </div>
-
-
-            <div class="form-group">
-
-              <label>Official contact email</label>
-
-              <input
-                id="companyEmail"
-                class="input"
-                type="email"
-                placeholder="contact@organization.com"
-              >
-
-            </div>
-
-
-            <div class="form-group">
-
-              <label>Tell us about your organization</label>
-
-              <textarea
-                id="companyDescription"
-                placeholder="Briefly describe your organization..."
-              ></textarea>
-
-            </div>
-
-
-            <button
-              class="btn btn-primary"
-              onclick="submitCompanyVerification()">
-              🛡️ Request Verification
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <!-- HISTORY -->
-
-        <div id="historyTab" class="hidden">
-
-          <div class="card">
-
-            <h2>🕒 Verification History</h2>
-
-            <div id="historyList" style="margin-top:20px">
-
-              <p style="color:#64748b">
-                No verification requests yet.
-              </p>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-      </main>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- AUTH MODAL -->
-
-<div id="authModal" class="modal">
-
-  <div class="modal-box">
-
-    <button class="close" onclick="closeAuth()">×</button>
-
-    <h2 id="authTitle">Welcome back</h2>
-
-    <p style="color:#64748b">
-      Access your OpportunityCheck account.
+    <p>
+      Find scholarships, jobs, grants, internships and other opportunities —
+      and check information before you apply or send money.
     </p>
 
+    <div class="hero-actions">
 
-    <div class="auth-tabs">
-
-      <button
-        id="loginTab"
-        class="auth-tab active"
-        onclick="setAuthMode('login')">
-        Login
+      <button class="primary-btn" onclick="goTo('find')">
+        🔎 Find an Opportunity
       </button>
 
-      <button
-        id="signupTab"
-        class="auth-tab"
-        onclick="setAuthMode('signup')">
-        Sign Up
+      <button class="secondary-btn" onclick="goTo('verify')">
+        ✅ Check an Opportunity
       </button>
 
     </div>
-
-
-    <div class="form-group">
-
-      <label>Email</label>
-
-      <input
-        id="authEmail"
-        class="input"
-        type="email"
-        placeholder="you@example.com"
-      >
-
-    </div>
-
-
-    <div class="form-group">
-
-      <label>Password</label>
-
-      <input
-        id="authPassword"
-        class="input"
-        type="password"
-        placeholder="Create a password"
-      >
-
-    </div>
-
-
-    <button
-      id="authButton"
-      class="btn btn-primary"
-      style="width:100%"
-      onclick="handleAuth()">
-      Login
-    </button>
 
   </div>
 
-</div>
+</section>
 
 
-<div id="toast" class="toast"></div>
+<!-- TWO MAIN ACTIONS -->
+
+<section>
+
+  <div class="section-inner">
+
+    <div class="section-title">
+      <h2>What do you want to do?</h2>
+      <p>Choose the option that matches what you need.</p>
+    </div>
+
+    <div class="actions-grid">
+
+      <div class="action-card">
+
+        <div class="action-icon">🔎</div>
+
+        <h3>Find an Opportunity</h3>
+
+        <p>
+          Search for scholarships, jobs, internships, grants,
+          fellowships, competitions and training programs.
+        </p>
+
+        <button onclick="goTo('find')">
+          Find Opportunities
+        </button>
+
+      </div>
+
+
+      <div class="action-card">
+
+        <div class="action-icon">✅</div>
+
+        <h3>Check an Opportunity</h3>
+
+        <p>
+          Have you received a scholarship, job or other offer?
+          Check the information before you trust it.
+        </p>
+
+        <button onclick="goTo('verify')">
+          Check It
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- CATEGORIES -->
+
+<section id="categories">
+
+  <div class="section-inner">
+
+    <div class="section-title">
+
+      <h2>What are you looking for?</h2>
+
+      <p>Choose a category to start.</p>
+
+    </div>
+
+    <div class="categories">
+
+      <div class="category" onclick="searchCategory('Scholarship')">
+        <div class="emoji">🎓</div>
+        <strong>Scholarships</strong>
+      </div>
+
+      <div class="category" onclick="searchCategory('Jobs')">
+        <div class="emoji">💼</div>
+        <strong>Jobs</strong>
+      </div>
+
+      <div class="category" onclick="searchCategory('Internships')">
+        <div class="emoji">🏢</div>
+        <strong>Internships</strong>
+      </div>
+
+      <div class="category" onclick="searchCategory('Grants')">
+        <div class="emoji">💰</div>
+        <strong>Grants</strong>
+      </div>
+
+      <div class="category" onclick="searchCategory('Fellowships')">
+        <div class="emoji">🌍</div>
+        <strong>Fellowships</strong>
+      </div>
+
+      <div class="category" onclick="searchCategory('Competitions')">
+        <div class="emoji">🏆</div>
+        <strong>Competitions</strong>
+      </div>
+
+      <div class="category" onclick="searchCategory('Training')">
+        <div class="emoji">📚</div>
+        <strong>Training</strong>
+      </div>
+
+      <div class="category" onclick="searchCategory('Programs')">
+        <div class="emoji">🚀</div>
+        <strong>Programs</strong>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- FIND OPPORTUNITIES -->
+
+<section id="find">
+
+  <div class="section-inner">
+
+    <div class="section-title">
+
+      <h2>Find Opportunities</h2>
+
+      <p>
+        Search for opportunities that may be right for you.
+      </p>
+
+    </div>
+
+
+    <div class="search-box">
+
+      <div class="search-row">
+
+        <input
+          id="searchInput"
+          type="text"
+          placeholder="What are you looking for?"
+        >
+
+        <select id="locationFilter">
+
+          <option value="">Any location</option>
+          <option>Nigeria</option>
+          <option>Africa</option>
+          <option>Remote</option>
+          <option>Worldwide</option>
+
+        </select>
+
+        <button onclick="searchOpportunities()">
+          Search
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div id="results" class="results"></div>
+
+  </div>
+
+</section>
+
+
+<!-- VERIFY -->
+
+<section id="verify">
+
+  <div class="section-inner">
+
+    <div class="section-title">
+
+      <h2>Check an Opportunity</h2>
+
+      <p>
+        Have you received an opportunity? Give us the information you have.
+      </p>
+
+    </div>
+
+
+    <div class="verify-box">
+
+      <div class="form-group">
+
+        <label>What is the opportunity called?</label>
+
+        <input
+          id="opportunityName"
+          placeholder="Example: Scholarship, job, grant..."
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Who is offering it?</label>
+
+        <input
+          id="organizationName"
+          placeholder="Company, school or organization"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Give us the information you have</label>
+
+        <p style="color:#6b7280;font-size:14px;margin-bottom:10px;">
+          Choose just one option.
+        </p>
+
+
+        <div class="evidence-buttons">
+
+          <button
+            class="evidence-btn active"
+            onclick="chooseEvidence('link',this)">
+            🔗 Paste Link
+          </button>
+
+          <button
+            class="evidence-btn"
+            onclick="chooseEvidence('text',this)">
+            📝 Paste Text
+          </button>
+
+          <button
+            class="evidence-btn"
+            onclick="chooseEvidence('image',this)">
+            🖼️ Upload Picture
+          </button>
+
+        </div>
+
+
+        <div id="linkEvidence">
+
+          <input
+            id="evidenceLink"
+            type="url"
+            placeholder="Paste the opportunity link here"
+          >
+
+        </div>
+
+
+        <div id="textEvidence" class="hidden">
+
+          <textarea
+            id="evidenceText"
+            rows="6"
+            placeholder="Paste the message or information here"
+          ></textarea>
+
+        </div>
+
+
+        <div id="imageEvidence" class="hidden">
+
+          <input
+            id="evidenceImage"
+            type="file"
+            accept="image/*"
+          >
+
+          <p style="font-size:13px;color:#6b7280;margin-top:7px;">
+            Upload a screenshot, flyer or picture.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <button class="submit-btn" onclick="submitVerification()">
+        Check This Opportunity
+      </button>
+
+      <div id="verifyMessage"></div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ORGANIZATIONS -->
+
+<section id="organizations" class="organization">
+
+  <div class="section-inner">
+
+    <div class="section-title">
+
+      <h2>For Organizations</h2>
+
+      <p>
+        Do you run a scholarship, job, grant, program or other opportunity?
+      </p>
+
+    </div>
+
+
+    <div class="organization-box">
+
+      <div class="form-group">
+
+        <label>Organization name</label>
+
+        <input
+          id="companyName"
+          placeholder="Your organization name"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Website</label>
+
+        <input
+          id="companyWebsite"
+          placeholder="https://example.com"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Email</label>
+
+        <input
+          id="companyEmail"
+          type="email"
+          placeholder="Your organization email"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Tell us about your organization</label>
+
+        <textarea
+          id="companyDescription"
+          rows="5"
+          placeholder="What does your organization do?"
+        ></textarea>
+
+      </div>
+
+
+      <button class="submit-btn" onclick="submitOrganization()">
+        Request Verification
+      </button>
+
+      <div id="companyMessage"></div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- AUTH -->
+
+<section id="auth">
+
+  <div class="section-inner">
+
+    <div class="section-title">
+
+      <h2>My Account</h2>
+
+      <p>Log in or create an account.</p>
+
+    </div>
+
+
+    <div class="auth-box">
+
+      <div class="auth-tabs">
+
+        <button
+          id="loginTab"
+          class="active"
+          onclick="showAuth('login')">
+          Login
+        </button>
+
+        <button
+          id="signupTab"
+          onclick="showAuth('signup')">
+          Sign Up
+        </button>
+
+      </div>
+
+
+      <div id="loginForm">
+
+        <div class="form-group">
+
+          <label>Email</label>
+
+          <input
+            id="loginEmail"
+            type="email"
+            placeholder="Enter your email"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>Password</label>
+
+          <input
+            id="loginPassword"
+            type="password"
+            placeholder="Enter your password"
+          >
+
+        </div>
+
+
+        <button class="submit-btn" onclick="loginUser()">
+          Login
+        </button>
+
+      </div>
+
+
+      <div id="signupForm" class="hidden">
+
+        <div class="form-group">
+
+          <label>Email</label>
+
+          <input
+            id="signupEmail"
+            type="email"
+            placeholder="Enter your email"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>Password</label>
+
+          <input
+            id="signupPassword"
+            type="password"
+            placeholder="Create a password"
+          >
+
+        </div>
+
+
+        <button class="submit-btn" onclick="signupUser()">
+          Create Account
+        </button>
+
+      </div>
+
+
+      <div id="authMessage"></div>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
 
 
 <footer>
@@ -1419,583 +1191,363 @@ footer p{
   <div class="footer-inner">
 
     <div>
-      <div class="logo" style="color:white">
-        <div class="logo-mark">✓</div>
-        OpportunityCheck
-      </div>
-
-      <p style="margin-top:10px">
-        Verify. Discover. Make informed decisions.
-      </p>
+      <strong>OpportunityCheck</strong><br>
+      Find. Check. Trust.
     </div>
 
-    <p>
-      OpportunityCheck © 2026
-    </p>
+    <div>
+      Helping people make safer decisions about opportunities.
+    </div>
 
   </div>
 
 </footer>
 
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
 
-/* =====================================================
-   SUPABASE CONFIGURATION
-   =====================================================
+/* ==============================
+   SUPABASE
+============================== */
 
-   KEEP YOUR EXISTING SUPABASE VALUES HERE.
-*/
+const SUPABASE_URL =
+"https://qyjqrwymguvovjzurllt.supabase.co";
 
-const SUPABASE_URL = "https://qyjqrwymguvovjzurllt.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_24AQd7lyWO00umLldX2zXQ_6GdVt7QO";
+const SUPABASE_ANON_KEY =
+"sb_publishable_24AQd7lyWO00umLldX2zXQ_6GdVt7QO";
 
 const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-  );
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
 
 
-/* =====================================================
-   GLOBAL STATE
-   ===================================================== */
-
-let authMode = "login";
-let evidenceMode = "link";
-
-
-/* =====================================================
-   TOAST
-   ===================================================== */
-
-function showToast(message){
-
-  const toast = document.getElementById("toast");
-
-  toast.textContent = message;
-  toast.classList.add("show");
-
-  setTimeout(()=>{
-    toast.classList.remove("show");
-  },3500);
-}
-
-
-/* =====================================================
+/* ==============================
    NAVIGATION
-   ===================================================== */
+============================== */
 
-function showSection(section){
+function goTo(id){
 
-  document.getElementById("homeSection").classList.add("hidden");
-  document.getElementById("appSection").classList.remove("hidden");
+  const element = document.getElementById(id);
 
-  if(section === "home"){
-    document.getElementById("appSection").classList.add("hidden");
-    document.getElementById("homeSection").classList.remove("hidden");
-    return;
+  if(element){
+    element.scrollIntoView({
+      behavior:"smooth"
+    });
   }
 
-  if(section === "verify"){
-    appTab("verify");
-  }
-
-  if(section === "opportunities"){
-    appTab("opportunities");
-  }
-
-  if(section === "company"){
-    appTab("company");
-  }
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
+  document.getElementById("navLinks")
+    .classList.remove("open");
 }
 
 
-function appTab(tab, button){
+function toggleMenu(){
 
-  const tabs = [
-    "dashboard",
-    "verify",
-    "opportunities",
-    "company",
-    "history"
-  ];
+  document
+    .getElementById("navLinks")
+    .classList.toggle("open");
 
-  tabs.forEach(name=>{
-
-    const element =
-      document.getElementById(name+"Tab");
-
-    if(element){
-      element.classList.add("hidden");
-    }
-
-  });
+}
 
 
-  const target =
-    document.getElementById(tab+"Tab");
+/* ==============================
+   CATEGORY SEARCH
+============================== */
 
-  if(target){
-    target.classList.remove("hidden");
+function searchCategory(category){
+
+  document.getElementById("searchInput").value =
+    category;
+
+  goTo("find");
+
+  searchOpportunities();
+
+}
+
+
+/* ==============================
+   SAMPLE OPPORTUNITIES
+============================== */
+
+const opportunities = [
+
+  {
+    title:"International Scholarship Opportunity",
+    organization:"Example Education Foundation",
+    category:"Scholarship",
+    location:"Worldwide",
+    deadline:"See original source",
+    description:"Sample opportunity card. Live opportunity sources will be connected in the next stage.",
+    link:"#"
+  },
+
+  {
+    title:"Graduate Internship Program",
+    organization:"Example Organization",
+    category:"Internship",
+    location:"Nigeria",
+    deadline:"See original source",
+    description:"Sample internship opportunity.",
+    link:"#"
+  },
+
+  {
+    title:"Youth Entrepreneurship Grant",
+    organization:"Example Foundation",
+    category:"Grant",
+    location:"Africa",
+    deadline:"See original source",
+    description:"Sample grant opportunity.",
+    link:"#"
+  },
+
+  {
+    title:"Remote Work Opportunity",
+    organization:"Example Company",
+    category:"Job",
+    location:"Remote",
+    deadline:"See original source",
+    description:"Sample remote opportunity.",
+    link:"#"
   }
 
+];
 
-  document.querySelectorAll(".side-btn")
-    .forEach(btn=>{
-      btn.classList.remove("active");
+
+/* ==============================
+   SEARCH
+============================== */
+
+function searchOpportunities(){
+
+  const query =
+    document
+      .getElementById("searchInput")
+      .value
+      .toLowerCase()
+      .trim();
+
+  const location =
+    document
+      .getElementById("locationFilter")
+      .value
+      .toLowerCase();
+
+  const results =
+    opportunities.filter(item => {
+
+      const matchesQuery =
+        !query ||
+        item.title.toLowerCase().includes(query) ||
+        item.category.toLowerCase().includes(query) ||
+        item.organization.toLowerCase().includes(query);
+
+      const matchesLocation =
+        !location ||
+        item.location.toLowerCase().includes(location);
+
+      return matchesQuery && matchesLocation;
+
     });
 
 
-  if(button){
-    button.classList.add("active");
-  }
+  displayResults(results);
 
 }
 
 
-function toggleMobile(){
+function displayResults(results){
 
-  const nav =
-    document.querySelector(".nav-links");
-
-  nav.style.display =
-    nav.style.display === "flex"
-      ? "none"
-      : "flex";
-}
+  const container =
+    document.getElementById("results");
 
 
-/* =====================================================
-   AUTH
-   ===================================================== */
+  if(results.length === 0){
 
-function openAuth(mode){
-
-  document.getElementById("authModal")
-    .classList.add("show");
-
-  setAuthMode(mode || "login");
-}
-
-
-function closeAuth(){
-
-  document.getElementById("authModal")
-    .classList.remove("show");
-}
-
-
-function setAuthMode(mode){
-
-  authMode = mode;
-
-  const loginTab =
-    document.getElementById("loginTab");
-
-  const signupTab =
-    document.getElementById("signupTab");
-
-  if(mode === "login"){
-
-    loginTab.classList.add("active");
-    signupTab.classList.remove("active");
-
-    document.getElementById("authTitle")
-      .textContent = "Welcome back";
-
-    document.getElementById("authButton")
-      .textContent = "Login";
-
-  }else{
-
-    signupTab.classList.add("active");
-    loginTab.classList.remove("active");
-
-    document.getElementById("authTitle")
-      .textContent = "Create your account";
-
-    document.getElementById("authButton")
-      .textContent = "Create Account";
-
-  }
-
-}
-
-
-async function handleAuth(){
-
-  const email =
-    document.getElementById("authEmail")
-      .value.trim();
-
-  const password =
-    document.getElementById("authPassword")
-      .value;
-
-
-  if(!email || !password){
-
-    showToast("Please enter your email and password.");
+    container.innerHTML = `
+      <div class="opportunity">
+        <h3>No matching opportunity yet</h3>
+        <p>
+          We could not find a matching opportunity
+          in the current database.
+        </p>
+      </div>
+    `;
 
     return;
   }
 
 
-  try{
+  container.innerHTML =
+    results.map(item => `
 
-    if(authMode === "signup"){
+      <article class="opportunity">
 
-      const {data,error} =
-        await supabaseClient.auth.signUp({
-          email,
-          password
-        });
+        <div class="opportunity-top">
+
+          <div>
+
+            <h3>${escapeHTML(item.title)}</h3>
+
+            <div class="org">
+              ${escapeHTML(item.organization)}
+            </div>
+
+          </div>
+
+          <span class="verified">
+            ✓ Listed
+          </span>
+
+        </div>
+
+        <p>
+          ${escapeHTML(item.description)}
+        </p>
+
+        <div class="details">
+
+          <span>📂 ${escapeHTML(item.category)}</span>
+
+          <span>📍 ${escapeHTML(item.location)}</span>
+
+          <span>📅 ${escapeHTML(item.deadline)}</span>
+
+        </div>
+
+        <button
+          class="view-btn"
+          onclick="alert('The original opportunity link will be available when live sources are connected.')">
+
+          See Details
+
+        </button>
+
+      </article>
+
+    `).join("");
+
+}
 
 
-      if(error) throw error;
+function escapeHTML(value){
+
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
 
 
-      if(data.session){
+/* ==============================
+   EVIDENCE
+============================== */
 
-        showToast("Account created successfully.");
-
-        closeAuth();
-
-        loadApp();
-
-      }else{
-
-        showToast(
-          "Account created. Check your email to confirm your account."
-        );
-
-      }
-
-    }else{
-
-      const {data,error} =
-        await supabaseClient.auth.signInWithPassword({
-          email,
-          password
-        });
+let evidenceType = "link";
 
 
-      if(error) throw error;
+function chooseEvidence(type,button){
+
+  evidenceType = type;
 
 
-      showToast("Login successful.");
-
-      closeAuth();
-
-      loadApp();
-
-    }
-
-  }catch(error){
-
-    console.error(error);
-
-    showToast(
-      error.message || "Authentication failed."
+  document
+    .querySelectorAll(".evidence-btn")
+    .forEach(btn =>
+      btn.classList.remove("active")
     );
 
-  }
-
-}
-
-
-/* =====================================================
-   SESSION
-   ===================================================== */
-
-async function checkSession(){
-
-  const {data} =
-    await supabaseClient.auth.getSession();
-
-  if(data.session){
-
-    loadApp();
-
-  }
-
-}
-
-
-async function loadApp(){
-
-  const {data} =
-    await supabaseClient.auth.getUser();
-
-  const user = data.user;
-
-  document.getElementById("homeSection")
-    .classList.add("hidden");
-
-  document.getElementById("appSection")
-    .classList.remove("hidden");
-
-
-  document.getElementById("welcomeTitle")
-    .textContent =
-      "Welcome, " +
-      (user?.email || "User");
-
-
-  updateStats();
-
-  loadHistory();
-
-}
-
-
-async function logout(){
-
-  await supabaseClient.auth.signOut();
-
-  document.getElementById("appSection")
-    .classList.add("hidden");
-
-  document.getElementById("homeSection")
-    .classList.remove("hidden");
-
-  showToast("You have been logged out.");
-
-}
-
-
-/* =====================================================
-   EVIDENCE SELECTOR
-   ===================================================== */
-
-function chooseEvidence(type, button){
-
-  evidenceMode = type;
-
-  document.querySelectorAll(".evidence-option")
-    .forEach(btn=>{
-      btn.classList.remove("active");
-    });
 
   button.classList.add("active");
 
 
-  document.querySelectorAll(".evidence-panel")
-    .forEach(panel=>{
-      panel.classList.remove("active");
-    });
+  document
+    .getElementById("linkEvidence")
+    .classList.add("hidden");
+
+  document
+    .getElementById("textEvidence")
+    .classList.add("hidden");
+
+  document
+    .getElementById("imageEvidence")
+    .classList.add("hidden");
 
 
   if(type === "link"){
-    document.getElementById("linkEvidence")
-      .classList.add("active");
+    document
+      .getElementById("linkEvidence")
+      .classList.remove("hidden");
   }
 
   if(type === "text"){
-    document.getElementById("textEvidence")
-      .classList.add("active");
+    document
+      .getElementById("textEvidence")
+      .classList.remove("hidden");
   }
 
   if(type === "image"){
-    document.getElementById("imageEvidence")
-      .classList.add("active");
+    document
+      .getElementById("imageEvidence")
+      .classList.remove("hidden");
   }
 
 }
 
 
-function showFileName(input){
-
-  const fileName =
-    document.getElementById("fileName");
-
-  if(input.files && input.files[0]){
-
-    const file = input.files[0];
-
-    fileName.textContent =
-      "Selected: " + file.name;
-
-  }else{
-
-    fileName.textContent = "";
-
-  }
-
-}
-
-
-/* =====================================================
-   VERIFY SUBMISSION
-   ===================================================== */
+/* ==============================
+   VERIFICATION
+============================== */
 
 async function submitVerification(){
 
   const name =
-    document.getElementById("opportunityName")
+    document
+      .getElementById("opportunityName")
       .value.trim();
 
   const organization =
-    document.getElementById("organizationName")
+    document
+      .getElementById("organizationName")
       .value.trim();
+
+  const message =
+    document.getElementById("verifyMessage");
 
 
   if(!name){
 
-    showToast("Please enter the opportunity name.");
+    showMessage(
+      message,
+      "Please enter the opportunity name.",
+      "error"
+    );
 
     return;
   }
 
 
-  let evidenceValue = "";
-  let uploadedImage = "";
+  let evidence = "";
 
 
-  /* LINK */
+  if(evidenceType === "link"){
 
-  if(evidenceMode === "link"){
-
-    evidenceValue =
-      document.getElementById("evidenceLink")
+    evidence =
+      document
+        .getElementById("evidenceLink")
         .value.trim();
 
-    if(!evidenceValue){
+    if(!evidence){
 
-      showToast("Please paste the opportunity link.");
-
-      return;
-    }
-
-  }
-
-
-  /* TEXT */
-
-  if(evidenceMode === "text"){
-
-    evidenceValue =
-      document.getElementById("evidenceText")
-        .value.trim();
-
-    if(!evidenceValue){
-
-      showToast("Please paste the opportunity text.");
-
-      return;
-    }
-
-  }
-
-
-  /* IMAGE */
-
-  if(evidenceMode === "image"){
-
-    const fileInput =
-      document.getElementById("evidenceImage");
-
-    const file =
-      fileInput.files[0];
-
-
-    if(!file){
-
-      showToast("Please choose an image.");
-
-      return;
-    }
-
-
-    if(!file.type.startsWith("image/")){
-
-      showToast("Please upload an image file.");
-
-      return;
-    }
-
-
-    if(file.size > 5 * 1024 * 1024){
-
-      showToast("Image must be smaller than 5MB.");
-
-      return;
-    }
-
-
-    try{
-
-      showToast("Uploading image...");
-
-
-      const {data:userData} =
-        await supabaseClient.auth.getUser();
-
-      const user =
-        userData.user;
-
-
-      const userId =
-        user?.id || "anonymous";
-
-
-      const extension =
-        file.name.split(".").pop();
-
-
-      const filePath =
-        userId +
-        "/" +
-        Date.now() +
-        "." +
-        extension;
-
-
-      const {error} =
-        await supabaseClient.storage
-          .from("opportunity-evidence")
-          .upload(
-            filePath,
-            file,
-            {
-              cacheControl:"3600",
-              upsert:false
-            }
-          );
-
-
-      if(error) throw error;
-
-
-      const {data:urlData} =
-        supabaseClient.storage
-          .from("opportunity-evidence")
-          .getPublicUrl(filePath);
-
-
-      uploadedImage =
-        urlData.publicUrl;
-
-
-      evidenceValue =
-        uploadedImage;
-
-
-    }catch(error){
-
-      console.error(error);
-
-      showToast(
-        "Image upload failed: " +
-        error.message
+      showMessage(
+        message,
+        "Please paste the opportunity link.",
+        "error"
       );
 
       return;
@@ -2004,9 +1556,132 @@ async function submitVerification(){
   }
 
 
-  /* LOCAL HISTORY */
+  if(evidenceType === "text"){
 
-  const request = {
+    evidence =
+      document
+        .getElementById("evidenceText")
+        .value.trim();
+
+    if(!evidence){
+
+      showMessage(
+        message,
+        "Please paste the opportunity information.",
+        "error"
+      );
+
+      return;
+    }
+
+  }
+
+
+  if(evidenceType === "image"){
+
+    const file =
+      document
+        .getElementById("evidenceImage")
+        .files[0];
+
+
+    if(!file){
+
+      showMessage(
+        message,
+        "Please upload a picture.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    if(file.size > 5 * 1024 * 1024){
+
+      showMessage(
+        message,
+        "The picture must be smaller than 5MB.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    try{
+
+      const {
+        data:{user}
+      } = await supabaseClient.auth.getUser();
+
+
+      if(!user){
+
+        showMessage(
+          message,
+          "Please log in before uploading a picture.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      const extension =
+        file.name.split(".").pop();
+
+
+      const filePath =
+        `${user.id}/${Date.now()}.${extension}`;
+
+
+      const {error} =
+        await supabaseClient
+          .storage
+          .from("opportunity-evidence")
+          .upload(filePath,file);
+
+
+      if(error){
+
+        showMessage(
+          message,
+          "Picture upload failed. Please try again.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      const {
+        data
+      } =
+        supabaseClient
+          .storage
+          .from("opportunity-evidence")
+          .getPublicUrl(filePath);
+
+
+      evidence =
+        data.publicUrl;
+
+    }catch(error){
+
+      showMessage(
+        message,
+        "Something went wrong while uploading.",
+        "error"
+      );
+
+      return;
+    }
+
+  }
+
+
+  const submission = {
 
     id:Date.now(),
 
@@ -2014,24 +1689,26 @@ async function submitVerification(){
 
     organization:organization,
 
-    evidenceType:evidenceMode,
+    evidenceType:evidenceType,
 
-    evidence:evidenceValue,
+    evidence:evidence,
 
-    status:"Under Review",
+    date:new Date().toISOString(),
 
-    date:new Date().toLocaleString()
+    status:"Pending Review"
 
   };
 
 
   const history =
     JSON.parse(
-      localStorage.getItem("opportunityHistory") || "[]"
+      localStorage.getItem(
+        "opportunityHistory"
+      ) || "[]"
     );
 
 
-  history.unshift(request);
+  history.unshift(submission);
 
 
   localStorage.setItem(
@@ -2040,241 +1717,51 @@ async function submitVerification(){
   );
 
 
-  updateStats();
-
-  loadHistory();
-
-
-  showToast(
-    "Verification request submitted successfully."
+  showMessage(
+    message,
+    "Your opportunity has been submitted for review.",
+    "success"
   );
 
-
-  document.getElementById("opportunityName")
-    .value = "";
-
-  document.getElementById("organizationName")
-    .value = "";
-
-  document.getElementById("evidenceLink")
-    .value = "";
-
-  document.getElementById("evidenceText")
-    .value = "";
-
-  document.getElementById("evidenceImage")
-    .value = "";
-
-  document.getElementById("fileName")
-    .textContent = "";
-
 }
 
 
-/* =====================================================
-   HISTORY
-   ===================================================== */
-
-function loadHistory(){
-
-  const history =
-    JSON.parse(
-      localStorage.getItem("opportunityHistory") || "[]"
-    );
-
-
-  const container =
-    document.getElementById("historyList");
-
-
-  if(!history.length){
-
-    container.innerHTML =
-      `<p style="color:#64748b">
-        No verification requests yet.
-      </p>`;
-
-    return;
-  }
-
-
-  container.innerHTML =
-    history.map(item=>`
-
-      <div style="
-        border:1px solid #e2e8f0;
-        border-radius:13px;
-        padding:15px;
-        margin-bottom:10px;
-      ">
-
-        <div style="
-          display:flex;
-          justify-content:space-between;
-          gap:10px;
-        ">
-
-          <strong>${escapeHtml(item.opportunity)}</strong>
-
-          <span class="status pending">
-            ${item.status}
-          </span>
-
-        </div>
-
-        <p style="
-          color:#64748b;
-          margin-top:5px;
-          font-size:14px;
-        ">
-          ${item.organization || "Organization not provided"}
-        </p>
-
-        <small style="color:#94a3b8">
-          Evidence: ${item.evidenceType} · ${item.date}
-        </small>
-
-      </div>
-
-    `).join("");
-
-}
-
-
-function updateStats(){
-
-  const history =
-    JSON.parse(
-      localStorage.getItem("opportunityHistory") || "[]"
-    );
-
-
-  document.getElementById("verifyCount")
-    .textContent = history.length;
-
-
-  const saved =
-    JSON.parse(
-      localStorage.getItem("savedOpportunities") || "[]"
-    );
-
-
-  document.getElementById("savedCount")
-    .textContent = saved.length;
-
-}
-
-
-/* =====================================================
-   OPPORTUNITY SEARCH
-   ===================================================== */
-
-function filterOpportunities(){
-
-  const search =
-    document.getElementById("searchOpportunity")
-      .value
-      .toLowerCase();
-
-
-  const type =
-    document.getElementById("typeFilter")
-      .value;
-
-
-  document.querySelectorAll(".opportunity-card")
-    .forEach(card=>{
-
-      const text =
-        card.textContent.toLowerCase();
-
-      const cardType =
-        card.dataset.type;
-
-
-      const matchesSearch =
-        !search || text.includes(search);
-
-      const matchesType =
-        !type || cardType === type;
-
-
-      card.style.display =
-        matchesSearch && matchesType
-          ? "block"
-          : "none";
-
-    });
-
-}
-
-
-function saveOpportunity(button){
-
-  const card =
-    button.closest(".opportunity-card");
-
-  const title =
-    card.querySelector("h3").textContent;
-
-
-  const saved =
-    JSON.parse(
-      localStorage.getItem("savedOpportunities") || "[]"
-    );
-
-
-  if(!saved.includes(title)){
-
-    saved.push(title);
-
-    localStorage.setItem(
-      "savedOpportunities",
-      JSON.stringify(saved)
-    );
-
-    button.textContent = "✓ Saved";
-
-    updateStats();
-
-    showToast("Opportunity saved.");
-
-  }else{
-
-    showToast("Already saved.");
-
-  }
-
-}
-
-
-/* =====================================================
-   COMPANY VERIFICATION
-   ===================================================== */
-
-async function submitCompanyVerification(){
+/* ==============================
+   ORGANIZATION
+============================== */
+
+function submitOrganization(){
 
   const name =
-    document.getElementById("companyName")
+    document
+      .getElementById("companyName")
       .value.trim();
 
   const website =
-    document.getElementById("companyWebsite")
+    document
+      .getElementById("companyWebsite")
       .value.trim();
 
   const email =
-    document.getElementById("companyEmail")
+    document
+      .getElementById("companyEmail")
       .value.trim();
 
   const description =
-    document.getElementById("companyDescription")
+    document
+      .getElementById("companyDescription")
       .value.trim();
 
+  const message =
+    document.getElementById("companyMessage");
 
-  if(!name || !website || !email){
 
-    showToast(
-      "Please complete the required organization information."
+  if(!name || !email){
+
+    showMessage(
+      message,
+      "Please enter your organization name and email.",
+      "error"
     );
 
     return;
@@ -2285,24 +1772,26 @@ async function submitCompanyVerification(){
 
     id:Date.now(),
 
-    name,
+    name:name,
 
-    website,
+    website:website,
 
-    email,
+    email:email,
 
-    description,
+    description:description,
 
-    status:"Under Review",
+    date:new Date().toISOString(),
 
-    date:new Date().toLocaleString()
+    status:"Pending Review"
 
   };
 
 
   const requests =
     JSON.parse(
-      localStorage.getItem("companyRequests") || "[]"
+      localStorage.getItem(
+        "companyRequests"
+      ) || "[]"
     );
 
 
@@ -2315,42 +1804,213 @@ async function submitCompanyVerification(){
   );
 
 
-  showToast(
-    "Organization verification request submitted."
+  showMessage(
+    message,
+    "Your verification request has been submitted.",
+    "success"
   );
 
+}
 
-  document.getElementById("companyName").value="";
-  document.getElementById("companyWebsite").value="";
-  document.getElementById("companyEmail").value="";
-  document.getElementById("companyDescription").value="";
+
+/* ==============================
+   AUTH
+============================== */
+
+function showAuth(type){
+
+  const login =
+    document.getElementById("loginForm");
+
+  const signup =
+    document.getElementById("signupForm");
+
+  const loginTab =
+    document.getElementById("loginTab");
+
+  const signupTab =
+    document.getElementById("signupTab");
+
+
+  if(type === "login"){
+
+    login.classList.remove("hidden");
+    signup.classList.add("hidden");
+
+    loginTab.classList.add("active");
+    signupTab.classList.remove("active");
+
+  }else{
+
+    login.classList.add("hidden");
+    signup.classList.remove("hidden");
+
+    loginTab.classList.remove("active");
+    signupTab.classList.add("active");
+
+  }
 
 }
 
 
-/* =====================================================
-   SECURITY HELPERS
-   ===================================================== */
+async function loginUser(){
 
-function escapeHtml(value){
+  const email =
+    document
+      .getElementById("loginEmail")
+      .value.trim();
 
-  return String(value)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+  const password =
+    document
+      .getElementById("loginPassword")
+      .value;
+
+  const message =
+    document.getElementById("authMessage");
+
+
+  if(!email || !password){
+
+    showMessage(
+      message,
+      "Please enter your email and password.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  const {error} =
+    await supabaseClient.auth.signInWithPassword({
+      email,
+      password
+    });
+
+
+  if(error){
+
+    showMessage(
+      message,
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    message,
+    "You are now logged in.",
+    "success"
+  );
 
 }
 
 
-/* =====================================================
-   START
-   ===================================================== */
+async function signupUser(){
 
-checkSession();
+  const email =
+    document
+      .getElementById("signupEmail")
+      .value.trim();
+
+  const password =
+    document
+      .getElementById("signupPassword")
+      .value;
+
+  const message =
+    document.getElementById("authMessage");
+
+
+  if(!email || !password){
+
+    showMessage(
+      message,
+      "Please enter an email and password.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(password.length < 6){
+
+    showMessage(
+      message,
+      "Password must be at least 6 characters.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  const {data,error} =
+    await supabaseClient.auth.signUp({
+      email,
+      password
+    });
+
+
+  if(error){
+
+    showMessage(
+      message,
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(data.session){
+
+    showMessage(
+      message,
+      "Your account has been created.",
+      "success"
+    );
+
+  }else{
+
+    showMessage(
+      message,
+      "Account created. Check your email to confirm your account.",
+      "success"
+    );
+
+  }
+
+}
+
+
+/* ==============================
+   MESSAGE
+============================== */
+
+function showMessage(element,text,type){
+
+  element.className =
+    "message " + type;
+
+  element.textContent =
+    text;
+
+}
+
+
+/* ==============================
+   INITIAL LOAD
+============================== */
+
+displayResults(opportunities);
 
 </script>
 
 </body>
-  </html>
+          </html>
