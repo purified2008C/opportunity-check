@@ -1634,7 +1634,7 @@ async function protectedCategory(category){
    SEARCH SAMPLE OPPORTUNITIES
 ===================================================== */
 
-async function searchOpportunities() {
+asyncasync function searchOpportunities() {
 
   const search =
     document
@@ -1686,7 +1686,7 @@ async function searchOpportunities() {
           <h3>No opportunities found yet</h3>
           <p>
             We couldn't find any matching opportunities.
-            Live opportunity sources will be connected next.
+            Try a different search or location.
           </p>
         </div>
       `;
@@ -1695,37 +1695,60 @@ async function searchOpportunities() {
     }
 
     list.innerHTML =
-      data.opportunities.map(item => `
+      data.opportunities.map(item => {
 
-        <div class="opportunity">
+        const description =
+          item.description &&
+          item.description.trim()
+            ? item.description
+            : "No description available for this opportunity.";
 
-          <h3>${item.title || "Opportunity"}</h3>
+        const detailsButton =
+          item.url
+            ? `
+              <a
+                href="${item.url}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-outline">
+                See Details
+              </a>
+            `
+            : `
+              <button
+                class="btn btn-outline"
+                disabled>
+                Details Unavailable
+              </button>
+            `;
 
-          <p>
-            ${item.description || ""}
-          </p>
+        return `
+          <div class="opportunity">
 
-          <div class="opportunity-meta">
+            <h3>${item.title || "Opportunity"}</h3>
 
-            <span class="tag">
-              ${item.category || ""}
-            </span>
+            <p>
+              ${description}
+            </p>
 
-            <span class="tag">
-              ${item.location || ""}
-            </span>
+            <div class="opportunity-meta">
+
+              <span class="tag">
+                ${item.category || "Opportunity"}
+              </span>
+
+              <span class="tag">
+                ${item.location || item.country || "Not specified"}
+              </span>
+
+            </div>
+
+            ${detailsButton}
 
           </div>
+        `;
 
-          <button
-            class="btn btn-outline"
-            onclick="alert('Opportunity details will be available soon.')">
-            See Details
-          </button>
-
-        </div>
-
-      `).join("");
+      }).join("");
 
   } catch (error) {
 
@@ -1743,7 +1766,18 @@ async function searchOpportunities() {
   }
 }
 
+Now do only these steps:
 
+1. In GitHub, replace your old "searchOpportunities()" function with the code above.
+2. Click Commit changes.
+3. Wait for your site to update.
+4. Search Nigeria again.
+5. Click See Details on one of the results.
+
+The details button should now open the actual opportunity page in a new tab. 🔗
+
+If the description still says “No description available”, don't change anything else—tell me, and we'll fix the Edge Function's description extraction next.
+      
 /* =====================================================
    VERIFY TABS
 ===================================================== */
