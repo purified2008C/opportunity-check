@@ -1634,113 +1634,113 @@ async function protectedCategory(category){
    SEARCH SAMPLE OPPORTUNITIES
 ===================================================== */
 
-function searchOpportunities(){
+async function searchOpportunities() {
 
   const search =
     document
       .getElementById("searchInput")
       .value
-      .toLowerCase();
+      .trim();
 
   const location =
     document
       .getElementById("locationInput")
-      .value;
+      .value
+      .trim();
 
   const list =
     document.getElementById("opportunityList");
 
-  let opportunities = [
+  list.innerHTML = `
+    <div class="opportunity">
+      <h3>Searching...</h3>
+      <p>Looking for opportunities.</p>
+    </div>
+  `;
 
-    {
-      title:"Scholarship Opportunity",
-      description:
-      "Example scholarship opportunity for students.",
-      category:"Scholarship",
-      location:"International"
-    },
+  try {
 
-    {
-      title:"Remote Internship",
-      description:
-      "Example internship opportunity.",
-      category:"Internship",
-      location:"Remote"
-    },
+    const { data, error } =
+      await supabaseClient.functions.invoke(
+        "clever-service",
+        {
+          body: {
+            query: search,
+            category: location
+          }
+        }
+      );
 
-    {
-      title:"Training Program",
-      description:
-      "Example skills training opportunity.",
-      category:"Training",
-      location:"Nigeria"
+    if (error) {
+      throw error;
     }
 
-  ];
+    if (
+      !data ||
+      !data.opportunities ||
+      data.opportunities.length === 0
+    ) {
 
-  const filtered =
-    opportunities.filter(item => {
+      list.innerHTML = `
+        <div class="opportunity">
+          <h3>No opportunities found yet</h3>
+          <p>
+            We couldn't find any matching opportunities.
+            Live opportunity sources will be connected next.
+          </p>
+        </div>
+      `;
 
-      const matchesSearch =
-        !search ||
-        item.title.toLowerCase().includes(search) ||
-        item.description.toLowerCase().includes(search) ||
-        item.category.toLowerCase().includes(search);
+      return;
+    }
 
-      const matchesLocation =
-        !location ||
-        item.location === location;
+    list.innerHTML =
+      data.opportunities.map(item => `
 
-      return matchesSearch && matchesLocation;
+        <div class="opportunity">
 
-    });
+          <h3>${item.title || "Opportunity"}</h3>
 
-  if(filtered.length === 0){
+          <p>
+            ${item.description || ""}
+          </p>
 
-    list.innerHTML = `
-      <div class="opportunity">
-        <h3>No opportunities found</h3>
-        <p>
-          We couldn't find a matching opportunity in the
-          current database.
-        </p>
-      </div>
-    `;
+          <div class="opportunity-meta">
 
-    return;
-  }
+            <span class="tag">
+              ${item.category || ""}
+            </span>
 
-  list.innerHTML =
-    filtered.map(item => `
+            <span class="tag">
+              ${item.location || ""}
+            </span>
 
-      <div class="opportunity">
+          </div>
 
-        <h3>${item.title}</h3>
-
-        <p>${item.description}</p>
-
-        <div class="opportunity-meta">
-
-          <span class="tag">
-            ${item.category}
-          </span>
-
-          <span class="tag">
-            ${item.location}
-          </span>
+          <button
+            class="btn btn-outline"
+            onclick="alert('Opportunity details will be available soon.')">
+            See Details
+          </button>
 
         </div>
 
-        <button
-          class="btn btn-outline"
-          onclick="alert('The live opportunity source will be connected in the next stage.')">
-          See Details
-        </button>
+      `).join("");
 
+  } catch (error) {
+
+    console.error(error);
+
+    list.innerHTML = `
+      <div class="opportunity">
+        <h3>Something went wrong</h3>
+        <p>
+          We couldn't connect to the opportunity search service.
+          Please try again.
+        </p>
       </div>
-
-    `).join("");
-
+    `;
+  }
 }
 
 
