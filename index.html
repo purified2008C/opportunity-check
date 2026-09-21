@@ -23,7 +23,7 @@
     }
 
     header {
-      background: #ffffff;
+      background: white;
       border-bottom: 1px solid #e5e7eb;
       position: sticky;
       top: 0;
@@ -35,33 +35,38 @@
       margin: auto;
       padding: 16px 20px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       gap: 15px;
     }
 
     .logo {
+      color: #2563eb;
       font-size: 22px;
       font-weight: 800;
-      color: #2563eb;
     }
 
     .nav-buttons {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       align-items: center;
     }
 
     button,
     .btn {
-      border: none;
-      border-radius: 8px;
       padding: 11px 17px;
-      cursor: pointer;
+      border-radius: 8px;
+      border: none;
+      font-size: 14px;
       font-weight: 600;
+      cursor: pointer;
       text-decoration: none;
       display: inline-block;
-      font-size: 14px;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
     .btn-primary {
@@ -89,15 +94,15 @@
     }
 
     .hero {
-      background: linear-gradient(135deg, #eff6ff, #ffffff);
-      padding: 75px 20px;
       text-align: center;
+      padding: 75px 20px;
+      background: linear-gradient(135deg, #eff6ff, white);
     }
 
     .hero h1 {
-      font-size: 44px;
-      max-width: 800px;
+      max-width: 850px;
       margin: auto;
+      font-size: 44px;
       line-height: 1.15;
     }
 
@@ -113,11 +118,11 @@
     }
 
     .hero-buttons {
-      margin-top: 25px;
       display: flex;
       justify-content: center;
       gap: 12px;
       flex-wrap: wrap;
+      margin-top: 25px;
     }
 
     .container {
@@ -126,16 +131,12 @@
       padding: 45px 20px;
     }
 
-    .section {
-      margin-bottom: 35px;
-    }
-
     .section h2 {
       font-size: 30px;
       margin-bottom: 10px;
     }
 
-    .section-intro {
+    .intro {
       color: #64748b;
       margin-bottom: 25px;
     }
@@ -148,9 +149,9 @@
 
     .card {
       background: white;
-      padding: 25px;
-      border-radius: 14px;
       border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 25px;
       box-shadow: 0 5px 20px rgba(0,0,0,0.04);
     }
 
@@ -168,11 +169,11 @@
 
     .auth-box {
       max-width: 450px;
-      margin: 50px auto;
+      margin: 20px auto;
       background: white;
-      padding: 30px;
-      border-radius: 15px;
       border: 1px solid #e5e7eb;
+      border-radius: 15px;
+      padding: 30px;
     }
 
     .auth-box h2 {
@@ -180,14 +181,14 @@
     }
 
     .input-group {
-      margin-bottom: 15px;
+      margin-bottom: 16px;
     }
 
     .input-group label {
       display: block;
       margin-bottom: 6px;
-      font-weight: 600;
       font-size: 14px;
+      font-weight: 600;
     }
 
     input,
@@ -197,9 +198,9 @@
       padding: 13px;
       border: 1px solid #cbd5e1;
       border-radius: 8px;
+      background: white;
       font-size: 15px;
       outline: none;
-      background: white;
     }
 
     input:focus,
@@ -208,10 +209,10 @@
       border-color: #2563eb;
     }
 
-    .auth-actions {
+    .actions {
       display: flex;
       gap: 10px;
-      margin-top: 15px;
+      flex-wrap: wrap;
     }
 
     .message {
@@ -225,9 +226,9 @@
 
     .search-box {
       background: white;
-      padding: 25px;
-      border-radius: 15px;
       border: 1px solid #e5e7eb;
+      border-radius: 15px;
+      padding: 25px;
       margin-bottom: 25px;
     }
 
@@ -252,8 +253,8 @@
     }
 
     .opportunity h3 {
-      font-size: 21px;
       margin-bottom: 10px;
+      font-size: 20px;
     }
 
     .opportunity p {
@@ -262,34 +263,28 @@
       white-space: pre-line;
     }
 
-    .opportunity-meta {
+    .meta {
       display: flex;
-      flex-wrap: wrap;
       gap: 8px;
+      flex-wrap: wrap;
       margin-bottom: 18px;
     }
 
     .tag {
+      padding: 5px 10px;
+      border-radius: 20px;
       background: #eff6ff;
       color: #1d4ed8;
-      border-radius: 20px;
-      padding: 5px 10px;
       font-size: 12px;
       font-weight: 600;
     }
 
-    .loading {
-      text-align: center;
-      padding: 25px;
-      color: #64748b;
-    }
-
     footer {
-      margin-top: 50px;
+      margin-top: 40px;
+      padding: 30px 20px;
       background: #111827;
       color: white;
       text-align: center;
-      padding: 30px 20px;
     }
 
     footer p {
@@ -324,26 +319,31 @@
     <div class="logo">OpportunityCheck</div>
 
     <div class="nav-buttons">
+
       <button
-        id="loginNavBtn"
+        id="loginButton"
         class="btn btn-outline"
-        onclick="showAuth('login')">
+        type="button"
+        onclick="showLogin()">
         Log In
       </button>
 
       <button
-        id="signupNavBtn"
+        id="signupButton"
         class="btn btn-primary"
-        onclick="showAuth('signup')">
+        type="button"
+        onclick="showSignup()">
         Sign Up
       </button>
 
       <button
-        id="logoutBtn"
+        id="logoutButton"
         class="btn btn-danger hidden"
+        type="button"
         onclick="logout()">
         Log Out
       </button>
+
     </div>
   </nav>
 </header>
@@ -351,7 +351,7 @@
 
 <!-- HOME -->
 
-<section class="hero" id="homeSection">
+<section id="homeSection" class="hero">
 
   <h1>
     Find Opportunities.
@@ -359,21 +359,23 @@
   </h1>
 
   <p>
-    Discover scholarships, jobs, internships, grants and other
-    opportunities while checking suspicious offers before you trust them.
+    Discover jobs, scholarships, internships, grants and other
+    opportunities while checking suspicious offers before trusting them.
   </p>
 
   <div class="hero-buttons">
 
     <button
       class="btn btn-primary"
-      onclick="openProtected('find')">
+      type="button"
+      onclick="openFind()">
       Find an Opportunity
     </button>
 
     <button
       class="btn btn-outline"
-      onclick="openProtected('check')">
+      type="button"
+      onclick="openCheck()">
       Check an Opportunity
     </button>
 
@@ -390,9 +392,9 @@
 
     <h2>What OpportunityCheck Does</h2>
 
-    <p class="section-intro">
-      A simple platform designed to help people discover opportunities
-      and make safer decisions before trusting them.
+    <p class="intro">
+      A simple platform for discovering opportunities and checking
+      suspicious offers before trusting them.
     </p>
 
     <div class="features">
@@ -400,21 +402,21 @@
       <div class="card">
         <h3>🔎 Find Opportunities</h3>
         <p>
-          Search for jobs and other opportunities from live opportunity sources.
+          Search live opportunities by keyword and location.
         </p>
       </div>
 
       <div class="card">
         <h3>🛡️ Check Opportunities</h3>
         <p>
-          Review suspicious links, messages, text or images before trusting them.
+          Submit opportunity information for checking.
         </p>
       </div>
 
       <div class="card">
         <h3>🏢 Organization Verification</h3>
         <p>
-          Submit information about an organization for verification.
+          Help users identify and verify organizations.
         </p>
       </div>
 
@@ -427,9 +429,7 @@
 
 <!-- AUTH -->
 
-<section
-  id="authSection"
-  class="container hidden">
+<section id="authSection" class="container hidden">
 
   <div class="auth-box">
 
@@ -440,8 +440,8 @@
       <label>Email</label>
 
       <input
+        id="emailInput"
         type="email"
-        id="authEmail"
         placeholder="Enter your email">
 
     </div>
@@ -451,45 +451,47 @@
       <label>Password</label>
 
       <input
+        id="passwordInput"
         type="password"
-        id="authPassword"
         placeholder="Enter your password">
 
     </div>
 
-    <div class="auth-actions">
+    <div class="actions">
 
       <button
+        id="authSubmit"
         class="btn btn-primary"
-        onclick="submitAuth()"
-        id="authSubmitBtn">
+        type="button"
+        onclick="submitAuth()">
         Log In
       </button>
 
       <button
         class="btn btn-outline"
+        type="button"
         onclick="showHome()">
         Cancel
       </button>
 
     </div>
 
-    <div
-      id="authMessage"
-      class="message hidden">
-    </div>
+    <div id="authMessage" class="message hidden"></div>
 
-    <p style="margin-top:18px;font-size:14px;color:#64748b;">
-      <span id="authSwitchText">
+    <p style="margin-top:18px;color:#64748b;font-size:14px;">
+
+      <span id="switchText">
         Don't have an account?
       </span>
 
       <button
-        id="authSwitchBtn"
+        id="switchButton"
+        type="button"
         onclick="switchAuthMode()"
-        style="background:none;border:none;color:#2563eb;padding:0;cursor:pointer;">
+        style="border:0;background:none;color:#2563eb;padding:0;cursor:pointer;">
         Sign Up
       </button>
+
     </p>
 
   </div>
@@ -497,18 +499,16 @@
 </section>
 
 
-<!-- FIND OPPORTUNITY -->
+<!-- FIND -->
 
-<section
-  id="findSection"
-  class="container hidden">
+<section id="findSection" class="container hidden">
 
   <div class="section">
 
     <h2>Find an Opportunity</h2>
 
-    <p class="section-intro">
-      Search live opportunities by keyword and country.
+    <p class="intro">
+      Search live opportunities from our connected opportunity source.
     </p>
 
     <div class="search-box">
@@ -547,6 +547,7 @@
 
         <button
           class="btn btn-primary"
+          type="button"
           onclick="searchOpportunities()">
           Search
         </button>
@@ -555,57 +556,52 @@
 
     </div>
 
-    <div
-      id="opportunityList"
-      class="opportunity-list">
-
-    </div>
+    <div id="opportunityList" class="opportunity-list"></div>
 
   </div>
 
 </section>
 
 
-<!-- CHECK OPPORTUNITY -->
+<!-- CHECK -->
 
-<section
-  id="checkSection"
-  class="container hidden">
+<section id="checkSection" class="container hidden">
 
   <div class="section">
 
     <h2>Check an Opportunity</h2>
 
-    <p class="section-intro">
-      Submit information about an opportunity you want to check.
+    <p class="intro">
+      Submit an opportunity link or message for checking.
     </p>
 
     <div class="card">
 
       <div class="input-group">
 
-        <label>Paste Opportunity Link</label>
+        <label>Opportunity Link</label>
 
         <input
           id="checkLink"
           type="url"
-          placeholder="https://example.com/opportunity">
+          placeholder="https://example.com">
 
       </div>
 
       <div class="input-group">
 
-        <label>Paste Opportunity Text</label>
+        <label>Opportunity Text</label>
 
         <textarea
           id="checkText"
           rows="6"
-          placeholder="Paste the message or opportunity details here..."></textarea>
+          placeholder="Paste the opportunity message here..."></textarea>
 
       </div>
 
       <button
         class="btn btn-primary"
+        type="button"
         onclick="checkOpportunity()">
         Check Opportunity
       </button>
@@ -626,100 +622,49 @@
 
   <strong>OpportunityCheck</strong>
 
-  <p>
-    Verify before you trust.
-  </p>
+  <p>Verify before you trust.</p>
 
 </footer>
 
 
 <script>
 
-  /* ================================
-     SUPABASE CONFIGURATION
-     ================================ */
+  /* =====================================
+     SUPABASE
+     ===================================== */
 
   const SUPABASE_URL =
-  "https://qyjqrwymguvovjzurllt.supabase.co";
+    "https://qyjqrwymguvovjzurllt.supabase.co";
 
-const SUPABASE_ANON_KEY =
-  "sb_publishable_24AQd7lyWO00umLldX2zXQ_6GdVt7QO";
+  const SUPABASE_ANON_KEY =
+    "sb_publishable_24AQd7lyWO00umLldX2zXQ_6GdVt7QOQ";
 
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-  );
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY
+    );
 
-  /* ================================
-     GLOBAL AUTH MODE
-     ================================ */
+
+  /* =====================================
+     AUTH MODE
+     ===================================== */
 
   let authMode = "login";
 
 
-  /* ================================
-     AUTH STATE
-     ================================ */
+  /* =====================================
+     PAGE FUNCTIONS
+     ===================================== */
 
-  async function checkAuth() {
-
-    const {
-      data: {
-        session
-      }
-    } = await supabaseClient.auth.getSession();
-
-    updateNavigation(session);
-  }
-
-
-  supabaseClient.auth.onAuthStateChange(
-    function(event, session) {
-
-      updateNavigation(session);
-
-    }
-  );
-
-
-  function updateNavigation(session) {
-
-    const loginBtn =
-      document.getElementById("loginNavBtn");
-
-    const signupBtn =
-      document.getElementById("signupNavBtn");
-
-    const logoutBtn =
-      document.getElementById("logoutBtn");
-
-    if (session) {
-
-      loginBtn.classList.add("hidden");
-      signupBtn.classList.add("hidden");
-      logoutBtn.classList.remove("hidden");
-
-    } else {
-
-      loginBtn.classList.remove("hidden");
-      signupBtn.classList.remove("hidden");
-      logoutBtn.classList.add("hidden");
-
-    }
-  }
-
-
-  /* ================================
-     AUTH SCREEN
-     ================================ */
-
-  function showAuth(mode) {
-
-    authMode = mode;
+  function hideAllSections() {
 
     document
       .getElementById("homeSection")
+      .classList.add("hidden");
+
+    document
+      .getElementById("authSection")
       .classList.add("hidden");
 
     document
@@ -729,6 +674,26 @@ const supabaseClient =
     document
       .getElementById("checkSection")
       .classList.add("hidden");
+  }
+
+
+  function showHome() {
+
+    hideAllSections();
+
+    document
+      .getElementById("homeSection")
+      .classList.remove("hidden");
+
+    window.scrollTo(0, 0);
+  }
+
+
+  function showLogin() {
+
+    authMode = "login";
+
+    hideAllSections();
 
     document
       .getElementById("authSection")
@@ -736,10 +701,35 @@ const supabaseClient =
 
     updateAuthScreen();
 
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
+    window.scrollTo(0, 0);
+  }
+
+
+  function showSignup() {
+
+    authMode = "signup";
+
+    hideAllSections();
+
+    document
+      .getElementById("authSection")
+      .classList.remove("hidden");
+
+    updateAuthScreen();
+
+    window.scrollTo(0, 0);
+  }
+
+
+  function switchAuthMode() {
+
+    if (authMode === "login") {
+      authMode = "signup";
+    } else {
+      authMode = "login";
+    }
+
+    updateAuthScreen();
   }
 
 
@@ -749,13 +739,13 @@ const supabaseClient =
       document.getElementById("authTitle");
 
     const submit =
-      document.getElementById("authSubmitBtn");
+      document.getElementById("authSubmit");
 
     const switchText =
-      document.getElementById("authSwitchText");
+      document.getElementById("switchText");
 
     const switchButton =
-      document.getElementById("authSwitchBtn");
+      document.getElementById("switchButton");
 
     if (authMode === "login") {
 
@@ -776,33 +766,21 @@ const supabaseClient =
   }
 
 
-  function switchAuthMode() {
-
-    if (authMode === "login") {
-      authMode = "signup";
-    } else {
-      authMode = "login";
-    }
-
-    updateAuthScreen();
-  }
-
-
-  /* ================================
-     LOGIN / SIGNUP
-     ================================ */
+  /* =====================================
+     AUTH
+     ===================================== */
 
   async function submitAuth() {
 
     const email =
       document
-        .getElementById("authEmail")
+        .getElementById("emailInput")
         .value
         .trim();
 
     const password =
       document
-        .getElementById("authPassword")
+        .getElementById("passwordInput")
         .value;
 
     const message =
@@ -810,14 +788,16 @@ const supabaseClient =
 
     if (!email || !password) {
 
-      showAuthMessage(
-        "Please enter your email and password."
-      );
+      message.textContent =
+        "Please enter your email and password.";
+
+      message.classList.remove("hidden");
 
       return;
     }
 
-    showAuthMessage("Please wait...");
+    message.textContent = "Please wait...";
+    message.classList.remove("hidden");
 
     try {
 
@@ -838,7 +818,6 @@ const supabaseClient =
             email: email,
             password: password
           });
-
       }
 
       if (result.error) {
@@ -847,15 +826,13 @@ const supabaseClient =
 
       if (authMode === "signup") {
 
-        showAuthMessage(
-          "Account created successfully. Check your email if confirmation is required."
-        );
+        message.textContent =
+          "Account created. Check your email if email confirmation is enabled.";
 
       } else {
 
-        showAuthMessage(
-          "Login successful."
-        );
+        message.textContent =
+          "Login successful.";
 
         setTimeout(function() {
           showHome();
@@ -866,21 +843,11 @@ const supabaseClient =
 
       console.error(error);
 
-      showAuthMessage(
+      message.textContent =
         error.message ||
-        "Authentication failed."
-      );
+        "Authentication failed.";
+
     }
-  }
-
-
-  function showAuthMessage(message) {
-
-    const element =
-      document.getElementById("authMessage");
-
-    element.textContent = message;
-    element.classList.remove("hidden");
   }
 
 
@@ -888,101 +855,125 @@ const supabaseClient =
 
     await supabaseClient.auth.signOut();
 
+    updateNavigation(null);
+
     showHome();
   }
 
 
-  /* ================================
-     HOME
-     ================================ */
+  async function getCurrentSession() {
 
-  function showHome() {
+    const result =
+      await supabaseClient.auth.getSession();
 
-    document
-      .getElementById("authSection")
-      .classList.add("hidden");
-
-    document
-      .getElementById("findSection")
-      .classList.add("hidden");
-
-    document
-      .getElementById("checkSection")
-      .classList.add("hidden");
-
-    document
-      .getElementById("homeSection")
-      .classList.remove("hidden");
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
+    return result.data.session;
   }
 
 
-  /* ================================
-     PROTECTED SECTIONS
-     ================================ */
+  function updateNavigation(session) {
 
-  async function openProtected(section) {
+    const login =
+      document.getElementById("loginButton");
 
-    const {
-      data: {
-        session
-      }
-    } = await supabaseClient.auth.getSession();
+    const signup =
+      document.getElementById("signupButton");
+
+    const logout =
+      document.getElementById("logoutButton");
+
+    if (session) {
+
+      login.classList.add("hidden");
+      signup.classList.add("hidden");
+      logout.classList.remove("hidden");
+
+    } else {
+
+      login.classList.remove("hidden");
+      signup.classList.remove("hidden");
+      logout.classList.add("hidden");
+    }
+  }
+
+
+  supabaseClient.auth.onAuthStateChange(
+    function(event, session) {
+
+      updateNavigation(session);
+
+    }
+  );
+
+
+  /* =====================================
+     PROTECTED PAGES
+     ===================================== */
+
+  async function openFind() {
+
+    const session =
+      await getCurrentSession();
 
     if (!session) {
 
-      showAuth("login");
+      showLogin();
 
-      showAuthMessage(
-        "Please log in or sign up to continue."
-      );
+      document
+        .getElementById("authMessage")
+        .textContent =
+        "Please log in or sign up before finding opportunities.";
+
+      document
+        .getElementById("authMessage")
+        .classList.remove("hidden");
 
       return;
     }
 
-    document
-      .getElementById("homeSection")
-      .classList.add("hidden");
+    hideAllSections();
 
     document
-      .getElementById("authSection")
-      .classList.add("hidden");
+      .getElementById("findSection")
+      .classList.remove("hidden");
 
-    if (section === "find") {
-
-      document
-        .getElementById("checkSection")
-        .classList.add("hidden");
-
-      document
-        .getElementById("findSection")
-        .classList.remove("hidden");
-
-    } else {
-
-      document
-        .getElementById("findSection")
-        .classList.add("hidden");
-
-      document
-        .getElementById("checkSection")
-        .classList.remove("hidden");
-    }
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
+    window.scrollTo(0, 0);
   }
 
 
-  /* ================================
-     LIVE OPPORTUNITY SEARCH
-     ================================ */
+  async function openCheck() {
+
+    const session =
+      await getCurrentSession();
+
+    if (!session) {
+
+      showLogin();
+
+      document
+        .getElementById("authMessage")
+        .textContent =
+        "Please log in or sign up before checking an opportunity.";
+
+      document
+        .getElementById("authMessage")
+        .classList.remove("hidden");
+
+      return;
+    }
+
+    hideAllSections();
+
+    document
+      .getElementById("checkSection")
+      .classList.remove("hidden");
+
+    window.scrollTo(0, 0);
+  }
+
+
+  /* =====================================
+     OPPORTUNITY SEARCH
+     ===================================== */
 
   async function searchOpportunities() {
 
@@ -1004,9 +995,7 @@ const supabaseClient =
     list.innerHTML = `
       <div class="opportunity">
         <h3>Searching...</h3>
-        <p>
-          Looking for opportunities in ${location}.
-        </p>
+        <p>Looking for opportunities in ${location}.</p>
       </div>
     `;
 
@@ -1023,12 +1012,12 @@ const supabaseClient =
           }
         );
 
-      const data = result.data;
-      const error = result.error;
-
-      if (error) {
-        throw error;
+      if (result.error) {
+        throw result.error;
       }
+
+      const data =
+        result.data;
 
       if (
         !data ||
@@ -1040,7 +1029,7 @@ const supabaseClient =
           <div class="opportunity">
             <h3>No opportunities found yet</h3>
             <p>
-              We couldn't find any matching opportunities.
+              We couldn't find matching opportunities.
               Try another keyword or location.
             </p>
           </div>
@@ -1051,136 +1040,132 @@ const supabaseClient =
 
 
       list.innerHTML =
-        data.opportunities.map(function(item) {
+        data.opportunities
+          .map(function(item) {
 
-          const title =
-            escapeHtml(
-              item.title ||
-              "Opportunity"
-            );
+            const title =
+              escapeHtml(
+                item.title ||
+                "Opportunity"
+              );
 
-          const description =
-            escapeHtml(
-              item.description &&
-              item.description.trim()
-                ? item.description
-                : "No description available."
-            );
+            const description =
+              escapeHtml(
+                item.description &&
+                item.description.trim()
+                  ? item.description
+                  : "No description available."
+              );
 
-          const category =
-            escapeHtml(
-              item.category ||
-              "Opportunity"
-            );
+            const company =
+              escapeHtml(
+                item.company ||
+                "Company not specified"
+              );
 
-          const locationText =
-            escapeHtml(
-              item.location ||
-              item.country ||
-              "Not specified"
-            );
+            const category =
+              escapeHtml(
+                item.category ||
+                "Opportunity"
+              );
 
-          const company =
-            escapeHtml(
-              item.company ||
-              "Company not specified"
-            );
+            const locationText =
+              escapeHtml(
+                item.location ||
+                item.country ||
+                "Not specified"
+              );
 
-          const posted =
-            escapeHtml(
-              formatDate(item.posted_at)
-            );
+            const posted =
+              formatDate(
+                item.posted_at
+              );
 
 
-          let detailsButton = "";
+            let details = "";
 
-          if (item.url) {
+            if (item.url) {
 
-            const safeUrl =
-              encodeURI(item.url);
+              details = `
+                <a
+                  class="btn btn-outline"
+                  href="${escapeAttribute(item.url)}"
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  See Details
+                </a>
+              `;
 
-            detailsButton = `
-              <a
-                href="${safeUrl}"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="btn btn-outline">
-                See Details
-              </a>
+            } else {
+
+              details = `
+                <button
+                  class="btn btn-outline"
+                  type="button"
+                  disabled>
+                  Details Unavailable
+                </button>
+              `;
+            }
+
+
+            return `
+              <div class="opportunity">
+
+                <h3>${title}</h3>
+
+                <p>${description}</p>
+
+                <p>
+                  <strong>Organization:</strong>
+                  ${company}
+                </p>
+
+                <div class="meta">
+
+                  <span class="tag">
+                    ${category}
+                  </span>
+
+                  <span class="tag">
+                    ${locationText}
+                  </span>
+
+                  ${
+                    posted
+                      ? `
+                        <span class="tag">
+                          Posted ${posted}
+                        </span>
+                      `
+                      : ""
+                  }
+
+                </div>
+
+                ${details}
+
+              </div>
             `;
 
-          } else {
-
-            detailsButton = `
-              <button
-                class="btn btn-outline"
-                disabled>
-                Details Unavailable
-              </button>
-            `;
-          }
-
-
-          return `
-            <div class="opportunity">
-
-              <h3>${title}</h3>
-
-              <p>
-                ${description}
-              </p>
-
-              <div
-                style="margin-bottom:12px;color:#475569;font-size:14px;">
-                <strong>Organization:</strong>
-                ${company}
-              </div>
-
-              <div
-                class="opportunity-meta">
-
-                <span class="tag">
-                  ${category}
-                </span>
-
-                <span class="tag">
-                  ${locationText}
-                </span>
-
-                ${
-                  posted
-                    ? `
-                      <span class="tag">
-                        Posted ${posted}
-                      </span>
-                    `
-                    : ""
-                }
-
-              </div>
-
-              ${detailsButton}
-
-            </div>
-          `;
-
-        }).join("");
+          })
+          .join("");
 
     } catch (error) {
 
       console.error(
-        "Opportunity search error:",
+        "Search error:",
         error
       );
 
       list.innerHTML = `
         <div class="opportunity">
 
-          <h3>Something went wrong</h3>
+          <h3>Search connection error</h3>
 
           <p>
             We couldn't connect to the opportunity
-            search service. Please try again.
+            service. Please try again.
           </p>
 
         </div>
@@ -1189,9 +1174,9 @@ const supabaseClient =
   }
 
 
-  /* ================================
+  /* =====================================
      CHECK OPPORTUNITY
-     ================================ */
+     ===================================== */
 
   function checkOpportunity() {
 
@@ -1213,7 +1198,7 @@ const supabaseClient =
     if (!link && !text) {
 
       result.textContent =
-        "Please paste a link or opportunity text to check.";
+        "Please enter a link or paste the opportunity text.";
 
       result.classList.remove("hidden");
 
@@ -1221,19 +1206,18 @@ const supabaseClient =
     }
 
     result.innerHTML = `
-      <strong>Check submitted.</strong><br><br>
-      This opportunity has been received for checking.
-      More verification checks will be connected here as
-      the verification system is developed.
+      <strong>Opportunity submitted.</strong><br><br>
+      The information has been received.
+      Verification checks can be connected to this section next.
     `;
 
     result.classList.remove("hidden");
   }
 
 
-  /* ================================
-     HELPERS
-     ================================ */
+  /* =====================================
+     SECURITY HELPERS
+     ===================================== */
 
   function escapeHtml(value) {
 
@@ -1243,6 +1227,16 @@ const supabaseClient =
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#039;");
+  }
+
+
+  function escapeAttribute(value) {
+
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/"/g, "&quot;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
   }
 
 
@@ -1270,13 +1264,34 @@ const supabaseClient =
   }
 
 
-  /* ================================
-     START APP
-     ================================ */
+  /* =====================================
+     START
+     ===================================== */
 
-  checkAuth();
+  checkAuthOnStart();
+
+
+  async function checkAuthOnStart() {
+
+    try {
+
+      const session =
+        await getCurrentSession();
+
+      updateNavigation(session);
+
+    } catch (error) {
+
+      console.error(
+        "Startup error:",
+        error
+      );
+
+      updateNavigation(null);
+    }
+  }
 
 </script>
 
 </body>
-          </html>
+        </html>
