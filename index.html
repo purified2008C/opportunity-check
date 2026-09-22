@@ -548,37 +548,32 @@ footer {
 
   <div class="cards">
 
-    <div class="card">
-    <div class="cards">
+    <button class="card" onclick="showPage('browse')">
+      <div class="card-icon">🔎</div>
+      <h3>Find Opportunities</h3>
+      <p>
+        Search for current jobs, scholarships, grants,
+        internships and many other opportunities.
+      </p>
+    </button>
 
-  <button class="card" onclick="showPage('browse')">
-    <div class="card-icon">🔎</div>
-    <h3>Find Opportunities</h3>
-    <p>
-      Search for current jobs, scholarships, grants,
-      internships and many other opportunities.
-    </p>
-  </button>
+    <button class="card" onclick="showPage('verify')">
+      <div class="card-icon">✓</div>
+      <h3>Verify Before You Trust</h3>
+      <p>
+        Check a suspicious opportunity using its link,
+        text or an uploaded image.
+      </p>
+    </button>
 
-  <button class="card" onclick="showPage('verify')">
-    <div class="card-icon">✓</div>
-    <h3>Verify Before You Trust</h3>
-    <p>
-      Check a suspicious opportunity using its link,
-      text or an uploaded image.
-    </p>
-  </button>
-
-  <button class="card" onclick="showPage('organizations')">
-    <div class="card-icon">🏢</div>
-    <h3>For Organizations</h3>
-    <p>
-      Organizations can request verification and build
-      trust with people discovering their opportunities.
-    </p>
-  </button>
-
-    </div>
+    <button class="card" onclick="showPage('organizations')">
+      <div class="card-icon">🏢</div>
+      <h3>For Organizations</h3>
+      <p>
+        Organizations can request verification and build
+        trust with people discovering their opportunities.
+      </p>
+    </button>
 
   </div>
 
@@ -618,7 +613,8 @@ footer {
           <option value="Programs">Programs</option>
           <option value="Awards">Awards</option>
           <option value="Volunteering">Volunteering</option>
-          <option value="Apprenticeships">Apprenticeships</option>         <option value="Short Courses">Short Courses</option>
+          <option value="Apprenticeships">Apprenticeships</option>
+          <option value="Short Courses">Short Courses</option>
           <option value="Youth Opportunities">Youth Opportunities</option>
         </select>
       </div>
@@ -1953,4 +1949,4 @@ supabaseClient.auth.onAuthStateChange(
 </script>
 
 </body>
-            </html>
+      </html>
