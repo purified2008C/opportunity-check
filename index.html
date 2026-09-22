@@ -924,6 +924,41 @@ const FUNCTION_NAME = "search-opportunities";
 
 function showPage(pageName) {
 
+  const protectedPages = [
+    "browse",
+    "verify",
+    "organizations",
+    "dashboard"
+  ];
+
+  if (protectedPages.includes(pageName)) {
+
+    supabaseClient.auth.getUser().then(({ data }) => {
+
+      if (!data.user) {
+
+        showToast(
+          "Please sign in to access this page."
+        );
+
+        showPage("auth");
+
+        return;
+      }
+
+      openPage(pageName);
+
+    });
+
+    return;
+  }
+
+  openPage(pageName);
+}
+
+
+function openPage(pageName) {
+
   document.querySelectorAll(".page")
     .forEach(page => {
       page.classList.remove("active");
@@ -953,6 +988,7 @@ function showToast(message) {
     document.getElementById("toast");
 
   toast.textContent = message;
+
   toast.style.display = "block";
 
   setTimeout(() => {
@@ -1087,7 +1123,6 @@ async function searchOpportunities() {
 // OPPORTUNITY CARD
 // =====================================================
 
-
 function opportunityCard(item) {
 
   const title =
@@ -1140,10 +1175,12 @@ function opportunityCard(item) {
   let deadlineText = "Deadline not provided";
 
   if (item.deadline) {
+
     const deadlineDate =
       new Date(item.deadline);
 
     if (!Number.isNaN(deadlineDate.getTime())) {
+
       deadlineText =
         deadlineDate.toLocaleDateString(
           "en-GB",
@@ -1153,9 +1190,12 @@ function opportunityCard(item) {
             year: "numeric"
           }
         );
+
     } else {
+
       deadlineText =
         escapeHTML(String(item.deadline));
+
     }
   }
 
@@ -1333,14 +1373,19 @@ async function saveOpportunity(item) {
     if (
       saveError.code === "23505"
     ) {
+
       showToast(
         "Already saved."
       );
+
     } else {
+
       console.error(saveError);
+
       showToast(
         "Could not save opportunity."
       );
+
     }
 
     return;
@@ -1442,7 +1487,11 @@ async function verifyOpportunity() {
         .value.trim();
 
     if (!evidence) {
-      showToast("Please enter the opportunity link.");
+
+      showToast(
+        "Please enter the opportunity link."
+      );
+
       return;
     }
 
@@ -1457,7 +1506,11 @@ async function verifyOpportunity() {
         .value.trim();
 
     if (!evidence) {
-      showToast("Please paste the opportunity text.");
+
+      showToast(
+        "Please paste the opportunity text."
+      );
+
       return;
     }
 
@@ -1472,7 +1525,11 @@ async function verifyOpportunity() {
         .files[0];
 
     if (!file) {
-      showToast("Please upload an image.");
+
+      showToast(
+        "Please upload an image."
+      );
+
       return;
     }
 
@@ -1949,4 +2006,4 @@ supabaseClient.auth.onAuthStateChange(
 </script>
 
 </body>
-      </html>
+  </html>
