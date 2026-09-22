@@ -1097,6 +1097,7 @@ async function searchOpportunities() {
 // OPPORTUNITY CARD
 // =====================================================
 
+
 function opportunityCard(item) {
 
   const title =
@@ -1114,12 +1115,6 @@ function opportunityCard(item) {
       "Organization not provided"
     );
 
-  const country =
-    escapeHTML(
-      item.country ||
-      "Worldwide"
-    );
-
   const category =
     escapeHTML(
       item.category ||
@@ -1134,6 +1129,48 @@ function opportunityCard(item) {
 
   const applicationURL =
     item.application_url || "";
+
+  // Actual location
+  let locationText = "";
+
+  if (item.location) {
+    locationText = item.location;
+  } else if (item.country) {
+    locationText = item.country;
+  } else if (item.remote) {
+    locationText = "Remote";
+  } else {
+    locationText = "Location not provided";
+  }
+
+  const location =
+    escapeHTML(locationText);
+
+  // Deadline
+  let deadlineText = "Deadline not provided";
+
+  if (item.deadline) {
+    const deadlineDate =
+      new Date(item.deadline);
+
+    if (!Number.isNaN(deadlineDate.getTime())) {
+      deadlineText =
+        deadlineDate.toLocaleDateString(
+          "en-GB",
+          {
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+          }
+        );
+    } else {
+      deadlineText =
+        escapeHTML(String(item.deadline));
+    }
+  }
+
+  const deadline =
+    escapeHTML(deadlineText);
 
 
   return `
@@ -1164,7 +1201,11 @@ function opportunityCard(item) {
         </span>
 
         <span>
-          🌍 ${country}
+          📍 ${location}
+        </span>
+
+        <span>
+          📅 Deadline: ${deadline}
         </span>
 
         <span>
