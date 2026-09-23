@@ -188,6 +188,7 @@ main {
   border-radius: 16px;
   padding: 24px;
   box-shadow: 0 5px 20px rgba(20, 40, 80, 0.04);
+  text-align: left;
 }
 
 .card-icon {
@@ -418,100 +419,6 @@ main {
   font-weight: 700;
 }
 
-/* SUBSCRIPTION */
-
-.subscription-intro {
-  text-align: center;
-  max-width: 700px;
-  margin: 20px auto 35px;
-}
-
-.subscription-intro h1 {
-  font-size: 38px;
-  margin-bottom: 12px;
-}
-
-.subscription-intro p {
-  color: #69758a;
-  line-height: 1.6;
-}
-
-.plans {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-  max-width: 1050px;
-  margin: auto;
-}
-
-.plan {
-  background: white;
-  border: 1px solid #dfe6f0;
-  border-radius: 18px;
-  padding: 28px;
-  box-shadow: 0 8px 25px rgba(20, 40, 80, 0.05);
-}
-
-.plan.featured {
-  border: 2px solid #125bd1;
-  transform: translateY(-4px);
-}
-
-.plan h3 {
-  font-size: 22px;
-  margin-bottom: 10px;
-}
-
-.plan-price {
-  font-size: 34px;
-  font-weight: 800;
-  color: #125bd1;
-  margin: 12px 0 5px;
-}
-
-.plan-price span {
-  font-size: 14px;
-  color: #69758a;
-  font-weight: normal;
-}
-
-.plan-description {
-  color: #69758a;
-  line-height: 1.5;
-  min-height: 48px;
-  margin-bottom: 18px;
-}
-
-.plan ul {
-  list-style: none;
-  margin: 20px 0;
-}
-
-.plan li {
-  margin-bottom: 12px;
-  color: #4f5c70;
-}
-
-.plan li::before {
-  content: "✓";
-  color: #125bd1;
-  font-weight: bold;
-  margin-right: 8px;
-}
-
-.plan button {
-  width: 100%;
-}
-
-.payment-note {
-  text-align: center;
-  margin: 25px auto;
-  max-width: 650px;
-  color: #69758a;
-  font-size: 13px;
-  line-height: 1.5;
-}
-
 .dashboard {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -531,6 +438,117 @@ main {
   color: #125bd1;
   margin-top: 8px;
 }
+
+
+/* =========================
+   SUBSCRIPTION
+========================= */
+
+.subscription-intro {
+  text-align: center;
+  max-width: 700px;
+  margin: 35px auto 30px;
+}
+
+.subscription-intro h1 {
+  font-size: 38px;
+  margin-bottom: 12px;
+}
+
+.subscription-intro p {
+  color: #69758a;
+  line-height: 1.6;
+}
+
+.plans {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.plan {
+  background: white;
+  border: 1px solid #e1e7ef;
+  border-radius: 18px;
+  padding: 26px;
+  box-shadow: 0 5px 20px rgba(20, 40, 80, 0.04);
+}
+
+.plan.featured {
+  border: 2px solid #125bd1;
+  position: relative;
+}
+
+.plan.featured::before {
+  content: "POPULAR";
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #125bd1;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.plan h3 {
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+
+.plan-price {
+  font-size: 32px;
+  font-weight: 800;
+  color: #125bd1;
+  margin-bottom: 12px;
+}
+
+.plan-price span {
+  font-size: 14px;
+  font-weight: 500;
+  color: #69758a;
+}
+
+.plan-description {
+  color: #69758a;
+  line-height: 1.5;
+  min-height: 48px;
+  margin-bottom: 18px;
+}
+
+.plan ul {
+  list-style: none;
+  margin-bottom: 22px;
+}
+
+.plan li {
+  padding: 7px 0;
+  color: #4f5d71;
+  font-size: 14px;
+}
+
+.plan li::before {
+  content: "✓";
+  color: #125bd1;
+  font-weight: 800;
+  margin-right: 8px;
+}
+
+.payment-note {
+  max-width: 760px;
+  margin: 25px auto 0;
+  text-align: center;
+  color: #69758a;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+
+/* =========================
+   TOAST
+========================= */
 
 .toast {
   position: fixed;
@@ -573,10 +591,6 @@ footer {
     grid-template-columns: 1fr;
   }
 
-  .plan.featured {
-    transform: none;
-  }
-
   .subscription-intro h1 {
     font-size: 30px;
   }
@@ -595,6 +609,7 @@ footer {
     </div>
 
     <div class="nav-links">
+
       <button onclick="showPage('home')">
         Home
       </button>
@@ -610,20 +625,20 @@ footer {
       <button onclick="showPage('organizations')">
         Organizations
       </button>
+
     </div>
 
-    <div class="nav-actions">
-
-      <button
-        class="btn btn-outline"
-        onclick="showPage('auth')">
-        Sign in
-      </button>
+    <!-- Only Get Started remains.
+         It is hidden automatically outside the public home page
+         and whenever the user is logged in. -->
+    <div
+      class="nav-actions"
+      id="navActions">
 
       <button
         class="btn btn-primary"
         onclick="showPage('auth')">
-        Get started
+        Get Started
       </button>
 
     </div>
@@ -634,7 +649,10 @@ footer {
 
 <main>
 
-<!-- HOME -->
+
+<!-- =====================================================
+     HOME
+===================================================== -->
 
 <section id="home" class="page active">
 
@@ -655,13 +673,13 @@ footer {
 
       <button
         class="btn btn-primary"
-        onclick="showPage('browse')">
+        onclick="requireLogin('browse')">
         Find Opportunities
       </button>
 
       <button
         class="btn btn-secondary"
-        onclick="showPage('verify')">
+        onclick="requireLogin('verify')">
         Verify an Opportunity
       </button>
 
@@ -687,7 +705,7 @@ footer {
 
     <button
       class="card"
-      onclick="showPage('browse')">
+      onclick="requireLogin('browse')">
 
       <div class="card-icon">
         🔎
@@ -707,7 +725,7 @@ footer {
 
     <button
       class="card"
-      onclick="showPage('verify')">
+      onclick="requireLogin('verify')">
 
       <div class="card-icon">
         ✓
@@ -727,7 +745,7 @@ footer {
 
     <button
       class="card"
-      onclick="showPage('organizations')">
+      onclick="requireLogin('organizations')">
 
       <div class="card-icon">
         🏢
@@ -749,7 +767,9 @@ footer {
 </section>
 
 
-<!-- BROWSE -->
+<!-- =====================================================
+     BROWSE
+===================================================== -->
 
 <section id="browse" class="page">
 
@@ -943,7 +963,9 @@ footer {
     class="results">
 
     <div class="empty">
+
       Enter what you're looking for and press Search.
+
     </div>
 
   </div>
@@ -951,7 +973,9 @@ footer {
 </section>
 
 
-<!-- VERIFY -->
+<!-- =====================================================
+     VERIFY
+===================================================== -->
 
 <section id="verify" class="page">
 
@@ -1041,8 +1065,7 @@ footer {
       <textarea
         id="verifyText"
         rows="7"
-        placeholder="Paste the opportunity details here...">
-      </textarea>
+        placeholder="Paste the opportunity details here..."></textarea>
 
     </div>
 
@@ -1084,7 +1107,9 @@ footer {
 </section>
 
 
-<!-- ORGANIZATIONS -->
+<!-- =====================================================
+     ORGANIZATIONS
+===================================================== -->
 
 <section id="organizations" class="page">
 
@@ -1160,8 +1185,7 @@ footer {
 
       <textarea
         id="orgDescription"
-        rows="5">
-      </textarea>
+        rows="5"></textarea>
 
     </div>
 
@@ -1180,18 +1204,20 @@ footer {
 </section>
 
 
-<!-- AUTH -->
+<!-- =====================================================
+     AUTH
+===================================================== -->
 
 <section id="auth" class="page">
 
   <div class="auth-box">
 
     <h2 id="authTitle">
-      Sign in
+      Login
     </h2>
 
     <p id="authDescription">
-      Sign in to save opportunities and manage your activity.
+      Login to continue to your OpportunityCheck account.
     </p>
 
 
@@ -1243,7 +1269,7 @@ footer {
       style="width:100%"
       onclick="handleAuth()">
 
-      Sign in
+      Login
 
     </button>
 
@@ -1269,7 +1295,9 @@ footer {
 </section>
 
 
-<!-- SUBSCRIPTION -->
+<!-- =====================================================
+     SUBSCRIPTION
+===================================================== -->
 
 <section id="subscription" class="page">
 
@@ -1300,13 +1328,14 @@ footer {
 
       <div class="plan-price">
         ₦1,500
-        <span>/month</span>
+        <span>
+          /month
+        </span>
       </div>
 
       <p class="plan-description">
         Essential tools for discovering and checking opportunities.
       </p>
-
 
       <ul>
 
@@ -1347,6 +1376,7 @@ footer {
 
       <button
         class="btn btn-outline"
+        style="width:100%"
         onclick="choosePlan('starter')">
 
         Choose Starter
@@ -1366,13 +1396,14 @@ footer {
 
       <div class="plan-price">
         ₦3,000
-        <span>/month</span>
+        <span>
+          /month
+        </span>
       </div>
 
       <p class="plan-description">
         More searches and checks for regular opportunity seekers.
       </p>
-
 
       <ul>
 
@@ -1413,6 +1444,7 @@ footer {
 
       <button
         class="btn btn-primary"
+        style="width:100%"
         onclick="choosePlan('plus')">
 
         Choose Plus
@@ -1432,13 +1464,14 @@ footer {
 
       <div class="plan-price">
         ₦5,000
-        <span>/month</span>
+        <span>
+          /month
+        </span>
       </div>
 
       <p class="plan-description">
         Higher limits for users who need more OpportunityCheck tools.
       </p>
-
 
       <ul>
 
@@ -1483,6 +1516,7 @@ footer {
 
       <button
         class="btn btn-outline"
+        style="width:100%"
         onclick="choosePlan('pro')">
 
         Choose Pro
@@ -1504,7 +1538,9 @@ footer {
 </section>
 
 
-<!-- DASHBOARD -->
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
 
 <section id="dashboard" class="page">
 
@@ -1587,6 +1623,7 @@ footer {
 
 <script>
 
+
 // =====================================================
 // SUPABASE CONFIGURATION
 // =====================================================
@@ -1615,6 +1652,8 @@ const FUNCTION_NAME =
 // =====================================================
 // PAYSTACK PLAN CODES
 // =====================================================
+// These are only Paystack plan codes.
+// The secret Paystack key must NOT be placed here.
 
 const PAYSTACK_PLANS = {
 
@@ -1631,17 +1670,73 @@ const PAYSTACK_PLANS = {
 
 
 // =====================================================
+// HEADER
+// =====================================================
+
+async function updateHeader(pageName = null) {
+
+  const navActions =
+    document.getElementById("navActions");
+
+  if (!navActions) return;
+
+
+  const {
+    data: {
+      user
+    }
+  } =
+    await supabaseClient.auth.getUser();
+
+
+  /*
+    Logged-in users should not see Get Started.
+
+    Logged-out users only see Get Started
+    on the public Home page.
+
+    This means the Login page will not show
+    another Get Started button either.
+  */
+
+  if (user) {
+
+    navActions.style.display =
+      "none";
+
+    return;
+  }
+
+
+  if (pageName === "home") {
+
+    navActions.style.display =
+      "flex";
+
+  } else {
+
+    navActions.style.display =
+      "none";
+
+  }
+
+}
+
+
+// =====================================================
 // PAGE NAVIGATION
 // =====================================================
 
 function showPage(pageName) {
 
   const protectedPages = [
+
     "browse",
     "verify",
     "organizations",
     "dashboard",
     "subscription"
+
   ];
 
 
@@ -1655,16 +1750,20 @@ function showPage(pageName) {
         if (!data.user) {
 
           showToast(
-            "Please sign in to continue."
+            "Please login to continue."
           );
 
           openPage("auth");
+
+          updateHeader("auth");
 
           return;
         }
 
 
         openPage(pageName);
+
+        updateHeader(pageName);
 
       });
 
@@ -1673,8 +1772,53 @@ function showPage(pageName) {
 
 
   openPage(pageName);
+
+  updateHeader(pageName);
+
 }
 
+
+// =====================================================
+// REQUIRE LOGIN
+// =====================================================
+// This is used by the Home buttons.
+// A visitor cannot jump directly into
+// the protected service.
+
+async function requireLogin(pageName) {
+
+  const {
+    data: {
+      user
+    }
+  } =
+    await supabaseClient.auth.getUser();
+
+
+  if (!user) {
+
+    showToast(
+      "Please login to continue."
+    );
+
+    openPage("auth");
+
+    updateHeader("auth");
+
+    return;
+  }
+
+
+  openPage(pageName);
+
+  updateHeader(pageName);
+
+}
+
+
+// =====================================================
+// OPEN PAGE
+// =====================================================
 
 function openPage(pageName) {
 
@@ -1699,8 +1843,10 @@ function openPage(pageName) {
 
 
   window.scrollTo({
+
     top: 0,
     behavior: "smooth"
+
   });
 
 }
@@ -1751,10 +1897,12 @@ async function searchOpportunities() {
   if (!user) {
 
     showToast(
-      "Please sign in to search opportunities."
+      "Please login to search opportunities."
     );
 
     openPage("auth");
+
+    updateHeader("auth");
 
     return;
   }
@@ -1763,7 +1911,8 @@ async function searchOpportunities() {
   const query =
     document
       .getElementById("searchQuery")
-      .value.trim();
+      .value
+      .trim();
 
 
   const category =
@@ -1801,16 +1950,23 @@ async function searchOpportunities() {
   try {
 
     const response =
-      await supabaseClient.functions.invoke(
-        FUNCTION_NAME,
-        {
-          body: {
-            query: query,
-            category: category,
-            country: country
+      await supabaseClient
+        .functions
+        .invoke(
+          FUNCTION_NAME,
+          {
+            body: {
+              query:
+                query,
+
+              category:
+                category,
+
+              country:
+                country
+            }
           }
-        }
-      );
+        );
 
 
     if (response.error) {
@@ -1838,7 +1994,9 @@ async function searchOpportunities() {
 
 
     const opportunities =
-      Array.isArray(data.opportunities)
+      Array.isArray(
+        data.opportunities
+      )
         ? data.opportunities
         : [];
 
@@ -1866,8 +2024,8 @@ async function searchOpportunities() {
           <br>
 
           <p>
-            Try a different search term,
-            category, or location.
+            Try a different search term, category,
+            or location.
           </p>
 
         </div>
@@ -1875,7 +2033,6 @@ async function searchOpportunities() {
       `;
 
       return;
-
     }
 
 
@@ -2018,20 +2175,28 @@ function opportunityCard(item) {
     ) {
 
       deadlineText =
-        deadlineDate.toLocaleDateString(
-          "en-GB",
-          {
-            day: "numeric",
-            month: "long",
-            year: "numeric"
-          }
-        );
+        deadlineDate
+          .toLocaleDateString(
+            "en-GB",
+            {
+              day:
+                "numeric",
+
+              month:
+                "long",
+
+              year:
+                "numeric"
+            }
+          );
 
     } else {
 
       deadlineText =
         escapeHTML(
-          String(item.deadline)
+          String(
+            item.deadline
+          )
         );
 
     }
@@ -2097,6 +2262,7 @@ function opportunityCard(item) {
         ${
           applicationURL
             ? `
+
               <a
                 href="${escapeAttribute(
                   applicationURL
@@ -2109,6 +2275,7 @@ function opportunityCard(item) {
                 View / Apply
 
               </a>
+
             `
             : ""
         }
@@ -2144,23 +2311,28 @@ async function saveOpportunity(item) {
       user
     }
   } =
-    await supabaseClient.auth.getUser();
+    await supabaseClient
+      .auth
+      .getUser();
 
 
   if (!user) {
 
     showToast(
-      "Please sign in to save opportunities."
+      "Please login to save opportunities."
     );
 
     openPage("auth");
 
-    return;
+    updateHeader("auth");
 
+    return;
   }
 
 
-  const { error } =
+  const {
+    error
+  } =
     await supabaseClient
       .from("opportunities")
       .upsert({
@@ -2214,10 +2386,7 @@ async function saveOpportunity(item) {
 
   if (error) {
 
-    console.error(
-      error
-    );
-
+    console.error(error);
 
     showToast(
       "Unable to save this opportunity."
@@ -2297,7 +2466,6 @@ async function saveOpportunity(item) {
     }
 
     return;
-
   }
 
 
@@ -2323,7 +2491,9 @@ function selectMethod(method) {
 
 
   document
-    .getElementById("linkInput")
+    .getElementById(
+      "linkInput"
+    )
     .style.display =
       method === "link"
         ? "block"
@@ -2331,7 +2501,9 @@ function selectMethod(method) {
 
 
   document
-    .getElementById("textInput")
+    .getElementById(
+      "textInput"
+    )
     .style.display =
       method === "text"
         ? "block"
@@ -2339,7 +2511,9 @@ function selectMethod(method) {
 
 
   document
-    .getElementById("imageInput")
+    .getElementById(
+      "imageInput"
+    )
     .style.display =
       method === "image"
         ? "block"
@@ -2352,20 +2526,19 @@ function selectMethod(method) {
     )
     .forEach(button => {
 
-      button.classList.remove(
-        "active"
-      );
+      button.classList
+        .remove("active");
 
     });
 
 
   document
     .getElementById(
-      method + "Method"
+      method +
+      "Method"
     )
-    .classList.add(
-      "active"
-    );
+    .classList
+    .add("active");
 
 }
 
@@ -2381,19 +2554,22 @@ async function verifyOpportunity() {
       user
     }
   } =
-    await supabaseClient.auth.getUser();
+    await supabaseClient
+      .auth
+      .getUser();
 
 
   if (!user) {
 
     showToast(
-      "Please sign in before submitting a verification request."
+      "Please login before submitting a verification request."
     );
 
     openPage("auth");
 
-    return;
+    updateHeader("auth");
 
+    return;
   }
 
 
@@ -2504,7 +2680,6 @@ async function verifyOpportunity() {
         upload.error
       );
 
-
       showToast(
         "Image upload failed."
       );
@@ -2526,7 +2701,9 @@ async function verifyOpportunity() {
 
 
     imageURL =
-      publicURL.data.publicUrl;
+      publicURL
+        .data
+        .publicUrl;
 
 
     evidence =
@@ -2535,7 +2712,9 @@ async function verifyOpportunity() {
   }
 
 
-  const { error } =
+  const {
+    error
+  } =
     await supabaseClient
       .from(
         "verification_requests"
@@ -2565,7 +2744,6 @@ async function verifyOpportunity() {
     console.error(
       error
     );
-
 
     showToast(
       "Could not submit verification request."
@@ -2614,16 +2792,20 @@ async function submitOrganization() {
       user
     }
   } =
-    await supabaseClient.auth.getUser();
+    await supabaseClient
+      .auth
+      .getUser();
 
 
   if (!user) {
 
     showToast(
-      "Please sign in first."
+      "Please login first."
     );
 
     openPage("auth");
+
+    updateHeader("auth");
 
     return;
 
@@ -2677,7 +2859,9 @@ async function submitOrganization() {
   }
 
 
-  const { error } =
+  const {
+    error
+  } =
     await supabaseClient
       .from(
         "organization_requests"
@@ -2710,7 +2894,6 @@ async function submitOrganization() {
     console.error(
       error
     );
-
 
     showToast(
       "Could not submit organization request."
@@ -2781,7 +2964,7 @@ function toggleAuth() {
     .textContent =
       isSignUp
         ? "Create your account"
-        : "Sign in";
+        : "Login";
 
 
   document
@@ -2791,7 +2974,7 @@ function toggleAuth() {
     .textContent =
       isSignUp
         ? "Create an account to continue to your OpportunityCheck plan."
-        : "Sign in to continue to your OpportunityCheck plan.";
+        : "Login to continue to your OpportunityCheck account.";
 
 
   document
@@ -2811,7 +2994,7 @@ function toggleAuth() {
     .textContent =
       isSignUp
         ? "Create account"
-        : "Sign in";
+        : "Login";
 
 
   document
@@ -2830,14 +3013,14 @@ function toggleAuth() {
     )
     .textContent =
       isSignUp
-        ? "Sign in"
+        ? "Login"
         : "Create account";
 
 }
 
 
 // =====================================================
-// AUTHENTICATION
+// HANDLE AUTH
 // =====================================================
 
 async function handleAuth() {
@@ -2934,11 +3117,13 @@ async function handleAuth() {
 
 
     /*
-      If email confirmation is disabled,
-      Supabase may sign the user in immediately.
+      After account creation, send the user
+      to the subscription page if Supabase
+      has created an active session.
 
       If email confirmation is required,
-      the user must confirm their email first.
+      Supabase will ask the user to confirm
+      their email first.
     */
 
     const {
@@ -2946,7 +3131,9 @@ async function handleAuth() {
         user
       }
     } =
-      await supabaseClient.auth.getUser();
+      await supabaseClient
+        .auth
+        .getUser();
 
 
     if (user) {
@@ -2959,13 +3146,17 @@ async function handleAuth() {
         "subscription"
       );
 
+      updateHeader(
+        "subscription"
+      );
+
       return;
 
     }
 
 
     showToast(
-      "Account created. Check your email to confirm your account."
+      "Account created. Check your email if confirmation is required."
     );
 
 
@@ -2974,6 +3165,7 @@ async function handleAuth() {
 
 
     toggleAuth();
+
 
     return;
 
@@ -3008,7 +3200,7 @@ async function handleAuth() {
 
 
   showToast(
-    "Signed in successfully. Choose your plan."
+    "Login successful. Choose your plan."
   );
 
 
@@ -3016,17 +3208,23 @@ async function handleAuth() {
 
 
   /*
-    For now every successful sign-in
-    goes to the plan-selection page.
+    For now, every successful login goes
+    to the subscription page.
 
-    Later, after the subscription table
-    and Paystack webhook are connected,
-    this will automatically send
-    already-subscribed users directly
-    to the dashboard.
+    Later, when the check-subscription
+    Edge Function is connected, this will
+    become:
+
+    active subscriber → Dashboard
+    new/unpaid user → Subscription
   */
 
   openPage(
+    "subscription"
+  );
+
+
+  updateHeader(
     "subscription"
   );
 
@@ -3034,7 +3232,7 @@ async function handleAuth() {
 
 
 // =====================================================
-// CHOOSE PLAN
+// PLAN SELECTION
 // =====================================================
 
 async function choosePlan(plan) {
@@ -3044,16 +3242,22 @@ async function choosePlan(plan) {
       user
     }
   } =
-    await supabaseClient.auth.getUser();
+    await supabaseClient
+      .auth
+      .getUser();
 
 
   if (!user) {
 
     showToast(
-      "Please sign in first."
+      "Please login first."
     );
 
     openPage(
+      "auth"
+    );
+
+    updateHeader(
       "auth"
     );
 
@@ -3080,37 +3284,25 @@ async function choosePlan(plan) {
 
 
   /*
-    PAYMENT CONNECTION COMES NEXT.
+    Paystack checkout will be connected
+    here through the secure Supabase
+    create-checkout Edge Function.
 
-    We do NOT put the Paystack secret key
-    in this HTML file.
-
-    The secure payment flow will be:
-
-    HTML
-      ↓
-    Supabase create-checkout Edge Function
-      ↓
-    Paystack
-      ↓
-    Paystack payment
-      ↓
-    Supabase webhook
-      ↓
-    Subscription becomes active
-      ↓
-    Dashboard
+    We are intentionally not putting
+    your Paystack secret key in this
+    frontend code.
   */
-
 
   showToast(
     "Plan selected. Paystack checkout will be connected next."
   );
 
+
   console.log(
     "Selected plan:",
     plan
   );
+
 
   console.log(
     "Paystack plan code:",
@@ -3140,6 +3332,11 @@ async function signOut() {
     "home"
   );
 
+
+  updateHeader(
+    "home"
+  );
+
 }
 
 
@@ -3154,7 +3351,9 @@ async function loadDashboard() {
       user
     }
   } =
-    await supabaseClient.auth.getUser();
+    await supabaseClient
+      .auth
+      .getUser();
 
 
   if (!user) return;
@@ -3303,20 +3502,44 @@ function escapeAttribute(value) {
 // AUTH STATE
 // =====================================================
 
-supabaseClient.auth.onAuthStateChange(
-  async (event, session) => {
+supabaseClient
+  .auth
+  .onAuthStateChange(
+    async (event, session) => {
 
-    if (
-      event === "SIGNED_IN" &&
-      session
-    ) {
+      if (
+        event ===
+        "SIGNED_IN" &&
+        session
+      ) {
 
-      await loadDashboard();
+        await loadDashboard();
+
+        updateHeader();
+
+      }
+
+
+      if (
+        event ===
+        "SIGNED_OUT"
+      ) {
+
+        updateHeader(
+          "home"
+        );
+
+      }
 
     }
+  );
 
-  }
-);
+
+// =====================================================
+// INITIAL HEADER STATE
+// =====================================================
+
+updateHeader("home");
 
 </script>
 
