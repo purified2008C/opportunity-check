@@ -418,6 +418,100 @@ main {
   font-weight: 700;
 }
 
+/* SUBSCRIPTION */
+
+.subscription-intro {
+  text-align: center;
+  max-width: 700px;
+  margin: 20px auto 35px;
+}
+
+.subscription-intro h1 {
+  font-size: 38px;
+  margin-bottom: 12px;
+}
+
+.subscription-intro p {
+  color: #69758a;
+  line-height: 1.6;
+}
+
+.plans {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  max-width: 1050px;
+  margin: auto;
+}
+
+.plan {
+  background: white;
+  border: 1px solid #dfe6f0;
+  border-radius: 18px;
+  padding: 28px;
+  box-shadow: 0 8px 25px rgba(20, 40, 80, 0.05);
+}
+
+.plan.featured {
+  border: 2px solid #125bd1;
+  transform: translateY(-4px);
+}
+
+.plan h3 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.plan-price {
+  font-size: 34px;
+  font-weight: 800;
+  color: #125bd1;
+  margin: 12px 0 5px;
+}
+
+.plan-price span {
+  font-size: 14px;
+  color: #69758a;
+  font-weight: normal;
+}
+
+.plan-description {
+  color: #69758a;
+  line-height: 1.5;
+  min-height: 48px;
+  margin-bottom: 18px;
+}
+
+.plan ul {
+  list-style: none;
+  margin: 20px 0;
+}
+
+.plan li {
+  margin-bottom: 12px;
+  color: #4f5c70;
+}
+
+.plan li::before {
+  content: "✓";
+  color: #125bd1;
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.plan button {
+  width: 100%;
+}
+
+.payment-note {
+  text-align: center;
+  margin: 25px auto;
+  max-width: 650px;
+  color: #69758a;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
 .dashboard {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -458,6 +552,7 @@ footer {
 }
 
 @media (max-width: 850px) {
+
   .nav-links {
     display: none;
   }
@@ -472,6 +567,18 @@ footer {
 
   .dashboard {
     grid-template-columns: 1fr;
+  }
+
+  .plans {
+    grid-template-columns: 1fr;
+  }
+
+  .plan.featured {
+    transform: none;
+  }
+
+  .subscription-intro h1 {
+    font-size: 30px;
   }
 }
 </style>
@@ -488,20 +595,37 @@ footer {
     </div>
 
     <div class="nav-links">
-      <button onclick="showPage('home')">Home</button>
-      <button onclick="showPage('browse')">Find Opportunities</button>
-      <button onclick="showPage('verify')">Verify</button>
-      <button onclick="showPage('organizations')">Organizations</button>
+      <button onclick="showPage('home')">
+        Home
+      </button>
+
+      <button onclick="showPage('browse')">
+        Find Opportunities
+      </button>
+
+      <button onclick="showPage('verify')">
+        Verify
+      </button>
+
+      <button onclick="showPage('organizations')">
+        Organizations
+      </button>
     </div>
 
     <div class="nav-actions">
-      <button class="btn btn-outline" onclick="showPage('auth')">
+
+      <button
+        class="btn btn-outline"
+        onclick="showPage('auth')">
         Sign in
       </button>
 
-      <button class="btn btn-primary" onclick="showPage('auth')">
+      <button
+        class="btn btn-primary"
+        onclick="showPage('auth')">
         Get started
       </button>
+
     </div>
 
   </div>
@@ -511,6 +635,7 @@ footer {
 <main>
 
 <!-- HOME -->
+
 <section id="home" class="page active">
 
   <div class="hero">
@@ -527,52 +652,96 @@ footer {
     </p>
 
     <div class="hero-actions">
-      <button class="btn btn-primary"
+
+      <button
+        class="btn btn-primary"
         onclick="showPage('browse')">
         Find Opportunities
       </button>
 
-      <button class="btn btn-secondary"
+      <button
+        class="btn btn-secondary"
         onclick="showPage('verify')">
         Verify an Opportunity
       </button>
+
     </div>
 
   </div>
 
 
   <div class="section-title">
-    <h2>What OpportunityCheck offers</h2>
-    <p>Discover opportunities and check them before you trust them.</p>
+
+    <h2>
+      What OpportunityCheck offers
+    </h2>
+
+    <p>
+      Discover opportunities and check them before you trust them.
+    </p>
+
   </div>
+
 
   <div class="cards">
 
-    <button class="card" onclick="showPage('browse')">
-      <div class="card-icon">🔎</div>
-      <h3>Find Opportunities</h3>
+    <button
+      class="card"
+      onclick="showPage('browse')">
+
+      <div class="card-icon">
+        🔎
+      </div>
+
+      <h3>
+        Find Opportunities
+      </h3>
+
       <p>
         Search for current jobs, scholarships, grants,
         internships and many other opportunities.
       </p>
+
     </button>
 
-    <button class="card" onclick="showPage('verify')">
-      <div class="card-icon">✓</div>
-      <h3>Verify Before You Trust</h3>
+
+    <button
+      class="card"
+      onclick="showPage('verify')">
+
+      <div class="card-icon">
+        ✓
+      </div>
+
+      <h3>
+        Verify Before You Trust
+      </h3>
+
       <p>
         Check a suspicious opportunity using its link,
         text or an uploaded image.
       </p>
+
     </button>
 
-    <button class="card" onclick="showPage('organizations')">
-      <div class="card-icon">🏢</div>
-      <h3>For Organizations</h3>
+
+    <button
+      class="card"
+      onclick="showPage('organizations')">
+
+      <div class="card-icon">
+        🏢
+      </div>
+
+      <h3>
+        For Organizations
+      </h3>
+
       <p>
         Organizations can request verification and build
         trust with people discovering their opportunities.
       </p>
+
     </button>
 
   </div>
@@ -581,73 +750,173 @@ footer {
 
 
 <!-- BROWSE -->
+
 <section id="browse" class="page">
 
   <div class="section-title">
-    <h2>Find Opportunities</h2>
-    <p>Search current opportunities from available sources.</p>
+
+    <h2>
+      Find Opportunities
+    </h2>
+
+    <p>
+      Search current opportunities from available sources.
+    </p>
+
   </div>
+
 
   <div class="search-box">
 
     <div class="search-grid">
 
       <div class="field">
-        <label>What are you looking for?</label>
+
+        <label>
+          What are you looking for?
+        </label>
+
         <input
           id="searchQuery"
           type="text"
           placeholder="e.g. software engineering, scholarship, internship">
+
       </div>
 
+
       <div class="field">
-        <label>Category</label>
+
+        <label>
+          Category
+        </label>
 
         <select id="category">
-          <option value="Jobs">Jobs</option>
-          <option value="Scholarships">Scholarships</option>
-          <option value="Internships">Internships</option>
-          <option value="Grants">Grants</option>
-          <option value="Competitions">Competitions</option>
-          <option value="Training">Training</option>
-          <option value="Programs">Programs</option>
-          <option value="Awards">Awards</option>
-          <option value="Volunteering">Volunteering</option>
-          <option value="Apprenticeships">Apprenticeships</option>
-          <option value="Short Courses">Short Courses</option>
-          <option value="Youth Opportunities">Youth Opportunities</option>
+
+          <option value="Jobs">
+            Jobs
+          </option>
+
+          <option value="Scholarships">
+            Scholarships
+          </option>
+
+          <option value="Internships">
+            Internships
+          </option>
+
+          <option value="Grants">
+            Grants
+          </option>
+
+          <option value="Competitions">
+            Competitions
+          </option>
+
+          <option value="Training">
+            Training
+          </option>
+
+          <option value="Programs">
+            Programs
+          </option>
+
+          <option value="Awards">
+            Awards
+          </option>
+
+          <option value="Volunteering">
+            Volunteering
+          </option>
+
+          <option value="Apprenticeships">
+            Apprenticeships
+          </option>
+
+          <option value="Short Courses">
+            Short Courses
+          </option>
+
+          <option value="Youth Opportunities">
+            Youth Opportunities
+          </option>
+
         </select>
+
       </div>
 
 
       <div class="field">
-        <label>Location</label>
+
+        <label>
+          Location
+        </label>
 
         <select id="country">
-          <option value="">Worldwide</option>
-          <option value="Nigeria">Nigeria</option>
-          <option value="Kenya">Kenya</option>
-          <option value="Ghana">Ghana</option>
-          <option value="South Africa">South Africa</option>
-          <option value="United States">United States</option>
-          <option value="United Kingdom">United Kingdom</option>
-          <option value="Canada">Canada</option>
-          <option value="Australia">Australia</option>
-          <option value="Germany">Germany</option>
-          <option value="France">France</option>
+
+          <option value="">
+            Worldwide
+          </option>
+
+          <option value="Nigeria">
+            Nigeria
+          </option>
+
+          <option value="Kenya">
+            Kenya
+          </option>
+
+          <option value="Ghana">
+            Ghana
+          </option>
+
+          <option value="South Africa">
+            South Africa
+          </option>
+
+          <option value="United States">
+            United States
+          </option>
+
+          <option value="United Kingdom">
+            United Kingdom
+          </option>
+
+          <option value="Canada">
+            Canada
+          </option>
+
+          <option value="Australia">
+            Australia
+          </option>
+
+          <option value="Germany">
+            Germany
+          </option>
+
+          <option value="France">
+            France
+          </option>
+
         </select>
+
       </div>
 
 
       <div class="field">
-        <label>&nbsp;</label>
+
+        <label>
+          &nbsp;
+        </label>
 
         <button
           class="btn btn-primary"
           style="width:100%;height:46px"
           onclick="searchOpportunities()">
+
           Search
+
         </button>
+
       </div>
 
     </div>
@@ -656,11 +925,22 @@ footer {
 
 
   <div class="results-header">
-    <h2>Results</h2>
-    <span id="resultsCount" class="results-count"></span>
+
+    <h2>
+      Results
+    </h2>
+
+    <span
+      id="resultsCount"
+      class="results-count">
+    </span>
+
   </div>
 
-  <div id="results" class="results">
+
+  <div
+    id="results"
+    class="results">
 
     <div class="empty">
       Enter what you're looking for and press Search.
@@ -672,17 +952,32 @@ footer {
 
 
 <!-- VERIFY -->
+
 <section id="verify" class="page">
 
   <div class="section-title">
-    <h2>Verify an Opportunity</h2>
-    <p>Check an opportunity before giving it your information or money.</p>
+
+    <h2>
+      Verify an Opportunity
+    </h2>
+
+    <p>
+      Check an opportunity before giving it your information or money.
+    </p>
+
   </div>
+
 
   <div class="form-card">
 
-    <h2>What do you have?</h2>
-    <p>Choose one verification method.</p>
+    <h2>
+      What do you have?
+    </h2>
+
+    <p>
+      Choose one verification method.
+    </p>
+
 
     <div class="method-buttons">
 
@@ -690,50 +985,82 @@ footer {
         id="linkMethod"
         class="btn btn-outline active"
         onclick="selectMethod('link')">
+
         Paste Link
+
       </button>
+
 
       <button
         id="textMethod"
         class="btn btn-outline"
         onclick="selectMethod('text')">
+
         Paste Text
+
       </button>
+
 
       <button
         id="imageMethod"
         class="btn btn-outline"
         onclick="selectMethod('image')">
+
         Upload Image
+
       </button>
 
     </div>
 
 
-    <div id="linkInput" class="form-group">
-      <label>Opportunity link</label>
+    <div
+      id="linkInput"
+      class="form-group">
+
+      <label>
+        Opportunity link
+      </label>
+
       <input
         id="verifyLink"
         type="url"
         placeholder="https://example.com/opportunity">
+
     </div>
 
 
-    <div id="textInput" class="form-group" style="display:none">
-      <label>Opportunity text</label>
+    <div
+      id="textInput"
+      class="form-group"
+      style="display:none">
+
+      <label>
+        Opportunity text
+      </label>
+
       <textarea
         id="verifyText"
         rows="7"
-        placeholder="Paste the opportunity details here..."></textarea>
+        placeholder="Paste the opportunity details here...">
+      </textarea>
+
     </div>
 
 
-    <div id="imageInput" class="form-group" style="display:none">
-      <label>Opportunity image</label>
+    <div
+      id="imageInput"
+      class="form-group"
+      style="display:none">
+
+      <label>
+        Opportunity image
+      </label>
+
       <input
         id="verifyImage"
         type="file"
         accept="image/*">
+
     </div>
 
 
@@ -741,10 +1068,16 @@ footer {
       class="btn btn-primary"
       style="width:100%"
       onclick="verifyOpportunity()">
+
       Check Opportunity
+
     </button>
 
-    <div id="verifyResult" class="verify-result"></div>
+
+    <div
+      id="verifyResult"
+      class="verify-result">
+    </div>
 
   </div>
 
@@ -752,47 +1085,94 @@ footer {
 
 
 <!-- ORGANIZATIONS -->
+
 <section id="organizations" class="page">
 
   <div class="section-title">
-    <h2>For Organizations</h2>
-    <p>Request verification and build trust around your opportunities.</p>
+
+    <h2>
+      For Organizations
+    </h2>
+
+    <p>
+      Request verification and build trust around your opportunities.
+    </p>
+
   </div>
+
 
   <div class="form-card">
 
-    <h2>Request Organization Verification</h2>
+    <h2>
+      Request Organization Verification
+    </h2>
 
     <p>
       Submit your organization details for review.
     </p>
 
-    <div class="form-group">
-      <label>Organization name</label>
-      <input id="orgName" type="text">
-    </div>
 
     <div class="form-group">
-      <label>Website</label>
-      <input id="orgWebsite" type="url"
+
+      <label>
+        Organization name
+      </label>
+
+      <input
+        id="orgName"
+        type="text">
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Website
+      </label>
+
+      <input
+        id="orgWebsite"
+        type="url"
         placeholder="https://example.com">
+
     </div>
 
-    <div class="form-group">
-      <label>Contact email</label>
-      <input id="orgEmail" type="email">
-    </div>
 
     <div class="form-group">
-      <label>About the organization</label>
-      <textarea id="orgDescription" rows="5"></textarea>
+
+      <label>
+        Contact email
+      </label>
+
+      <input
+        id="orgEmail"
+        type="email">
+
     </div>
+
+
+    <div class="form-group">
+
+      <label>
+        About the organization
+      </label>
+
+      <textarea
+        id="orgDescription"
+        rows="5">
+      </textarea>
+
+    </div>
+
 
     <button
       class="btn btn-primary"
       style="width:100%"
       onclick="submitOrganization()">
+
       Submit Request
+
     </button>
 
   </div>
@@ -801,45 +1181,87 @@ footer {
 
 
 <!-- AUTH -->
+
 <section id="auth" class="page">
 
   <div class="auth-box">
 
-    <h2 id="authTitle">Sign in</h2>
+    <h2 id="authTitle">
+      Sign in
+    </h2>
 
     <p id="authDescription">
       Sign in to save opportunities and manage your activity.
     </p>
 
-    <div id="nameGroup" class="form-group" style="display:none">
-      <label>Full name</label>
-      <input id="authName" type="text">
+
+    <div
+      id="nameGroup"
+      class="form-group"
+      style="display:none">
+
+      <label>
+        Full name
+      </label>
+
+      <input
+        id="authName"
+        type="text">
+
     </div>
 
-    <div class="form-group">
-      <label>Email</label>
-      <input id="authEmail" type="email">
-    </div>
 
     <div class="form-group">
-      <label>Password</label>
-      <input id="authPassword" type="password">
+
+      <label>
+        Email
+      </label>
+
+      <input
+        id="authEmail"
+        type="email">
+
     </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Password
+      </label>
+
+      <input
+        id="authPassword"
+        type="password">
+
+    </div>
+
 
     <button
       id="authButton"
       class="btn btn-primary"
       style="width:100%"
       onclick="handleAuth()">
+
       Sign in
+
     </button>
 
+
     <div class="auth-switch">
-      <span id="switchText">Don't have an account?</span>
+
+      <span id="switchText">
+        Don't have an account?
+      </span>
 
       <button onclick="toggleAuth()">
-        <span id="switchButton">Create account</span>
+
+        <span id="switchButton">
+          Create account
+        </span>
+
       </button>
+
     </div>
 
   </div>
@@ -847,37 +1269,304 @@ footer {
 </section>
 
 
+<!-- SUBSCRIPTION -->
+
+<section id="subscription" class="page">
+
+  <div class="subscription-intro">
+
+    <h1>
+      Choose your plan
+    </h1>
+
+    <p>
+      Choose a monthly OpportunityCheck plan to unlock
+      opportunity discovery, verification and other tools.
+    </p>
+
+  </div>
+
+
+  <div class="plans">
+
+
+    <!-- STARTER -->
+
+    <div class="plan">
+
+      <h3>
+        Starter
+      </h3>
+
+      <div class="plan-price">
+        ₦1,500
+        <span>/month</span>
+      </div>
+
+      <p class="plan-description">
+        Essential tools for discovering and checking opportunities.
+      </p>
+
+
+      <ul>
+
+        <li>
+          20 opportunity searches
+        </li>
+
+        <li>
+          5 verification checks
+        </li>
+
+        <li>
+          20 saved opportunities
+        </li>
+
+        <li>
+          5 deadline reminders
+        </li>
+
+        <li>
+          3 alerts
+        </li>
+
+        <li>
+          5 safety checks
+        </li>
+
+        <li>
+          2 application readiness checks
+        </li>
+
+        <li>
+          History
+        </li>
+
+      </ul>
+
+
+      <button
+        class="btn btn-outline"
+        onclick="choosePlan('starter')">
+
+        Choose Starter
+
+      </button>
+
+    </div>
+
+
+    <!-- PLUS -->
+
+    <div class="plan featured">
+
+      <h3>
+        Plus
+      </h3>
+
+      <div class="plan-price">
+        ₦3,000
+        <span>/month</span>
+      </div>
+
+      <p class="plan-description">
+        More searches and checks for regular opportunity seekers.
+      </p>
+
+
+      <ul>
+
+        <li>
+          60 opportunity searches
+        </li>
+
+        <li>
+          15 verification checks
+        </li>
+
+        <li>
+          100 saved opportunities
+        </li>
+
+        <li>
+          20 deadline reminders
+        </li>
+
+        <li>
+          10 alerts
+        </li>
+
+        <li>
+          15 safety checks
+        </li>
+
+        <li>
+          10 application readiness checks
+        </li>
+
+        <li>
+          History
+        </li>
+
+      </ul>
+
+
+      <button
+        class="btn btn-primary"
+        onclick="choosePlan('plus')">
+
+        Choose Plus
+
+      </button>
+
+    </div>
+
+
+    <!-- PRO -->
+
+    <div class="plan">
+
+      <h3>
+        Pro
+      </h3>
+
+      <div class="plan-price">
+        ₦5,000
+        <span>/month</span>
+      </div>
+
+      <p class="plan-description">
+        Higher limits for users who need more OpportunityCheck tools.
+      </p>
+
+
+      <ul>
+
+        <li>
+          150 opportunity searches
+        </li>
+
+        <li>
+          40 verification checks
+        </li>
+
+        <li>
+          Unlimited saved opportunities
+        </li>
+
+        <li>
+          50 deadline reminders
+        </li>
+
+        <li>
+          Unlimited alerts
+        </li>
+
+        <li>
+          40 safety checks
+        </li>
+
+        <li>
+          25 application readiness checks
+        </li>
+
+        <li>
+          Priority processing
+        </li>
+
+        <li>
+          History
+        </li>
+
+      </ul>
+
+
+      <button
+        class="btn btn-outline"
+        onclick="choosePlan('pro')">
+
+        Choose Pro
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="payment-note">
+
+    Secure monthly subscription payments will be processed through Paystack.
+    Your plan becomes active after successful payment confirmation.
+
+  </div>
+
+</section>
+
+
 <!-- DASHBOARD -->
+
 <section id="dashboard" class="page">
 
   <div class="section-title">
-    <h2>Your Dashboard</h2>
-    <p>Manage your OpportunityCheck activity.</p>
+
+    <h2>
+      Your Dashboard
+    </h2>
+
+    <p>
+      Manage your OpportunityCheck activity.
+    </p>
+
   </div>
+
 
   <div class="dashboard">
 
     <div class="stat">
+
       Saved opportunities
-      <strong id="savedCount">0</strong>
+
+      <strong id="savedCount">
+        0
+      </strong>
+
     </div>
 
+
     <div class="stat">
+
       Verification requests
-      <strong id="verificationCount">0</strong>
+
+      <strong id="verificationCount">
+        0
+      </strong>
+
     </div>
 
+
     <div class="stat">
+
       Organization requests
-      <strong id="organizationCount">0</strong>
+
+      <strong id="organizationCount">
+        0
+      </strong>
+
     </div>
 
   </div>
 
+
   <br>
 
-  <button class="btn btn-secondary" onclick="signOut()">
+
+  <button
+    class="btn btn-secondary"
+    onclick="signOut()">
+
     Sign out
+
   </button>
 
 </section>
@@ -889,7 +1578,11 @@ footer {
   OpportunityCheck — Verify Before You Trust.
 </footer>
 
-<div id="toast" class="toast"></div>
+
+<div
+  id="toast"
+  class="toast">
+</div>
 
 
 <script>
@@ -915,7 +1608,26 @@ const supabaseClient =
 // EDGE FUNCTION
 // =====================================================
 
-const FUNCTION_NAME = "search-opportunities";
+const FUNCTION_NAME =
+  "search-opportunities";
+
+
+// =====================================================
+// PAYSTACK PLAN CODES
+// =====================================================
+
+const PAYSTACK_PLANS = {
+
+  starter:
+    "PLN_qclu27kojxztxd0",
+
+  plus:
+    "PLN_o80t4hjqntij2rr",
+
+  pro:
+    "PLN_pscgpam3u9kozz"
+
+};
 
 
 // =====================================================
@@ -928,30 +1640,37 @@ function showPage(pageName) {
     "browse",
     "verify",
     "organizations",
-    "dashboard"
+    "dashboard",
+    "subscription"
   ];
 
-  if (protectedPages.includes(pageName)) {
 
-    supabaseClient.auth.getUser().then(({ data }) => {
+  if (
+    protectedPages.includes(pageName)
+  ) {
 
-      if (!data.user) {
+    supabaseClient.auth.getUser()
+      .then(({ data }) => {
 
-        showToast(
-          "Please sign in to access this page."
-        );
+        if (!data.user) {
 
-        showPage("auth");
+          showToast(
+            "Please sign in to continue."
+          );
 
-        return;
-      }
+          openPage("auth");
 
-      openPage(pageName);
+          return;
+        }
 
-    });
+
+        openPage(pageName);
+
+      });
 
     return;
   }
+
 
   openPage(pageName);
 }
@@ -959,22 +1678,31 @@ function showPage(pageName) {
 
 function openPage(pageName) {
 
-  document.querySelectorAll(".page")
+  document
+    .querySelectorAll(".page")
     .forEach(page => {
+
       page.classList.remove("active");
+
     });
+
 
   const page =
     document.getElementById(pageName);
 
+
   if (page) {
+
     page.classList.add("active");
+
   }
+
 
   window.scrollTo({
     top: 0,
     behavior: "smooth"
   });
+
 }
 
 
@@ -987,13 +1715,22 @@ function showToast(message) {
   const toast =
     document.getElementById("toast");
 
-  toast.textContent = message;
 
-  toast.style.display = "block";
+  toast.textContent =
+    message;
+
+
+  toast.style.display =
+    "block";
+
 
   setTimeout(() => {
-    toast.style.display = "none";
+
+    toast.style.display =
+      "none";
+
   }, 3000);
+
 }
 
 
@@ -1003,23 +1740,52 @@ function showToast(message) {
 
 async function searchOpportunities() {
 
+  const {
+    data: {
+      user
+    }
+  } =
+    await supabaseClient.auth.getUser();
+
+
+  if (!user) {
+
+    showToast(
+      "Please sign in to search opportunities."
+    );
+
+    openPage("auth");
+
+    return;
+  }
+
+
   const query =
-    document.getElementById("searchQuery")
+    document
+      .getElementById("searchQuery")
       .value.trim();
 
+
   const category =
-    document.getElementById("category")
+    document
+      .getElementById("category")
       .value;
+
 
   const country =
-    document.getElementById("country")
+    document
+      .getElementById("country")
       .value;
 
+
   const results =
-    document.getElementById("results");
+    document
+      .getElementById("results");
+
 
   const resultsCount =
-    document.getElementById("resultsCount");
+    document
+      .getElementById("resultsCount");
 
 
   results.innerHTML =
@@ -1027,7 +1793,9 @@ async function searchOpportunities() {
       Searching opportunities...
     </div>`;
 
-  resultsCount.textContent = "";
+
+  resultsCount.textContent =
+    "";
 
 
   try {
@@ -1046,14 +1814,20 @@ async function searchOpportunities() {
 
 
     if (response.error) {
+
       throw response.error;
+
     }
 
 
-    const data = response.data;
+    const data =
+      response.data;
 
 
-    if (!data || data.success !== true) {
+    if (
+      !data ||
+      data.success !== true
+    ) {
 
       throw new Error(
         data?.error ||
@@ -1071,24 +1845,37 @@ async function searchOpportunities() {
 
     resultsCount.textContent =
       `${opportunities.length} opportunity${
-        opportunities.length === 1 ? "" : "ies"
+        opportunities.length === 1
+          ? ""
+          : "ies"
       } found`;
 
 
-    if (opportunities.length === 0) {
+    if (
+      opportunities.length === 0
+    ) {
 
       results.innerHTML = `
+
         <div class="empty">
-          <h3>No opportunities found</h3>
+
+          <h3>
+            No opportunities found
+          </h3>
+
           <br>
+
           <p>
-            Try a different search term, category,
-            or location.
+            Try a different search term,
+            category, or location.
           </p>
+
         </div>
+
       `;
 
       return;
+
     }
 
 
@@ -1100,19 +1887,33 @@ async function searchOpportunities() {
 
   } catch (error) {
 
-    console.error("SEARCH ERROR:", error);
+    console.error(
+      "SEARCH ERROR:",
+      error
+    );
+
 
     results.innerHTML = `
+
       <div class="empty">
-        <h3>We couldn't complete the search.</h3>
+
+        <h3>
+          We couldn't complete the search.
+        </h3>
+
         <br>
+
         <p>
           Please try again.
         </p>
+
       </div>
+
     `;
 
-    resultsCount.textContent = "";
+
+    resultsCount.textContent =
+      "";
 
   }
 
@@ -1126,7 +1927,11 @@ async function searchOpportunities() {
 function opportunityCard(item) {
 
   const title =
-    escapeHTML(item.title || "Untitled opportunity");
+    escapeHTML(
+      item.title ||
+      "Untitled opportunity"
+    );
+
 
   const description =
     escapeHTML(
@@ -1134,11 +1939,13 @@ function opportunityCard(item) {
       "No description available."
     );
 
+
   const organization =
     escapeHTML(
       item.organization_name ||
       "Organization not provided"
     );
+
 
   const category =
     escapeHTML(
@@ -1146,40 +1953,69 @@ function opportunityCard(item) {
       "Opportunity"
     );
 
+
   const source =
     escapeHTML(
       item.source_name ||
       "Unknown source"
     );
 
-  const applicationURL =
-    item.application_url || "";
 
-  // Actual location
-  let locationText = "";
+  const applicationURL =
+    item.application_url ||
+    "";
+
+
+  let locationText =
+    "";
+
 
   if (item.location) {
-    locationText = item.location;
+
+    locationText =
+      item.location;
+
   } else if (item.country) {
-    locationText = item.country;
+
+    locationText =
+      item.country;
+
   } else if (item.remote) {
-    locationText = "Remote";
+
+    locationText =
+      "Remote";
+
   } else {
-    locationText = "Location not provided";
+
+    locationText =
+      "Location not provided";
+
   }
 
-  const location =
-    escapeHTML(locationText);
 
-  // Deadline
-  let deadlineText = "Deadline not provided";
+  const location =
+    escapeHTML(
+      locationText
+    );
+
+
+  let deadlineText =
+    "Deadline not provided";
+
 
   if (item.deadline) {
 
     const deadlineDate =
-      new Date(item.deadline);
+      new Date(
+        item.deadline
+      );
 
-    if (!Number.isNaN(deadlineDate.getTime())) {
+
+    if (
+      !Number.isNaN(
+        deadlineDate.getTime()
+      )
+    ) {
 
       deadlineText =
         deadlineDate.toLocaleDateString(
@@ -1194,21 +2030,29 @@ function opportunityCard(item) {
     } else {
 
       deadlineText =
-        escapeHTML(String(item.deadline));
+        escapeHTML(
+          String(item.deadline)
+        );
 
     }
+
   }
 
+
   const deadline =
-    escapeHTML(deadlineText);
+    escapeHTML(
+      deadlineText
+    );
 
 
   return `
+
     <article class="opportunity">
 
       <div class="opportunity-top">
 
         <div>
+
           <span class="badge">
             ${category}
           </span>
@@ -1216,13 +2060,16 @@ function opportunityCard(item) {
           <h3>
             ${title}
           </h3>
+
         </div>
 
       </div>
 
+
       <p>
         ${description}
       </p>
+
 
       <div class="meta">
 
@@ -1244,35 +2091,45 @@ function opportunityCard(item) {
 
       </div>
 
+
       <div class="opportunity-actions">
 
         ${
           applicationURL
-          ? `
-            <a
-              href="${escapeAttribute(applicationURL)}"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="btn btn-primary"
-              style="text-decoration:none">
-              View / Apply
-            </a>
-          `
-          : ""
+            ? `
+              <a
+                href="${escapeAttribute(
+                  applicationURL
+                )}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-primary"
+                style="text-decoration:none">
+
+                View / Apply
+
+              </a>
+            `
+            : ""
         }
+
 
         <button
           class="btn btn-secondary"
           onclick='saveOpportunity(${JSON.stringify(
             item
           )})'>
+
           Save
+
         </button>
 
       </div>
 
     </article>
+
   `;
+
 }
 
 
@@ -1296,9 +2153,10 @@ async function saveOpportunity(item) {
       "Please sign in to save opportunities."
     );
 
-    showPage("auth");
+    openPage("auth");
 
     return;
+
   }
 
 
@@ -1306,41 +2164,80 @@ async function saveOpportunity(item) {
     await supabaseClient
       .from("opportunities")
       .upsert({
-        title: item.title,
-        description: item.description,
-        category: item.category,
-        organization_name: item.organization_name,
-        country: item.country,
-        location: item.location,
-        remote: item.remote,
-        source_name: item.source_name,
-        source_url: item.source_url,
-        application_url: item.application_url,
-        posted_at: item.posted_at,
-        deadline: item.deadline,
-        status: "active"
+
+        title:
+          item.title,
+
+        description:
+          item.description,
+
+        category:
+          item.category,
+
+        organization_name:
+          item.organization_name,
+
+        country:
+          item.country,
+
+        location:
+          item.location,
+
+        remote:
+          item.remote,
+
+        source_name:
+          item.source_name,
+
+        source_url:
+          item.source_url,
+
+        application_url:
+          item.application_url,
+
+        posted_at:
+          item.posted_at,
+
+        deadline:
+          item.deadline,
+
+        status:
+          "active"
+
       }, {
-        onConflict: "id"
+
+        onConflict:
+          "id"
+
       });
 
 
   if (error) {
 
-    console.error(error);
+    console.error(
+      error
+    );
+
 
     showToast(
       "Unable to save this opportunity."
     );
 
     return;
+
   }
 
 
-  const { data: opportunity } =
+  const {
+    data: opportunity
+  } =
     await supabaseClient
       .from("opportunities")
       .select("id")
-      .eq("title", item.title)
+      .eq(
+        "title",
+        item.title
+      )
       .eq(
         "organization_name",
         item.organization_name
@@ -1356,22 +2253,31 @@ async function saveOpportunity(item) {
     );
 
     return;
+
   }
 
 
-  const { error: saveError } =
+  const {
+    error: saveError
+  } =
     await supabaseClient
       .from("saved_opportunities")
       .insert({
-        user_id: user.id,
-        opportunity_id: opportunity.id
+
+        user_id:
+          user.id,
+
+        opportunity_id:
+          opportunity.id
+
       });
 
 
   if (saveError) {
 
     if (
-      saveError.code === "23505"
+      saveError.code ===
+      "23505"
     ) {
 
       showToast(
@@ -1380,7 +2286,9 @@ async function saveOpportunity(item) {
 
     } else {
 
-      console.error(saveError);
+      console.error(
+        saveError
+      );
 
       showToast(
         "Could not save opportunity."
@@ -1389,12 +2297,14 @@ async function saveOpportunity(item) {
     }
 
     return;
+
   }
 
 
   showToast(
     "Opportunity saved."
   );
+
 }
 
 
@@ -1402,12 +2312,14 @@ async function saveOpportunity(item) {
 // VERIFY METHOD
 // =====================================================
 
-let selectedMethod = "link";
+let selectedMethod =
+  "link";
 
 
 function selectMethod(method) {
 
-  selectedMethod = method;
+  selectedMethod =
+    method;
 
 
   document
@@ -1435,9 +2347,15 @@ function selectMethod(method) {
 
 
   document
-    .querySelectorAll(".method-buttons button")
+    .querySelectorAll(
+      ".method-buttons button"
+    )
     .forEach(button => {
-      button.classList.remove("active");
+
+      button.classList.remove(
+        "active"
+      );
+
     });
 
 
@@ -1445,7 +2363,10 @@ function selectMethod(method) {
     .getElementById(
       method + "Method"
     )
-    .classList.add("active");
+    .classList.add(
+      "active"
+    );
+
 }
 
 
@@ -1469,22 +2390,33 @@ async function verifyOpportunity() {
       "Please sign in before submitting a verification request."
     );
 
-    showPage("auth");
+    openPage("auth");
 
     return;
+
   }
 
 
-  let evidence = "";
-  let imageURL = null;
+  let evidence =
+    "";
+
+  let imageURL =
+    null;
 
 
-  if (selectedMethod === "link") {
+  if (
+    selectedMethod ===
+    "link"
+  ) {
 
     evidence =
       document
-        .getElementById("verifyLink")
-        .value.trim();
+        .getElementById(
+          "verifyLink"
+        )
+        .value
+        .trim();
+
 
     if (!evidence) {
 
@@ -1493,17 +2425,25 @@ async function verifyOpportunity() {
       );
 
       return;
+
     }
 
   }
 
 
-  if (selectedMethod === "text") {
+  if (
+    selectedMethod ===
+    "text"
+  ) {
 
     evidence =
       document
-        .getElementById("verifyText")
-        .value.trim();
+        .getElementById(
+          "verifyText"
+        )
+        .value
+        .trim();
+
 
     if (!evidence) {
 
@@ -1512,17 +2452,24 @@ async function verifyOpportunity() {
       );
 
       return;
+
     }
 
   }
 
 
-  if (selectedMethod === "image") {
+  if (
+    selectedMethod ===
+    "image"
+  ) {
 
     const file =
       document
-        .getElementById("verifyImage")
+        .getElementById(
+          "verifyImage"
+        )
         .files[0];
+
 
     if (!file) {
 
@@ -1531,6 +2478,7 @@ async function verifyOpportunity() {
       );
 
       return;
+
     }
 
 
@@ -1541,7 +2489,9 @@ async function verifyOpportunity() {
     const upload =
       await supabaseClient
         .storage
-        .from("opportunity-evidence")
+        .from(
+          "opportunity-evidence"
+        )
         .upload(
           fileName,
           file
@@ -1550,67 +2500,104 @@ async function verifyOpportunity() {
 
     if (upload.error) {
 
-      console.error(upload.error);
+      console.error(
+        upload.error
+      );
+
 
       showToast(
         "Image upload failed."
       );
 
       return;
+
     }
 
 
     const publicURL =
       supabaseClient
         .storage
-        .from("opportunity-evidence")
-        .getPublicUrl(fileName);
+        .from(
+          "opportunity-evidence"
+        )
+        .getPublicUrl(
+          fileName
+        );
 
 
     imageURL =
       publicURL.data.publicUrl;
 
+
     evidence =
       "Image uploaded";
+
   }
 
 
   const { error } =
     await supabaseClient
-      .from("verification_requests")
+      .from(
+        "verification_requests"
+      )
       .insert({
-        user_id: user.id,
-        evidence_type: selectedMethod,
-        evidence: evidence,
-        image_url: imageURL,
-        status: "pending"
+
+        user_id:
+          user.id,
+
+        evidence_type:
+          selectedMethod,
+
+        evidence:
+          evidence,
+
+        image_url:
+          imageURL,
+
+        status:
+          "pending"
+
       });
 
 
   if (error) {
 
-    console.error(error);
+    console.error(
+      error
+    );
+
 
     showToast(
       "Could not submit verification request."
     );
 
     return;
+
   }
 
 
   const result =
-    document.getElementById(
-      "verifyResult"
-    );
+    document
+      .getElementById(
+        "verifyResult"
+      );
 
-  result.style.display = "block";
+
+  result.style.display =
+    "block";
+
 
   result.innerHTML = `
-    <strong>Request submitted.</strong>
+
+    <strong>
+      Request submitted.
+    </strong>
+
     <br><br>
+
     Your verification request has been received.
     You can track its status from your account.
+
   `;
 
 }
@@ -1636,34 +2623,47 @@ async function submitOrganization() {
       "Please sign in first."
     );
 
-    showPage("auth");
+    openPage("auth");
 
     return;
+
   }
 
 
   const organizationName =
     document
-      .getElementById("orgName")
-      .value.trim();
+      .getElementById(
+        "orgName"
+      )
+      .value
+      .trim();
 
 
   const website =
     document
-      .getElementById("orgWebsite")
-      .value.trim();
+      .getElementById(
+        "orgWebsite"
+      )
+      .value
+      .trim();
 
 
   const email =
     document
-      .getElementById("orgEmail")
-      .value.trim();
+      .getElementById(
+        "orgEmail"
+      )
+      .value
+      .trim();
 
 
   const description =
     document
-      .getElementById("orgDescription")
-      .value.trim();
+      .getElementById(
+        "orgDescription"
+      )
+      .value
+      .trim();
 
 
   if (!organizationName) {
@@ -1673,31 +2673,51 @@ async function submitOrganization() {
     );
 
     return;
+
   }
 
 
   const { error } =
     await supabaseClient
-      .from("organization_requests")
+      .from(
+        "organization_requests"
+      )
       .insert({
-        user_id: user.id,
-        organization_name: organizationName,
-        website: website,
-        contact_email: email,
-        description: description,
-        status: "pending"
+
+        user_id:
+          user.id,
+
+        organization_name:
+          organizationName,
+
+        website:
+          website,
+
+        contact_email:
+          email,
+
+        description:
+          description,
+
+        status:
+          "pending"
+
       });
 
 
   if (error) {
 
-    console.error(error);
+    console.error(
+      error
+    );
+
 
     showToast(
       "Could not submit organization request."
     );
 
     return;
+
   }
 
 
@@ -1707,20 +2727,35 @@ async function submitOrganization() {
 
 
   document
-    .getElementById("orgName")
-    .value = "";
+    .getElementById(
+      "orgName"
+    )
+    .value =
+      "";
+
 
   document
-    .getElementById("orgWebsite")
-    .value = "";
+    .getElementById(
+      "orgWebsite"
+    )
+    .value =
+      "";
+
 
   document
-    .getElementById("orgEmail")
-    .value = "";
+    .getElementById(
+      "orgEmail"
+    )
+    .value =
+      "";
+
 
   document
-    .getElementById("orgDescription")
-    .value = "";
+    .getElementById(
+      "orgDescription"
+    )
+    .value =
+      "";
 
 }
 
@@ -1729,16 +2764,20 @@ async function submitOrganization() {
 // AUTH
 // =====================================================
 
-let isSignUp = false;
+let isSignUp =
+  false;
 
 
 function toggleAuth() {
 
-  isSignUp = !isSignUp;
+  isSignUp =
+    !isSignUp;
 
 
   document
-    .getElementById("authTitle")
+    .getElementById(
+      "authTitle"
+    )
     .textContent =
       isSignUp
         ? "Create your account"
@@ -1746,15 +2785,19 @@ function toggleAuth() {
 
 
   document
-    .getElementById("authDescription")
+    .getElementById(
+      "authDescription"
+    )
     .textContent =
       isSignUp
-        ? "Create an account to save and manage opportunities."
-        : "Sign in to save opportunities and manage your activity.";
+        ? "Create an account to continue to your OpportunityCheck plan."
+        : "Sign in to continue to your OpportunityCheck plan.";
 
 
   document
-    .getElementById("nameGroup")
+    .getElementById(
+      "nameGroup"
+    )
     .style.display =
       isSignUp
         ? "block"
@@ -1762,7 +2805,9 @@ function toggleAuth() {
 
 
   document
-    .getElementById("authButton")
+    .getElementById(
+      "authButton"
+    )
     .textContent =
       isSignUp
         ? "Create account"
@@ -1770,7 +2815,9 @@ function toggleAuth() {
 
 
   document
-    .getElementById("switchText")
+    .getElementById(
+      "switchText"
+    )
     .textContent =
       isSignUp
         ? "Already have an account?"
@@ -1778,41 +2825,60 @@ function toggleAuth() {
 
 
   document
-    .getElementById("switchButton")
+    .getElementById(
+      "switchButton"
+    )
     .textContent =
       isSignUp
         ? "Sign in"
         : "Create account";
+
 }
 
+
+// =====================================================
+// AUTHENTICATION
+// =====================================================
 
 async function handleAuth() {
 
   const email =
     document
-      .getElementById("authEmail")
-      .value.trim();
+      .getElementById(
+        "authEmail"
+      )
+      .value
+      .trim();
 
 
   const password =
     document
-      .getElementById("authPassword")
+      .getElementById(
+        "authPassword"
+      )
       .value;
 
 
   const name =
     document
-      .getElementById("authName")
-      .value.trim();
+      .getElementById(
+        "authName"
+      )
+      .value
+      .trim();
 
 
-  if (!email || !password) {
+  if (
+    !email ||
+    !password
+  ) {
 
     showToast(
       "Please enter your email and password."
     );
 
     return;
+
   }
 
 
@@ -1825,63 +2891,232 @@ async function handleAuth() {
       );
 
       return;
+
     }
 
 
-    const { error } =
-      await supabaseClient.auth.signUp({
-        email: email,
-        password: password,
-        options: {
-          data: {
-            full_name: name
+    const {
+      error
+    } =
+      await supabaseClient
+        .auth
+        .signUp({
+
+          email:
+            email,
+
+          password:
+            password,
+
+          options: {
+
+            data: {
+
+              full_name:
+                name
+
+            }
+
           }
-        }
-      });
+
+        });
 
 
     if (error) {
 
-      showToast(error.message);
+      showToast(
+        error.message
+      );
 
       return;
+
+    }
+
+
+    /*
+      If email confirmation is disabled,
+      Supabase may sign the user in immediately.
+
+      If email confirmation is required,
+      the user must confirm their email first.
+    */
+
+    const {
+      data: {
+        user
+      }
+    } =
+      await supabaseClient.auth.getUser();
+
+
+    if (user) {
+
+      showToast(
+        "Account created. Choose your plan."
+      );
+
+      openPage(
+        "subscription"
+      );
+
+      return;
+
     }
 
 
     showToast(
-      "Account created. Check your email if confirmation is required."
+      "Account created. Check your email to confirm your account."
     );
+
+
+    isSignUp =
+      false;
 
 
     toggleAuth();
 
     return;
+
   }
 
 
-  const { error } =
-    await supabaseClient.auth.signInWithPassword({
-      email: email,
-      password: password
-    });
+  const {
+    error
+  } =
+    await supabaseClient
+      .auth
+      .signInWithPassword({
+
+        email:
+          email,
+
+        password:
+          password
+
+      });
 
 
   if (error) {
 
-    showToast(error.message);
+    showToast(
+      error.message
+    );
 
     return;
+
   }
 
 
   showToast(
-    "Signed in successfully."
+    "Signed in successfully. Choose your plan."
   );
 
 
   await loadDashboard();
 
-  showPage("dashboard");
+
+  /*
+    For now every successful sign-in
+    goes to the plan-selection page.
+
+    Later, after the subscription table
+    and Paystack webhook are connected,
+    this will automatically send
+    already-subscribed users directly
+    to the dashboard.
+  */
+
+  openPage(
+    "subscription"
+  );
+
+}
+
+
+// =====================================================
+// CHOOSE PLAN
+// =====================================================
+
+async function choosePlan(plan) {
+
+  const {
+    data: {
+      user
+    }
+  } =
+    await supabaseClient.auth.getUser();
+
+
+  if (!user) {
+
+    showToast(
+      "Please sign in first."
+    );
+
+    openPage(
+      "auth"
+    );
+
+    return;
+
+  }
+
+
+  const planCode =
+    PAYSTACK_PLANS[
+      plan
+    ];
+
+
+  if (!planCode) {
+
+    showToast(
+      "Invalid plan selected."
+    );
+
+    return;
+
+  }
+
+
+  /*
+    PAYMENT CONNECTION COMES NEXT.
+
+    We do NOT put the Paystack secret key
+    in this HTML file.
+
+    The secure payment flow will be:
+
+    HTML
+      ↓
+    Supabase create-checkout Edge Function
+      ↓
+    Paystack
+      ↓
+    Paystack payment
+      ↓
+    Supabase webhook
+      ↓
+    Subscription becomes active
+      ↓
+    Dashboard
+  */
+
+
+  showToast(
+    "Plan selected. Paystack checkout will be connected next."
+  );
+
+  console.log(
+    "Selected plan:",
+    plan
+  );
+
+  console.log(
+    "Paystack plan code:",
+    planCode
+  );
+
 }
 
 
@@ -1891,13 +3126,20 @@ async function handleAuth() {
 
 async function signOut() {
 
-  await supabaseClient.auth.signOut();
+  await supabaseClient
+    .auth
+    .signOut();
+
 
   showToast(
     "Signed out."
   );
 
-  showPage("home");
+
+  openPage(
+    "home"
+  );
+
 }
 
 
@@ -1920,50 +3162,93 @@ async function loadDashboard() {
 
   const saved =
     await supabaseClient
-      .from("saved_opportunities")
-      .select("id", {
-        count: "exact",
-        head: true
-      })
-      .eq("user_id", user.id);
+      .from(
+        "saved_opportunities"
+      )
+      .select(
+        "id",
+        {
+          count:
+            "exact",
+
+          head:
+            true
+        }
+      )
+      .eq(
+        "user_id",
+        user.id
+      );
 
 
   const verification =
     await supabaseClient
-      .from("verification_requests")
-      .select("id", {
-        count: "exact",
-        head: true
-      })
-      .eq("user_id", user.id);
+      .from(
+        "verification_requests"
+      )
+      .select(
+        "id",
+        {
+          count:
+            "exact",
+
+          head:
+            true
+        }
+      )
+      .eq(
+        "user_id",
+        user.id
+      );
 
 
   const organization =
     await supabaseClient
-      .from("organization_requests")
-      .select("id", {
-        count: "exact",
-        head: true
-      })
-      .eq("user_id", user.id);
+      .from(
+        "organization_requests"
+      )
+      .select(
+        "id",
+        {
+          count:
+            "exact",
+
+          head:
+            true
+        }
+      )
+      .eq(
+        "user_id",
+        user.id
+      );
 
 
   document
-    .getElementById("savedCount")
+    .getElementById(
+      "savedCount"
+    )
     .textContent =
-      saved.count || 0;
+      saved.count ||
+      0;
 
 
   document
-    .getElementById("verificationCount")
+    .getElementById(
+      "verificationCount"
+    )
     .textContent =
-      verification.count || 0;
+      verification.count ||
+      0;
 
 
   document
-    .getElementById("organizationCount")
+    .getElementById(
+      "organizationCount"
+    )
     .textContent =
-      organization.count || 0;
+      organization.count ||
+      0;
+
 }
 
 
@@ -1974,18 +3259,43 @@ async function loadDashboard() {
 function escapeHTML(value) {
 
   return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
 }
 
 
 function escapeAttribute(value) {
 
   return String(value)
-    .replace(/"/g, "&quot;");
+    .replace(
+      /"/g,
+      "&quot;"
+    );
+
 }
 
 
@@ -1996,8 +3306,13 @@ function escapeAttribute(value) {
 supabaseClient.auth.onAuthStateChange(
   async (event, session) => {
 
-    if (event === "SIGNED_IN" && session) {
+    if (
+      event === "SIGNED_IN" &&
+      session
+    ) {
+
       await loadDashboard();
+
     }
 
   }
