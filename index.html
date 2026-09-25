@@ -9,591 +9,128 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  background: #f5f8fc;
-  color: #172033;
-}
-
-button,
-input,
-select,
-textarea {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-header {
-  background: white;
-  border-bottom: 1px solid #e5eaf1;
-  position: sticky;
-  top: 0;
-  z-index: 20;
-}
-
-.nav {
-  max-width: 1150px;
-  margin: auto;
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 19px;
-  font-weight: 800;
-  color: #125bd1;
-}
-
-.logo-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 11px;
-  background: #125bd1;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-}
-
-.nav-links {
-  display: flex;
-  gap: 22px;
-  align-items: center;
-}
-
-.nav-links button {
-  border: 0;
-  background: none;
-  color: #455268;
-}
-
-.nav-links button:hover {
-  color: #125bd1;
-}
-
-.nav-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.btn {
-  border: 0;
-  border-radius: 9px;
-  padding: 11px 17px;
-  font-weight: 700;
-}
-
-.btn-primary {
-  background: #125bd1;
-  color: white;
-}
-
-.btn-secondary {
-  background: #eaf1ff;
-  color: #125bd1;
-}
-
-.btn-outline {
-  background: white;
-  color: #125bd1;
-  border: 1px solid #cbd8ee;
-}
-
-main {
-  max-width: 1150px;
-  margin: auto;
-  padding: 30px 20px 70px;
-}
-
-.page {
-  display: none;
-}
-
-.page.active {
-  display: block;
-}
-
-.hero {
-  padding: 65px 20px;
-  text-align: center;
-}
-
-.hero h1 {
-  max-width: 800px;
-  margin: auto;
-  font-size: clamp(36px, 6vw, 64px);
-  line-height: 1.05;
-  margin-bottom: 20px;
-}
-
-.hero h1 span {
-  color: #125bd1;
-}
-
-.hero p {
-  max-width: 680px;
-  margin: auto;
-  color: #647084;
-  font-size: 18px;
-  line-height: 1.6;
-}
-
-.hero-actions {
-  margin-top: 28px;
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.section-title {
-  text-align: center;
-  margin: 35px 0 20px;
-}
-
-.section-title h2 {
-  font-size: 30px;
-  margin-bottom: 8px;
-}
-
-.section-title p {
-  color: #69758a;
-}
-
-.cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-}
-
-.card {
-  background: white;
-  border: 1px solid #e2e8f1;
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 5px 20px rgba(20, 40, 80, 0.04);
-  text-align: left;
-}
-
-.card-icon {
-  width: 45px;
-  height: 45px;
-  border-radius: 12px;
-  background: #edf4ff;
-  color: #125bd1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  margin-bottom: 15px;
-}
-
-.card h3 {
-  margin-bottom: 8px;
-}
-
-.card p {
-  color: #6b7587;
-  line-height: 1.6;
-}
-
-.search-box {
-  background: white;
-  border: 1px solid #e1e7ef;
-  border-radius: 18px;
-  padding: 22px;
-  box-shadow: 0 8px 25px rgba(20, 40, 80, 0.05);
-}
-
-.search-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr auto;
-  gap: 12px;
-}
-
-.field label {
-  display: block;
-  font-size: 13px;
-  font-weight: 700;
-  margin-bottom: 7px;
-  color: #4d596c;
-}
-
-.field input,
-.field select,
-.field textarea {
-  width: 100%;
-  border: 1px solid #ccd6e5;
-  border-radius: 9px;
-  padding: 13px;
-  outline: none;
-  background: white;
-}
-
-.field input:focus,
-.field select:focus,
-.field textarea:focus {
-  border-color: #125bd1;
-}
-
-.results-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 30px 0 15px;
-}
-
-.results-count {
-  color: #657187;
-}
-
-.results {
-  display: grid;
-  gap: 15px;
-}
-
-.opportunity {
-  background: white;
-  border: 1px solid #e1e7ef;
-  border-radius: 15px;
-  padding: 20px;
-}
-
-.opportunity-top {
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
-}
-
-.badge {
-  display: inline-block;
-  background: #edf4ff;
-  color: #125bd1;
-  padding: 5px 9px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.opportunity h3 {
-  margin: 10px 0 7px;
-  font-size: 20px;
-}
-
-.opportunity p {
-  color: #687487;
-  line-height: 1.5;
-}
-
-.meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 13px;
-  margin: 14px 0;
-  color: #59667a;
-  font-size: 13px;
-}
-
-.opportunity-actions {
-  display: flex;
-  gap: 9px;
-  flex-wrap: wrap;
-}
-
-.empty {
-  background: white;
-  border: 1px dashed #ccd6e5;
-  border-radius: 15px;
-  padding: 45px 20px;
-  text-align: center;
-  color: #687487;
-}
-
-.loading {
-  text-align: center;
-  padding: 40px;
-  color: #125bd1;
-  font-weight: 700;
-}
-
-.form-card {
-  max-width: 600px;
-  margin: 30px auto;
-  background: white;
-  padding: 28px;
-  border-radius: 18px;
-  border: 1px solid #e1e7ef;
-}
-
-.form-card h2 {
-  margin-bottom: 8px;
-}
-
-.form-card > p {
-  color: #6b7587;
-  margin-bottom: 22px;
-}
-
-.form-group {
-  margin-bottom: 16px;
-}
-
-.form-group label {
-  display: block;
-  font-weight: 700;
-  margin-bottom: 7px;
-}
-
-.form-group input,
-.form-group textarea {
-  width: 100%;
-  border: 1px solid #ccd6e5;
-  border-radius: 9px;
-  padding: 13px;
-}
-
-.method-buttons {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 18px;
-}
-
-.method-buttons button.active {
-  background: #125bd1;
-  color: white;
-}
-
-.verify-result {
-  margin-top: 20px;
-  padding: 15px;
-  border-radius: 10px;
-  background: #f1f6ff;
-  display: none;
-}
-
-.auth-box {
-  max-width: 440px;
-  margin: 50px auto;
-  background: white;
-  padding: 28px;
-  border-radius: 18px;
-  border: 1px solid #e1e7ef;
-}
-
-.auth-box h2 {
-  margin-bottom: 8px;
-}
-
-.auth-box > p {
-  color: #69758a;
-  margin-bottom: 20px;
-}
-
-.auth-switch {
-  margin-top: 18px;
-  text-align: center;
-  color: #69758a;
-}
-
-.auth-switch button {
-  border: 0;
-  background: none;
-  color: #125bd1;
-  font-weight: 700;
-}
-
-.dashboard {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-}
-
-.stat {
-  background: white;
-  border: 1px solid #e1e7ef;
-  padding: 22px;
-  border-radius: 15px;
-}
-
-.stat strong {
-  display: block;
-  font-size: 30px;
-  color: #125bd1;
-  margin-top: 8px;
-}
-
-
-/* =========================
-   SUBSCRIPTION
-========================= */
-
-.subscription-intro {
-  text-align: center;
-  max-width: 700px;
-  margin: 35px auto 30px;
-}
-
-.subscription-intro h1 {
-  font-size: 38px;
-  margin-bottom: 12px;
-}
-
-.subscription-intro p {
-  color: #69758a;
-  line-height: 1.6;
-}
-
-.plans {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-}
-
-.plan {
-  background: white;
-  border: 1px solid #e1e7ef;
-  border-radius: 18px;
-  padding: 26px;
-  box-shadow: 0 5px 20px rgba(20, 40, 80, 0.04);
-}
-
-.plan.featured {
-  border: 2px solid #125bd1;
-  position: relative;
-}
-
-.plan.featured::before {
-  content: "POPULAR";
-  position: absolute;
-  top: -13px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #125bd1;
-  color: white;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 800;
-}
-
-.plan h3 {
-  font-size: 22px;
-  margin-bottom: 12px;
-}
-
-.plan-price {
-  font-size: 32px;
-  font-weight: 800;
-  color: #125bd1;
-  margin-bottom: 12px;
-}
-
-.plan-price span {
-  font-size: 14px;
-  font-weight: 500;
-  color: #69758a;
-}
-
-.plan-description {
-  color: #69758a;
-  line-height: 1.5;
-  min-height: 48px;
-  margin-bottom: 18px;
-}
-
-.plan ul {
-  list-style: none;
-  margin-bottom: 22px;
-}
-
-.plan li {
-  padding: 7px 0;
-  color: #4f5d71;
-  font-size: 14px;
-}
-
-.plan li::before {
-  content: "✓";
-  color: #125bd1;
-  font-weight: 800;
-  margin-right: 8px;
-}
-
-.payment-note {
-  max-width: 760px;
-  margin: 25px auto 0;
-  text-align: center;
-  color: #69758a;
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-
-/* =========================
-   TOAST
-========================= */
-
-.toast {
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  background: #172033;
-  color: white;
-  padding: 14px 18px;
-  border-radius: 10px;
-  display: none;
-  z-index: 100;
-}
-
-footer {
-  margin-top: 50px;
-  padding: 30px 20px;
-  text-align: center;
-  color: #778195;
-}
-
-@media (max-width: 850px) {
-
-  .nav-links {
-    display: none;
-  }
-
-  .cards {
-    grid-template-columns: 1fr;
-  }
-
-  .search-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .dashboard {
-    grid-template-columns: 1fr;
-  }
-
-  .plans {
-    grid-template-columns: 1fr;
-  }
-
-  .subscription-intro h1 {
-    font-size: 30px;
-  }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f5f8fc;color:#172033}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+
+header{background:white;border-bottom:1px solid #e5eaf1;position:sticky;top:0;z-index:20}
+.nav{max-width:1150px;margin:auto;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.logo{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:800;color:#125bd1}
+.logo-icon{width:38px;height:38px;border-radius:11px;background:#125bd1;color:white;display:flex;align-items:center;justify-content:center;font-weight:bold}
+.nav-links{display:flex;gap:22px;align-items:center}
+.nav-links button{border:0;background:none;color:#455268}
+.nav-links button:hover{color:#125bd1}
+.nav-actions{display:flex;gap:8px;align-items:center}
+.btn{border:0;border-radius:9px;padding:11px 17px;font-weight:700}
+.btn-primary{background:#125bd1;color:white}
+.btn-secondary{background:#eaf1ff;color:#125bd1}
+.btn-outline{background:white;color:#125bd1;border:1px solid #cbd8ee}
+.account-button{padding:9px 12px;font-size:13px}
+
+main{max-width:1150px;margin:auto;padding:30px 20px 70px}
+.page{display:none}.page.active{display:block}
+
+.hero{padding:65px 20px;text-align:center}
+.hero h1{max-width:800px;margin:auto;font-size:clamp(36px,6vw,64px);line-height:1.05;margin-bottom:20px}
+.hero h1 span{color:#125bd1}
+.hero p{max-width:680px;margin:auto;color:#647084;font-size:18px;line-height:1.6}
+.hero-actions{margin-top:28px;display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+
+.section-title{text-align:center;margin:35px 0 20px}
+.section-title h2{font-size:30px;margin-bottom:8px}
+.section-title p{color:#69758a}
+
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:white;border:1px solid #e2e8f1;border-radius:16px;padding:24px;box-shadow:0 5px 20px rgba(20,40,80,.04);text-align:left}
+.card-icon{width:45px;height:45px;border-radius:12px;background:#edf4ff;color:#125bd1;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:15px}
+.card h3{margin-bottom:8px}.card p{color:#6b7587;line-height:1.6}
+
+.search-box{background:white;border:1px solid #e1e7ef;border-radius:18px;padding:22px;box-shadow:0 8px 25px rgba(20,40,80,.05)}
+.search-grid{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:12px}
+.field label{display:block;font-size:13px;font-weight:700;margin-bottom:7px;color:#4d596c}
+.field input,.field select,.field textarea{width:100%;border:1px solid #ccd6e5;border-radius:9px;padding:13px;outline:none;background:white}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#125bd1}
+
+.results-header{display:flex;justify-content:space-between;align-items:center;margin:30px 0 15px}
+.results-count{color:#657187}.results{display:grid;gap:15px}
+.opportunity{background:white;border:1px solid #e1e7ef;border-radius:15px;padding:20px}
+.opportunity-top{display:flex;justify-content:space-between;gap:15px}
+.badge{display:inline-block;background:#edf4ff;color:#125bd1;padding:5px 9px;border-radius:20px;font-size:12px;font-weight:700}
+.opportunity h3{margin:10px 0 7px;font-size:20px}
+.opportunity p{color:#687487;line-height:1.5}
+.meta{display:flex;flex-wrap:wrap;gap:13px;margin:14px 0;color:#59667a;font-size:13px}
+.opportunity-actions{display:flex;gap:9px;flex-wrap:wrap}
+.empty{background:white;border:1px dashed #ccd6e5;border-radius:15px;padding:45px 20px;text-align:center;color:#687487}
+.loading{text-align:center;padding:40px;color:#125bd1;font-weight:700}
+
+.form-card{max-width:600px;margin:30px auto;background:white;padding:28px;border-radius:18px;border:1px solid #e1e7ef}
+.form-card h2{margin-bottom:8px}.form-card>p{color:#6b7587;margin-bottom:22px}
+.form-group{margin-bottom:16px}.form-group label{display:block;font-weight:700;margin-bottom:7px}
+.form-group input,.form-group textarea{width:100%;border:1px solid #ccd6e5;border-radius:9px;padding:13px}
+.method-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.method-buttons button.active{background:#125bd1;color:white}
+.verify-result{margin-top:20px;padding:15px;border-radius:10px;background:#f1f6ff;display:none}
+
+.auth-box{max-width:440px;margin:50px auto;background:white;padding:28px;border-radius:18px;border:1px solid #e1e7ef}
+.auth-box h2{margin-bottom:8px}.auth-box>p{color:#69758a;margin-bottom:20px}
+.auth-switch{margin-top:18px;text-align:center;color:#69758a}
+.auth-switch button{border:0;background:none;color:#125bd1;font-weight:700}
+
+/* SUBSCRIPTION */
+.subscription-intro{text-align:center;max-width:700px;margin:35px auto 30px}
+.subscription-intro h1{font-size:38px;margin-bottom:12px}
+.subscription-intro p{color:#69758a;line-height:1.6}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.plan{background:white;border:1px solid #e1e7ef;border-radius:18px;padding:26px;box-shadow:0 5px 20px rgba(20,40,80,.04)}
+.plan.featured{border:2px solid #125bd1;position:relative}
+.plan.featured:before{content:"POPULAR";position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:#125bd1;color:white;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:800}
+.plan h3{font-size:22px;margin-bottom:12px}
+.plan-price{font-size:32px;font-weight:800;color:#125bd1;margin-bottom:12px}
+.plan-price span{font-size:14px;font-weight:500;color:#69758a}
+.plan-description{color:#69758a;line-height:1.5;min-height:48px;margin-bottom:18px}
+.plan ul{list-style:none;margin-bottom:22px}
+.plan li{padding:7px 0;color:#4f5d71;font-size:14px}
+.plan li:before{content:"✓";color:#125bd1;font-weight:800;margin-right:8px}
+.payment-note{max-width:760px;margin:25px auto 0;text-align:center;color:#69758a;font-size:13px;line-height:1.5}
+
+/* DASHBOARD */
+.dashboard-welcome{background:linear-gradient(135deg,#125bd1,#174ca5);color:white;padding:28px;border-radius:18px;margin-bottom:20px}
+.dashboard-welcome h2{font-size:28px;margin-bottom:7px}
+.dashboard-welcome p{opacity:.9}
+.plan-status{display:inline-block;background:rgba(255,255,255,.18);padding:7px 12px;border-radius:20px;margin-top:14px;font-size:13px;font-weight:700}
+
+.dashboard{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:20px}
+.stat{background:white;border:1px solid #e1e7ef;padding:22px;border-radius:15px}
+.stat strong{display:block;font-size:30px;color:#125bd1;margin-top:8px}
+
+.dashboard-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}
+.dashboard-action{background:white;border:1px solid #e1e7ef;border-radius:15px;padding:20px;text-align:left;transition:.2s}
+.dashboard-action:hover{border-color:#125bd1;transform:translateY(-2px)}
+.dashboard-action .action-icon{font-size:25px;margin-bottom:10px}
+.dashboard-action h3{font-size:16px;margin-bottom:6px}
+.dashboard-action p{font-size:13px;color:#69758a;line-height:1.5}
+
+.dashboard-bottom{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+
+/* LOCKED FEATURE */
+.feature-limit{margin-top:20px;background:white;border:1px solid #e1e7ef;border-radius:15px;padding:22px}
+.feature-limit h3{margin-bottom:8px}.feature-limit p{color:#69758a;line-height:1.5}
+
+/* TOAST */
+.toast{position:fixed;right:20px;bottom:20px;background:#172033;color:white;padding:14px 18px;border-radius:10px;display:none;z-index:100}
+
+footer{margin-top:50px;padding:30px 20px;text-align:center;color:#778195}
+
+@media(max-width:850px){
+.nav-links{display:none}
+.cards{grid-template-columns:1fr}
+.search-grid{grid-template-columns:1fr}
+.dashboard{grid-template-columns:1fr}
+.dashboard-actions{grid-template-columns:1fr}
+.plans{grid-template-columns:1fr}
+.subscription-intro h1{font-size:30px}
+.nav-actions{margin-left:auto}
 }
 </style>
 </head>
@@ -601,1044 +138,558 @@ footer {
 <body>
 
 <header>
-  <div class="nav">
+<div class="nav">
 
-    <div class="logo">
-      <div class="logo-icon">✓</div>
-      OpportunityCheck
-    </div>
+<div class="logo">
+<div class="logo-icon">✓</div>
+OpportunityCheck
+</div>
 
-    <div class="nav-links">
+<div class="nav-links">
+<button onclick="showPage('home')">Home</button>
+<button onclick="requireLogin('browse')">Find Opportunities</button>
+<button onclick="requireLogin('verify')">Verify</button>
+<button onclick="requireLogin('organizations')">Organizations</button>
+</div>
 
-      <button onclick="showPage('home')">
-        Home
-      </button>
+<div class="nav-actions" id="navActions"></div>
 
-      <button onclick="showPage('browse')">
-        Find Opportunities
-      </button>
-
-      <button onclick="showPage('verify')">
-        Verify
-      </button>
-
-      <button onclick="showPage('organizations')">
-        Organizations
-      </button>
-
-    </div>
-
-    <!-- Only Get Started remains.
-         It is hidden automatically outside the public home page
-         and whenever the user is logged in. -->
-    <div
-      class="nav-actions"
-      id="navActions">
-
-      <button
-        class="btn btn-primary"
-        onclick="showPage('auth')">
-        Get Started
-      </button>
-
-    </div>
-
-  </div>
+</div>
 </header>
-
 
 <main>
 
-
-<!-- =====================================================
-     HOME
-===================================================== -->
-
+<!-- HOME -->
 <section id="home" class="page active">
 
-  <div class="hero">
+<div class="hero">
+<h1>Don't let a fake opportunity <span>cost you.</span></h1>
 
-    <h1>
-      Don't let a fake opportunity
-      <span>cost you.</span>
-    </h1>
+<p>
+Find scholarships, jobs, internships, grants, fellowships and
+other opportunities — and verify suspicious opportunities before
+you submit your personal information or money.
+</p>
 
-    <p>
-      Find scholarships, jobs, internships, grants, fellowships and
-      other opportunities — and verify suspicious opportunities before
-      you submit your personal information or money.
-    </p>
+<div class="hero-actions">
+<button class="btn btn-primary" onclick="requireLogin('browse')">
+Find Opportunities
+</button>
 
-    <div class="hero-actions">
+<button class="btn btn-secondary" onclick="requireLogin('verify')">
+Verify an Opportunity
+</button>
+</div>
+</div>
 
-      <button
-        class="btn btn-primary"
-        onclick="requireLogin('browse')">
-        Find Opportunities
-      </button>
+<div class="section-title">
+<h2>What OpportunityCheck offers</h2>
+<p>Discover opportunities and check them before you trust them.</p>
+</div>
 
-      <button
-        class="btn btn-secondary"
-        onclick="requireLogin('verify')">
-        Verify an Opportunity
-      </button>
+<div class="cards">
 
-    </div>
+<button class="card" onclick="requireLogin('browse')">
+<div class="card-icon">🔎</div>
+<h3>Find Opportunities</h3>
+<p>Search for current jobs, scholarships, grants, internships and many other opportunities.</p>
+</button>
 
-  </div>
+<button class="card" onclick="requireLogin('verify')">
+<div class="card-icon">✓</div>
+<h3>Verify Before You Trust</h3>
+<p>Check a suspicious opportunity using its link, text or an uploaded image.</p>
+</button>
 
+<button class="card" onclick="requireLogin('organizations')">
+<div class="card-icon">🏢</div>
+<h3>For Organizations</h3>
+<p>Organizations can request verification and build trust with people discovering their opportunities.</p>
+</button>
 
-  <div class="section-title">
-
-    <h2>
-      What OpportunityCheck offers
-    </h2>
-
-    <p>
-      Discover opportunities and check them before you trust them.
-    </p>
-
-  </div>
-
-
-  <div class="cards">
-
-    <button
-      class="card"
-      onclick="requireLogin('browse')">
-
-      <div class="card-icon">
-        🔎
-      </div>
-
-      <h3>
-        Find Opportunities
-      </h3>
-
-      <p>
-        Search for current jobs, scholarships, grants,
-        internships and many other opportunities.
-      </p>
-
-    </button>
-
-
-    <button
-      class="card"
-      onclick="requireLogin('verify')">
-
-      <div class="card-icon">
-        ✓
-      </div>
-
-      <h3>
-        Verify Before You Trust
-      </h3>
-
-      <p>
-        Check a suspicious opportunity using its link,
-        text or an uploaded image.
-      </p>
-
-    </button>
-
-
-    <button
-      class="card"
-      onclick="requireLogin('organizations')">
-
-      <div class="card-icon">
-        🏢
-      </div>
-
-      <h3>
-        For Organizations
-      </h3>
-
-      <p>
-        Organizations can request verification and build
-        trust with people discovering their opportunities.
-      </p>
-
-    </button>
-
-  </div>
-
+</div>
 </section>
 
 
-<!-- =====================================================
-     BROWSE
-===================================================== -->
-
+<!-- BROWSE -->
 <section id="browse" class="page">
 
-  <div class="section-title">
-
-    <h2>
-      Find Opportunities
-    </h2>
-
-    <p>
-      Search current opportunities from available sources.
-    </p>
-
-  </div>
-
-
-  <div class="search-box">
-
-    <div class="search-grid">
-
-      <div class="field">
-
-        <label>
-          What are you looking for?
-        </label>
-
-        <input
-          id="searchQuery"
-          type="text"
-          placeholder="e.g. software engineering, scholarship, internship">
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          Category
-        </label>
-
-        <select id="category">
-
-          <option value="Jobs">
-            Jobs
-          </option>
-
-          <option value="Scholarships">
-            Scholarships
-          </option>
-
-          <option value="Internships">
-            Internships
-          </option>
-
-          <option value="Grants">
-            Grants
-          </option>
-
-          <option value="Competitions">
-            Competitions
-          </option>
-
-          <option value="Training">
-            Training
-          </option>
-
-          <option value="Programs">
-            Programs
-          </option>
-
-          <option value="Awards">
-            Awards
-          </option>
-
-          <option value="Volunteering">
-            Volunteering
-          </option>
-
-          <option value="Apprenticeships">
-            Apprenticeships
-          </option>
-
-          <option value="Short Courses">
-            Short Courses
-          </option>
-
-          <option value="Youth Opportunities">
-            Youth Opportunities
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          Location
-        </label>
-
-        <select id="country">
-
-          <option value="">
-            Worldwide
-          </option>
-
-          <option value="Nigeria">
-            Nigeria
-          </option>
-
-          <option value="Kenya">
-            Kenya
-          </option>
-
-          <option value="Ghana">
-            Ghana
-          </option>
-
-          <option value="South Africa">
-            South Africa
-          </option>
-
-          <option value="United States">
-            United States
-          </option>
-
-          <option value="United Kingdom">
-            United Kingdom
-          </option>
-
-          <option value="Canada">
-            Canada
-          </option>
-
-          <option value="Australia">
-            Australia
-          </option>
-
-          <option value="Germany">
-            Germany
-          </option>
-
-          <option value="France">
-            France
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          &nbsp;
-        </label>
-
-        <button
-          class="btn btn-primary"
-          style="width:100%;height:46px"
-          onclick="searchOpportunities()">
-
-          Search
-
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="results-header">
-
-    <h2>
-      Results
-    </h2>
-
-    <span
-      id="resultsCount"
-      class="results-count">
-    </span>
-
-  </div>
-
-
-  <div
-    id="results"
-    class="results">
-
-    <div class="empty">
-
-      Enter what you're looking for and press Search.
-
-    </div>
-
-  </div>
+<div class="section-title">
+<h2>Find Opportunities</h2>
+<p>Search current opportunities from available sources.</p>
+</div>
+
+<div class="search-box">
+<div class="search-grid">
+
+<div class="field">
+<label>What are you looking for?</label>
+<input id="searchQuery" type="text" placeholder="e.g. software engineering, scholarship, internship">
+</div>
+
+<div class="field">
+<label>Category</label>
+<select id="category">
+<option value="Jobs">Jobs</option>
+<option value="Scholarships">Scholarships</option>
+<option value="Internships">Internships</option>
+<option value="Grants">Grants</option>
+<option value="Competitions">Competitions</option>
+<option value="Training">Training</option>
+<option value="Programs">Programs</option>
+<option value="Awards">Awards</option>
+<option value="Volunteering">Volunteering</option>
+<option value="Apprenticeships">Apprenticeships</option>
+<option value="Short Courses">Short Courses</option>
+<option value="Youth Opportunities">Youth Opportunities</option>
+</select>
+</div>
+
+<div class="field">
+<label>Location</label>
+<select id="country">
+<option value="">Worldwide</option>
+<option value="Nigeria">Nigeria</option>
+<option value="Kenya">Kenya</option>
+<option value="Ghana">Ghana</option>
+<option value="South Africa">South Africa</option>
+<option value="United States">United States</option>
+<option value="United Kingdom">United Kingdom</option>
+<option value="Canada">Canada</option>
+<option value="Australia">Australia</option>
+<option value="Germany">Germany</option>
+<option value="France">France</option>
+</select>
+</div>
+
+<div class="field">
+<label>&nbsp;</label>
+<button class="btn btn-primary" style="width:100%;height:46px" onclick="searchOpportunities()">
+Search
+</button>
+</div>
+
+</div>
+</div>
+
+<div class="results-header">
+<h2>Results</h2>
+<span id="resultsCount" class="results-count"></span>
+</div>
+
+<div id="results" class="results">
+<div class="empty">Enter what you're looking for and press Search.</div>
+</div>
 
 </section>
 
 
-<!-- =====================================================
-     VERIFY
-===================================================== -->
-
+<!-- VERIFY -->
 <section id="verify" class="page">
 
-  <div class="section-title">
+<div class="section-title">
+<h2>Verify an Opportunity</h2>
+<p>Check an opportunity before giving it your information or money.</p>
+</div>
 
-    <h2>
-      Verify an Opportunity
-    </h2>
+<div class="form-card">
 
-    <p>
-      Check an opportunity before giving it your information or money.
-    </p>
+<h2>What do you have?</h2>
+<p>Choose one verification method.</p>
 
-  </div>
+<div class="method-buttons">
 
+<button id="linkMethod" class="btn btn-outline active" onclick="selectMethod('link')">
+Paste Link
+</button>
 
-  <div class="form-card">
+<button id="textMethod" class="btn btn-outline" onclick="selectMethod('text')">
+Paste Text
+</button>
 
-    <h2>
-      What do you have?
-    </h2>
+<button id="imageMethod" class="btn btn-outline" onclick="selectMethod('image')">
+Upload Image
+</button>
 
-    <p>
-      Choose one verification method.
-    </p>
+</div>
 
+<div id="linkInput" class="form-group">
+<label>Opportunity link</label>
+<input id="verifyLink" type="url" placeholder="https://example.com/opportunity">
+</div>
 
-    <div class="method-buttons">
+<div id="textInput" class="form-group" style="display:none">
+<label>Opportunity text</label>
+<textarea id="verifyText" rows="7" placeholder="Paste the opportunity details here..."></textarea>
+</div>
 
-      <button
-        id="linkMethod"
-        class="btn btn-outline active"
-        onclick="selectMethod('link')">
+<div id="imageInput" class="form-group" style="display:none">
+<label>Opportunity image</label>
+<input id="verifyImage" type="file" accept="image/*">
+</div>
 
-        Paste Link
+<button class="btn btn-primary" style="width:100%" onclick="verifyOpportunity()">
+Check Opportunity
+</button>
 
-      </button>
+<div id="verifyResult" class="verify-result"></div>
 
-
-      <button
-        id="textMethod"
-        class="btn btn-outline"
-        onclick="selectMethod('text')">
-
-        Paste Text
-
-      </button>
-
-
-      <button
-        id="imageMethod"
-        class="btn btn-outline"
-        onclick="selectMethod('image')">
-
-        Upload Image
-
-      </button>
-
-    </div>
-
-
-    <div
-      id="linkInput"
-      class="form-group">
-
-      <label>
-        Opportunity link
-      </label>
-
-      <input
-        id="verifyLink"
-        type="url"
-        placeholder="https://example.com/opportunity">
-
-    </div>
-
-
-    <div
-      id="textInput"
-      class="form-group"
-      style="display:none">
-
-      <label>
-        Opportunity text
-      </label>
-
-      <textarea
-        id="verifyText"
-        rows="7"
-        placeholder="Paste the opportunity details here..."></textarea>
-
-    </div>
-
-
-    <div
-      id="imageInput"
-      class="form-group"
-      style="display:none">
-
-      <label>
-        Opportunity image
-      </label>
-
-      <input
-        id="verifyImage"
-        type="file"
-        accept="image/*">
-
-    </div>
-
-
-    <button
-      class="btn btn-primary"
-      style="width:100%"
-      onclick="verifyOpportunity()">
-
-      Check Opportunity
-
-    </button>
-
-
-    <div
-      id="verifyResult"
-      class="verify-result">
-    </div>
-
-  </div>
-
+</div>
 </section>
 
 
-<!-- =====================================================
-     ORGANIZATIONS
-===================================================== -->
-
+<!-- ORGANIZATIONS -->
 <section id="organizations" class="page">
 
-  <div class="section-title">
+<div class="section-title">
+<h2>For Organizations</h2>
+<p>Request verification and build trust around your opportunities.</p>
+</div>
 
-    <h2>
-      For Organizations
-    </h2>
+<div class="form-card">
 
-    <p>
-      Request verification and build trust around your opportunities.
-    </p>
+<h2>Request Organization Verification</h2>
+<p>Submit your organization details for review.</p>
 
-  </div>
+<div class="form-group">
+<label>Organization name</label>
+<input id="orgName" type="text">
+</div>
 
+<div class="form-group">
+<label>Website</label>
+<input id="orgWebsite" type="url" placeholder="https://example.com">
+</div>
 
-  <div class="form-card">
+<div class="form-group">
+<label>Contact email</label>
+<input id="orgEmail" type="email">
+</div>
 
-    <h2>
-      Request Organization Verification
-    </h2>
+<div class="form-group">
+<label>About the organization</label>
+<textarea id="orgDescription" rows="5"></textarea>
+</div>
 
-    <p>
-      Submit your organization details for review.
-    </p>
+<button class="btn btn-primary" style="width:100%" onclick="submitOrganization()">
+Submit Request
+</button>
 
-
-    <div class="form-group">
-
-      <label>
-        Organization name
-      </label>
-
-      <input
-        id="orgName"
-        type="text">
-
-    </div>
-
-
-    <div class="form-group">
-
-      <label>
-        Website
-      </label>
-
-      <input
-        id="orgWebsite"
-        type="url"
-        placeholder="https://example.com">
-
-    </div>
-
-
-    <div class="form-group">
-
-      <label>
-        Contact email
-      </label>
-
-      <input
-        id="orgEmail"
-        type="email">
-
-    </div>
-
-
-    <div class="form-group">
-
-      <label>
-        About the organization
-      </label>
-
-      <textarea
-        id="orgDescription"
-        rows="5"></textarea>
-
-    </div>
-
-
-    <button
-      class="btn btn-primary"
-      style="width:100%"
-      onclick="submitOrganization()">
-
-      Submit Request
-
-    </button>
-
-  </div>
-
+</div>
 </section>
 
 
-<!-- =====================================================
-     AUTH
-===================================================== -->
-
+<!-- AUTH -->
 <section id="auth" class="page">
 
-  <div class="auth-box">
+<div class="auth-box">
 
-    <h2 id="authTitle">
-      Login
-    </h2>
+<h2 id="authTitle">Login</h2>
 
-    <p id="authDescription">
-      Login to continue to your OpportunityCheck account.
-    </p>
+<p id="authDescription">
+Login to continue to your OpportunityCheck account.
+</p>
 
+<div id="nameGroup" class="form-group" style="display:none">
+<label>Full name</label>
+<input id="authName" type="text">
+</div>
 
-    <div
-      id="nameGroup"
-      class="form-group"
-      style="display:none">
+<div class="form-group">
+<label>Email</label>
+<input id="authEmail" type="email">
+</div>
 
-      <label>
-        Full name
-      </label>
+<div class="form-group">
+<label>Password</label>
+<input id="authPassword" type="password">
+</div>
 
-      <input
-        id="authName"
-        type="text">
+<button id="authButton" class="btn btn-primary" style="width:100%" onclick="handleAuth()">
+Login
+</button>
 
-    </div>
+<div class="auth-switch">
+<span id="switchText">Don't have an account?</span>
+<button onclick="toggleAuth()">
+<span id="switchButton">Create account</span>
+</button>
+</div>
 
-
-    <div class="form-group">
-
-      <label>
-        Email
-      </label>
-
-      <input
-        id="authEmail"
-        type="email">
-
-    </div>
-
-
-    <div class="form-group">
-
-      <label>
-        Password
-      </label>
-
-      <input
-        id="authPassword"
-        type="password">
-
-    </div>
-
-
-    <button
-      id="authButton"
-      class="btn btn-primary"
-      style="width:100%"
-      onclick="handleAuth()">
-
-      Login
-
-    </button>
-
-
-    <div class="auth-switch">
-
-      <span id="switchText">
-        Don't have an account?
-      </span>
-
-      <button onclick="toggleAuth()">
-
-        <span id="switchButton">
-          Create account
-        </span>
-
-      </button>
-
-    </div>
-
-  </div>
-
+</div>
 </section>
 
 
-<!-- =====================================================
-     SUBSCRIPTION
-===================================================== -->
-
+<!-- SUBSCRIPTION -->
 <section id="subscription" class="page">
 
-  <div class="subscription-intro">
+<div class="subscription-intro">
 
-    <h1>
-      Choose your plan
-    </h1>
+<h1>Choose your plan</h1>
 
-    <p>
-      Choose a monthly OpportunityCheck plan to unlock
-      opportunity discovery, verification and other tools.
-    </p>
+<p>
+Choose a monthly OpportunityCheck plan to unlock opportunity discovery,
+verification and other tools.
+</p>
 
-  </div>
+</div>
 
+<div class="plans">
 
-  <div class="plans">
+<div class="plan">
 
+<h3>Starter</h3>
 
-    <!-- STARTER -->
+<div class="plan-price">
+₦1,500 <span>/month</span>
+</div>
 
-    <div class="plan">
+<p class="plan-description">
+Essential tools for discovering and checking opportunities.
+</p>
 
-      <h3>
-        Starter
-      </h3>
+<ul>
+<li>20 opportunity searches</li>
+<li>5 verification checks</li>
+<li>20 saved opportunities</li>
+<li>5 deadline reminders</li>
+<li>3 alerts</li>
+<li>5 safety checks</li>
+<li>2 application readiness checks</li>
+<li>History</li>
+</ul>
 
-      <div class="plan-price">
-        ₦1,500
-        <span>
-          /month
-        </span>
-      </div>
+<button class="btn btn-outline" style="width:100%" onclick="choosePlan('starter')">
+Choose Starter
+</button>
 
-      <p class="plan-description">
-        Essential tools for discovering and checking opportunities.
-      </p>
+</div>
 
-      <ul>
 
-        <li>
-          20 opportunity searches
-        </li>
+<div class="plan featured">
 
-        <li>
-          5 verification checks
-        </li>
+<h3>Plus</h3>
 
-        <li>
-          20 saved opportunities
-        </li>
+<div class="plan-price">
+₦3,000 <span>/month</span>
+</div>
 
-        <li>
-          5 deadline reminders
-        </li>
+<p class="plan-description">
+More searches and checks for regular opportunity seekers.
+</p>
 
-        <li>
-          3 alerts
-        </li>
+<ul>
+<li>60 opportunity searches</li>
+<li>15 verification checks</li>
+<li>100 saved opportunities</li>
+<li>20 deadline reminders</li>
+<li>10 alerts</li>
+<li>15 safety checks</li>
+<li>10 application readiness checks</li>
+<li>History</li>
+</ul>
 
-        <li>
-          5 safety checks
-        </li>
+<button class="btn btn-primary" style="width:100%" onclick="choosePlan('plus')">
+Choose Plus
+</button>
 
-        <li>
-          2 application readiness checks
-        </li>
+</div>
 
-        <li>
-          History
-        </li>
 
-      </ul>
+<div class="plan">
 
+<h3>Pro</h3>
 
-      <button
-        class="btn btn-outline"
-        style="width:100%"
-        onclick="choosePlan('starter')">
+<div class="plan-price">
+₦5,000 <span>/month</span>
+</div>
 
-        Choose Starter
+<p class="plan-description">
+Higher limits for users who need more OpportunityCheck tools.
+</p>
 
-      </button>
+<ul>
+<li>150 opportunity searches</li>
+<li>40 verification checks</li>
+<li>Unlimited saved opportunities</li>
+<li>50 deadline reminders</li>
+<li>Unlimited alerts</li>
+<li>40 safety checks</li>
+<li>25 application readiness checks</li>
+<li>Priority processing</li>
+<li>History</li>
+</ul>
 
-    </div>
+<button class="btn btn-outline" style="width:100%" onclick="choosePlan('pro')">
+Choose Pro
+</button>
 
+</div>
 
-    <!-- PLUS -->
+</div>
 
-    <div class="plan featured">
-
-      <h3>
-        Plus
-      </h3>
-
-      <div class="plan-price">
-        ₦3,000
-        <span>
-          /month
-        </span>
-      </div>
-
-      <p class="plan-description">
-        More searches and checks for regular opportunity seekers.
-      </p>
-
-      <ul>
-
-        <li>
-          60 opportunity searches
-        </li>
-
-        <li>
-          15 verification checks
-        </li>
-
-        <li>
-          100 saved opportunities
-        </li>
-
-        <li>
-          20 deadline reminders
-        </li>
-
-        <li>
-          10 alerts
-        </li>
-
-        <li>
-          15 safety checks
-        </li>
-
-        <li>
-          10 application readiness checks
-        </li>
-
-        <li>
-          History
-        </li>
-
-      </ul>
-
-
-      <button
-        class="btn btn-primary"
-        style="width:100%"
-        onclick="choosePlan('plus')">
-
-        Choose Plus
-
-      </button>
-
-    </div>
-
-
-    <!-- PRO -->
-
-    <div class="plan">
-
-      <h3>
-        Pro
-      </h3>
-
-      <div class="plan-price">
-        ₦5,000
-        <span>
-          /month
-        </span>
-      </div>
-
-      <p class="plan-description">
-        Higher limits for users who need more OpportunityCheck tools.
-      </p>
-
-      <ul>
-
-        <li>
-          150 opportunity searches
-        </li>
-
-        <li>
-          40 verification checks
-        </li>
-
-        <li>
-          Unlimited saved opportunities
-        </li>
-
-        <li>
-          50 deadline reminders
-        </li>
-
-        <li>
-          Unlimited alerts
-        </li>
-
-        <li>
-          40 safety checks
-        </li>
-
-        <li>
-          25 application readiness checks
-        </li>
-
-        <li>
-          Priority processing
-        </li>
-
-        <li>
-          History
-        </li>
-
-      </ul>
-
-
-      <button
-        class="btn btn-outline"
-        style="width:100%"
-        onclick="choosePlan('pro')">
-
-        Choose Pro
-
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <div class="payment-note">
-
-    Secure monthly subscription payments will be processed through Paystack.
-    Your plan becomes active after successful payment confirmation.
-
-  </div>
+<div class="payment-note">
+Secure monthly subscription payments will be processed through Paystack.
+Your plan becomes active after successful payment confirmation.
+</div>
 
 </section>
 
 
-<!-- =====================================================
-     DASHBOARD
-===================================================== -->
-
+<!-- DASHBOARD -->
 <section id="dashboard" class="page">
 
-  <div class="section-title">
+<div class="dashboard-welcome">
 
-    <h2>
-      Your Dashboard
-    </h2>
+<h2 id="dashboardGreeting">
+Welcome back
+</h2>
 
-    <p>
-      Manage your OpportunityCheck activity.
-    </p>
+<p>
+Manage your OpportunityCheck account and services from here.
+</p>
 
-  </div>
+<div id="planStatus" class="plan-status">
+Checking your plan...
+</div>
 
-
-  <div class="dashboard">
-
-    <div class="stat">
-
-      Saved opportunities
-
-      <strong id="savedCount">
-        0
-      </strong>
-
-    </div>
+</div>
 
 
-    <div class="stat">
+<div class="dashboard">
 
-      Verification requests
+<div class="stat">
+Saved opportunities
+<strong id="savedCount">0</strong>
+</div>
 
-      <strong id="verificationCount">
-        0
-      </strong>
+<div class="stat">
+Verification requests
+<strong id="verificationCount">0</strong>
+</div>
 
-    </div>
+<div class="stat">
+Organization requests
+<strong id="organizationCount">0</strong>
+</div>
 
-
-    <div class="stat">
-
-      Organization requests
-
-      <strong id="organizationCount">
-        0
-      </strong>
-
-    </div>
-
-  </div>
+</div>
 
 
-  <br>
+<h2 style="margin-top:30px;margin-bottom:12px">
+Your OpportunityCheck tools
+</h2>
+
+<div class="dashboard-actions">
+
+<button class="dashboard-action" onclick="requireLogin('browse')">
+<div class="action-icon">🔎</div>
+<h3>Find Opportunities</h3>
+<p>Search jobs, scholarships, grants, internships and other opportunities.</p>
+</button>
 
 
-  <button
-    class="btn btn-secondary"
-    onclick="signOut()">
+<button class="dashboard-action" onclick="requireLogin('verify')">
+<div class="action-icon">✓</div>
+<h3>Verify an Opportunity</h3>
+<p>Check an opportunity before submitting information or money.</p>
+</button>
 
-    Sign out
 
-  </button>
+<button class="dashboard-action" onclick="showFeature('saved')">
+<div class="action-icon">🔖</div>
+<h3>Saved Opportunities</h3>
+<p>View and manage opportunities you have saved.</p>
+</button>
+
+
+<button class="dashboard-action" onclick="showFeature('reminders')">
+<div class="action-icon">⏰</div>
+<h3>Deadline Reminders</h3>
+<p>Keep track of important opportunity deadlines.</p>
+</button>
+
+
+<button class="dashboard-action" onclick="showFeature('alerts')">
+<div class="action-icon">🔔</div>
+<h3>Alerts & Notifications</h3>
+<p>Receive alerts about opportunities and important updates.</p>
+</button>
+
+
+<button class="dashboard-action" onclick="showFeature('safety')">
+<div class="action-icon">🛡️</div>
+<h3>Safety Checks</h3>
+<p>Use additional safety checks before trusting an opportunity.</p>
+</button>
+
+
+<button class="dashboard-action" onclick="showFeature('readiness')">
+<div class="action-icon">📋</div>
+<h3>Application Readiness</h3>
+<p>Prepare your application before submitting it.</p>
+</button>
+
+
+<button class="dashboard-action" onclick="showFeature('history')">
+<div class="action-icon">🕘</div>
+<h3>History</h3>
+<p>Review your OpportunityCheck activity and previous requests.</p>
+</button>
+
+
+<button class="dashboard-action" onclick="requireLogin('organizations')">
+<div class="action-icon">🏢</div>
+<h3>Organization Requests</h3>
+<p>Manage your organization verification requests.</p>
+</button>
+
+</div>
+
+
+<div class="dashboard-bottom">
+
+<button class="btn btn-secondary" onclick="showPage('subscription')">
+Subscription
+</button>
+
+<button class="btn btn-outline" onclick="signOut()">
+Sign out
+</button>
+
+</div>
+
+
+<div id="featureMessage" class="feature-limit" style="display:none"></div>
 
 </section>
 
 </main>
 
-
 <footer>
-  OpportunityCheck — Verify Before You Trust.
+OpportunityCheck — Verify Before You Trust.
 </footer>
 
-
-<div
-  id="toast"
-  class="toast">
-</div>
+<div id="toast" class="toast"></div>
 
 
 <script>
 
-
 // =====================================================
-// SUPABASE CONFIGURATION
+// SUPABASE
 // =====================================================
 
 const SUPABASE_URL =
-  "https://qyjqrwymguvovjzurllt.supabase.co";
+"https://qyjqrwymguvovjzurllt.supabase.co";
 
 const SUPABASE_ANON_KEY =
-  "sb_publishable_24AQd7lyWO00umLldX2zXQ_6GdVt7QO";
+"sb_publishable_24AQd7lyWO00umLldX2zXQ_6GdVt7QO";
 
 const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-  );
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_ANON_KEY
+);
 
 
 // =====================================================
@@ -1646,25 +697,59 @@ const supabaseClient =
 // =====================================================
 
 const FUNCTION_NAME =
-  "search-opportunities";
+"search-opportunities";
 
 
 // =====================================================
 // PAYSTACK PLAN CODES
 // =====================================================
-// These are only Paystack plan codes.
-// The secret Paystack key must NOT be placed here.
 
 const PAYSTACK_PLANS = {
 
-  starter:
-    "PLN_qclu27kojxztxd0",
+starter:"PLN_qclu27kojxztxd0",
 
-  plus:
-    "PLN_o80t4hjqntij2rr",
+plus:"PLN_o80t4hjqntij2rr",
 
-  pro:
-    "PLN_pscgpam3u9kozz"
+pro:"PLN_pscgpam3u9kozz"
+
+};
+
+
+// =====================================================
+// PLAN LIMITS
+// =====================================================
+
+const PLAN_LIMITS = {
+
+starter:{
+searches:20,
+verifications:5,
+saved:20,
+reminders:5,
+alerts:3,
+safety:5,
+readiness:2
+},
+
+plus:{
+searches:60,
+verifications:15,
+saved:100,
+reminders:20,
+alerts:10,
+safety:15,
+readiness:10
+},
+
+pro:{
+searches:150,
+verifications:40,
+saved:"Unlimited",
+reminders:50,
+alerts:"Unlimited",
+safety:40,
+readiness:25
+}
 
 };
 
@@ -1673,52 +758,216 @@ const PAYSTACK_PLANS = {
 // HEADER
 // =====================================================
 
-async function updateHeader(pageName = null) {
+async function updateHeader(pageName="home") {
 
-  const navActions =
-    document.getElementById("navActions");
+const navActions =
+document.getElementById("navActions");
 
-  if (!navActions) return;
+if(!navActions) return;
 
-
-  const {
-    data: {
-      user
-    }
-  } =
-    await supabaseClient.auth.getUser();
-
-
-  /*
-    Logged-in users should not see Get Started.
-
-    Logged-out users only see Get Started
-    on the public Home page.
-
-    This means the Login page will not show
-    another Get Started button either.
-  */
-
-  if (user) {
-
-    navActions.style.display =
-      "none";
-
-    return;
-  }
+const {
+data:{
+user
+}
+} =
+await supabaseClient.auth.getUser();
 
 
-  if (pageName === "home") {
+if(!user) {
 
-    navActions.style.display =
-      "flex";
+if(pageName==="home") {
 
-  } else {
+navActions.innerHTML = `
+<button
+class="btn btn-primary"
+onclick="showPage('auth')">
+Get Started
+</button>
+`;
 
-    navActions.style.display =
-      "none";
+} else {
 
-  }
+navActions.innerHTML = "";
+
+}
+
+return;
+
+}
+
+
+/*
+Logged-in users now get the dashboard controls.
+*/
+
+navActions.innerHTML = `
+
+<button
+class="btn btn-secondary account-button"
+onclick="showPage('dashboard')">
+Dashboard
+</button>
+
+<button
+class="btn btn-outline account-button"
+onclick="showPage('subscription')">
+Subscription
+</button>
+
+<button
+class="btn btn-outline account-button"
+onclick="signOut()">
+Sign out
+</button>
+
+`;
+
+}
+
+
+// =====================================================
+// CHECK ACCOUNT ACCESS
+// =====================================================
+
+async function getAccountAccess() {
+
+const {
+data:{
+user
+}
+} =
+await supabaseClient.auth.getUser();
+
+if(!user) {
+
+return {
+user:null,
+profile:null,
+subscription:null,
+allowed:false
+};
+
+}
+
+
+const {
+data:profile,
+error:profileError
+} =
+await supabaseClient
+.from("profiles")
+.select("role,full_name,email")
+.eq("id",user.id)
+.maybeSingle();
+
+
+if(profileError) {
+
+console.error(
+"Profile check error:",
+profileError
+);
+
+return {
+user,
+profile:null,
+subscription:null,
+allowed:false,
+error:profileError
+};
+
+}
+
+
+/*
+Admin/creator has full access.
+*/
+
+if(
+profile &&
+profile.role==="admin"
+) {
+
+return {
+user,
+profile,
+subscription:null,
+allowed:true,
+isAdmin:true
+};
+
+}
+
+
+const {
+data:subscription,
+error:subscriptionError
+} =
+await supabaseClient
+.from("subscriptions")
+.select("plan,status,expires_at")
+.eq("user_id",user.id)
+.eq("status","active")
+.order("created_at",{ascending:false})
+.limit(1)
+.maybeSingle();
+
+
+if(subscriptionError) {
+
+console.error(
+"Subscription check error:",
+subscriptionError
+);
+
+return {
+user,
+profile,
+subscription:null,
+allowed:false,
+error:subscriptionError
+};
+
+}
+
+
+if(!subscription) {
+
+return {
+user,
+profile,
+subscription:null,
+allowed:false,
+isAdmin:false
+};
+
+}
+
+
+if(
+subscription.expires_at &&
+new Date(subscription.expires_at)<new Date()
+) {
+
+return {
+user,
+profile,
+subscription,
+allowed:false,
+expired:true,
+isAdmin:false
+};
+
+}
+
+
+return {
+user,
+profile,
+subscription,
+allowed:true,
+isAdmin:false
+};
 
 }
 
@@ -1727,195 +976,143 @@ async function updateHeader(pageName = null) {
 // PAGE NAVIGATION
 // =====================================================
 
-function showPage(pageName) {
+async function showPage(pageName) {
 
-  const protectedPages = [
+const protectedPages = [
 
-    "browse",
-    "verify",
-    "organizations",
-    "dashboard",
-    "subscription"
+"browse",
+"verify",
+"organizations",
+"dashboard"
 
-  ];
-
-
-  if (
-    protectedPages.includes(pageName)
-  ) {
-
-    supabaseClient.auth.getUser()
-      .then(({ data }) => {
-
-        if (!data.user) {
-
-          showToast(
-            "Please login to continue."
-          );
-
-          openPage("auth");
-
-          updateHeader("auth");
-
-          return;
-        }
+];
 
 
-        openPage(pageName);
+if(protectedPages.includes(pageName)) {
 
-        updateHeader(pageName);
-
-      });
-
-    return;
-  }
+const access =
+await getAccountAccess();
 
 
-  openPage(pageName);
+if(!access.user) {
 
-  updateHeader(pageName);
+showToast(
+"Please login to continue."
+);
+
+openPage("auth");
+updateHeader("auth");
+
+return;
+
+}
+
+
+/*
+Only admin or active subscribers can use
+the actual services.
+*/
+
+if(!access.allowed) {
+
+showToast(
+"Please choose a subscription plan to continue."
+);
+
+openPage("subscription");
+updateHeader("subscription");
+
+return;
+
+}
+
+}
+
+
+openPage(pageName);
+
+await updateHeader(pageName);
+
+
+if(pageName==="dashboard") {
+
+await loadDashboard();
+
+}
 
 }
 
 
 // =====================================================
-// REQUIRE LOGIN
+// REQUIRE LOGIN + SUBSCRIPTION
 // =====================================================
-// This is used by the Home buttons.
-// A visitor cannot jump directly into
-// the protected service.
 
 async function requireLogin(pageName) {
 
-  const {
-    data: {
-      user
-    }
-  } = await supabaseClient.auth.getUser();
+const access =
+await getAccountAccess();
 
 
-  // 1. User is not logged in
-  if (!user) {
+if(!access.user) {
 
-    showToast("Please login to continue.");
+showToast(
+"Please login to continue."
+);
 
-    openPage("auth");
+openPage("auth");
+updateHeader("auth");
 
-    updateHeader("auth");
-
-    return;
-  }
-
-
-  // 2. Check whether this user is an admin
-  const {
-    data: profile,
-    error: profileError
-  } = await supabaseClient
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .maybeSingle();
-
-
-  // 3. Stop if the profile check fails
-  if (profileError) {
-
-    console.error(
-      "Profile check error:",
-      profileError
-    );
-
-    showToast(
-      "Unable to check your account. Please try again."
-    );
-
-    return;
-  }
-
-
-  // 4. Admin/creator gets full access without subscription
-  if (profile && profile.role === "admin") {
-
-    openPage(pageName);
-
-    updateHeader(pageName);
-
-    return;
-  }
-
-
-  // 5. Normal users must have an active subscription
-  const {
-    data: subscription,
-    error: subscriptionError
-  } = await supabaseClient
-    .from("subscriptions")
-    .select("plan, status, expires_at")
-    .eq("user_id", user.id)
-    .eq("status", "active")
-    .order("created_at", {
-      ascending: false
-    })
-    .limit(1)
-    .maybeSingle();
-
-
-  // 6. Subscription check failed
-  if (subscriptionError) {
-
-    console.error(
-      "Subscription check error:",
-      subscriptionError
-    );
-
-    showToast(
-      "Unable to check your subscription. Please try again."
-    );
-
-    return;
-  }
-
-
-  // 7. No active subscription
-  if (!subscription) {
-
-    showToast(
-      "Please choose a subscription plan to continue."
-    );
-
-    openPage("subscription");
-
-    updateHeader("subscription");
-
-    return;
-  }
-
-
-  // 8. Subscription has expired
-  if (
-    subscription.expires_at &&
-    new Date(subscription.expires_at) < new Date()
-  ) {
-
-    showToast(
-      "Your subscription has expired. Please renew your plan."
-    );
-
-    openPage("subscription");
-
-    updateHeader("subscription");
-
-    return;
-  }
-
-
-  // 9. Normal user has an active subscription
-  openPage(pageName);
-
-  updateHeader(pageName);
+return;
 
 }
+
+
+if(access.error) {
+
+showToast(
+"Unable to check your account. Please try again."
+);
+
+return;
+
+}
+
+
+if(access.allowed) {
+
+openPage(pageName);
+await updateHeader(pageName);
+
+if(pageName==="dashboard") {
+
+await loadDashboard();
+
+}
+
+return;
+
+}
+
+
+if(access.expired) {
+
+showToast(
+"Your subscription has expired. Please renew your plan."
+);
+
+} else {
+
+showToast(
+"Please choose a subscription plan to continue."
+);
+
+}
+
+openPage("subscription");
+updateHeader("subscription");
+
+}
+
 
 // =====================================================
 // OPEN PAGE
@@ -1923,32 +1120,30 @@ async function requireLogin(pageName) {
 
 function openPage(pageName) {
 
-  document
-    .querySelectorAll(".page")
-    .forEach(page => {
+document
+.querySelectorAll(".page")
+.forEach(page => {
 
-      page.classList.remove("active");
+page.classList.remove("active");
 
-    });
-
-
-  const page =
-    document.getElementById(pageName);
+});
 
 
-  if (page) {
-
-    page.classList.add("active");
-
-  }
+const page =
+document.getElementById(pageName);
 
 
-  window.scrollTo({
+if(page) {
 
-    top: 0,
-    behavior: "smooth"
+page.classList.add("active");
 
-  });
+}
+
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
 
 }
 
@@ -1959,221 +1154,193 @@ function openPage(pageName) {
 
 function showToast(message) {
 
-  const toast =
-    document.getElementById("toast");
+const toast =
+document.getElementById("toast");
 
+toast.textContent =
+message;
 
-  toast.textContent =
-    message;
+toast.style.display =
+"block";
 
+setTimeout(() => {
 
-  toast.style.display =
-    "block";
+toast.style.display =
+"none";
 
-
-  setTimeout(() => {
-
-    toast.style.display =
-      "none";
-
-  }, 3000);
+},3000);
 
 }
 
 
 // =====================================================
-// SEARCH OPPORTUNITIES
+// SEARCH
 // =====================================================
 
 async function searchOpportunities() {
 
-  const {
-    data: {
-      user
-    }
-  } =
-    await supabaseClient.auth.getUser();
+const access =
+await getAccountAccess();
 
 
-  if (!user) {
+if(!access.user) {
 
-    showToast(
-      "Please login to search opportunities."
-    );
+showToast(
+"Please login to search opportunities."
+);
 
-    openPage("auth");
+openPage("auth");
+updateHeader("auth");
 
-    updateHeader("auth");
+return;
 
-    return;
-  }
+}
 
 
-  const query =
-    document
-      .getElementById("searchQuery")
-      .value
-      .trim();
+if(!access.allowed) {
 
+showToast(
+"Please choose a subscription plan first."
+);
 
-  const category =
-    document
-      .getElementById("category")
-      .value;
+openPage("subscription");
+updateHeader("subscription");
 
+return;
 
-  const country =
-    document
-      .getElementById("country")
-      .value;
+}
 
 
-  const results =
-    document
-      .getElementById("results");
+const query =
+document.getElementById("searchQuery").value.trim();
 
+const category =
+document.getElementById("category").value;
 
-  const resultsCount =
-    document
-      .getElementById("resultsCount");
+const country =
+document.getElementById("country").value;
 
+const results =
+document.getElementById("results");
 
-  results.innerHTML =
-    `<div class="loading">
-      Searching opportunities...
-    </div>`;
+const resultsCount =
+document.getElementById("resultsCount");
 
 
-  resultsCount.textContent =
-    "";
+results.innerHTML =
+`<div class="loading">Searching opportunities...</div>`;
 
+resultsCount.textContent="";
 
-  try {
 
-    const response =
-      await supabaseClient
-        .functions
-        .invoke(
-          FUNCTION_NAME,
-          {
-            body: {
-              query:
-                query,
+try {
 
-              category:
-                category,
+const response =
+await supabaseClient
+.functions
+.invoke(
+FUNCTION_NAME,
+{
+body:{
+query,
+category,
+country
+}
+}
+);
 
-              country:
-                country
-            }
-          }
-        );
 
+if(response.error) {
 
-    if (response.error) {
+throw response.error;
 
-      throw response.error;
+}
 
-    }
 
+const data =
+response.data;
 
-    const data =
-      response.data;
 
+if(
+!data ||
+data.success!==true
+) {
 
-    if (
-      !data ||
-      data.success !== true
-    ) {
+throw new Error(
+data?.error ||
+"The opportunity search failed."
+);
 
-      throw new Error(
-        data?.error ||
-        "The opportunity search failed."
-      );
+}
 
-    }
 
+const opportunities =
+Array.isArray(data.opportunities)
+?data.opportunities
+:[];
 
-    const opportunities =
-      Array.isArray(
-        data.opportunities
-      )
-        ? data.opportunities
-        : [];
 
+resultsCount.textContent =
+`${opportunities.length} opportunit${
+opportunities.length===1
+?"y"
+:"ies"
+} found`;
 
-    resultsCount.textContent =
-      `${opportunities.length} opportunity${
-        opportunities.length === 1
-          ? ""
-          : "ies"
-      } found`;
 
+if(!opportunities.length) {
 
-    if (
-      opportunities.length === 0
-    ) {
+results.innerHTML=`
 
-      results.innerHTML = `
+<div class="empty">
 
-        <div class="empty">
+<h3>No opportunities found</h3>
 
-          <h3>
-            No opportunities found
-          </h3>
+<br>
 
-          <br>
+<p>
+Try a different search term, category, or location.
+</p>
 
-          <p>
-            Try a different search term, category,
-            or location.
-          </p>
+</div>
 
-        </div>
+`;
 
-      `;
+return;
 
-      return;
-    }
+}
 
 
-    results.innerHTML =
-      opportunities
-        .map(opportunityCard)
-        .join("");
+results.innerHTML =
+opportunities
+.map(opportunityCard)
+.join("");
 
 
-  } catch (error) {
+} catch(error) {
 
-    console.error(
-      "SEARCH ERROR:",
-      error
-    );
+console.error(
+"SEARCH ERROR:",
+error
+);
 
+results.innerHTML=`
 
-    results.innerHTML = `
+<div class="empty">
 
-      <div class="empty">
+<h3>We couldn't complete the search.</h3>
 
-        <h3>
-          We couldn't complete the search.
-        </h3>
+<br>
 
-        <br>
+<p>Please try again.</p>
 
-        <p>
-          Please try again.
-        </p>
+</div>
 
-      </div>
+`;
 
-    `;
+resultsCount.textContent="";
 
-
-    resultsCount.textContent =
-      "";
-
-  }
+}
 
 }
 
@@ -2184,219 +1351,156 @@ async function searchOpportunities() {
 
 function opportunityCard(item) {
 
-  const title =
-    escapeHTML(
-      item.title ||
-      "Untitled opportunity"
-    );
+const title =
+escapeHTML(
+item.title ||
+"Untitled opportunity"
+);
 
+const description =
+escapeHTML(
+item.description ||
+"No description available."
+);
 
-  const description =
-    escapeHTML(
-      item.description ||
-      "No description available."
-    );
+const organization =
+escapeHTML(
+item.organization_name ||
+"Organization not provided"
+);
 
+const category =
+escapeHTML(
+item.category ||
+"Opportunity"
+);
 
-  const organization =
-    escapeHTML(
-      item.organization_name ||
-      "Organization not provided"
-    );
+const source =
+escapeHTML(
+item.source_name ||
+"Unknown source"
+);
 
+const applicationURL =
+item.application_url ||
+"";
 
-  const category =
-    escapeHTML(
-      item.category ||
-      "Opportunity"
-    );
+let locationText="";
 
+if(item.location) {
 
-  const source =
-    escapeHTML(
-      item.source_name ||
-      "Unknown source"
-    );
+locationText=item.location;
 
+} else if(item.country) {
 
-  const applicationURL =
-    item.application_url ||
-    "";
+locationText=item.country;
 
+} else if(item.remote) {
 
-  let locationText =
-    "";
+locationText="Remote";
 
+} else {
 
-  if (item.location) {
+locationText="Location not provided";
 
-    locationText =
-      item.location;
+}
 
-  } else if (item.country) {
+const location =
+escapeHTML(locationText);
 
-    locationText =
-      item.country;
+let deadlineText =
+"Deadline not provided";
 
-  } else if (item.remote) {
+if(item.deadline) {
 
-    locationText =
-      "Remote";
+const deadlineDate =
+new Date(item.deadline);
 
-  } else {
+if(!Number.isNaN(deadlineDate.getTime())) {
 
-    locationText =
-      "Location not provided";
+deadlineText =
+deadlineDate.toLocaleDateString(
+"en-GB",
+{
+day:"numeric",
+month:"long",
+year:"numeric"
+}
+);
 
-  }
+} else {
 
+deadlineText =
+String(item.deadline);
 
-  const location =
-    escapeHTML(
-      locationText
-    );
+}
 
+}
 
-  let deadlineText =
-    "Deadline not provided";
+const deadline =
+escapeHTML(deadlineText);
 
 
-  if (item.deadline) {
+return `
 
-    const deadlineDate =
-      new Date(
-        item.deadline
-      );
+<article class="opportunity">
 
+<div class="opportunity-top">
 
-    if (
-      !Number.isNaN(
-        deadlineDate.getTime()
-      )
-    ) {
+<div>
 
-      deadlineText =
-        deadlineDate
-          .toLocaleDateString(
-            "en-GB",
-            {
-              day:
-                "numeric",
+<span class="badge">
+${category}
+</span>
 
-              month:
-                "long",
+<h3>${title}</h3>
 
-              year:
-                "numeric"
-            }
-          );
+</div>
 
-    } else {
+</div>
 
-      deadlineText =
-        escapeHTML(
-          String(
-            item.deadline
-          )
-        );
+<p>${description}</p>
 
-    }
+<div class="meta">
 
-  }
+<span>🏢 ${organization}</span>
 
+<span>📍 ${location}</span>
 
-  const deadline =
-    escapeHTML(
-      deadlineText
-    );
+<span>📅 Deadline: ${deadline}</span>
 
+<span>Source: ${source}</span>
 
-  return `
+</div>
 
-    <article class="opportunity">
+<div class="opportunity-actions">
 
-      <div class="opportunity-top">
+${
+applicationURL
+?`
+<a
+href="${escapeAttribute(applicationURL)}"
+target="_blank"
+rel="noopener noreferrer"
+class="btn btn-primary"
+style="text-decoration:none">
+View / Apply
+</a>
+`
+:""
+}
 
-        <div>
+<button
+class="btn btn-secondary"
+onclick='saveOpportunity(${JSON.stringify(item)})'>
+Save
+</button>
 
-          <span class="badge">
-            ${category}
-          </span>
+</div>
 
-          <h3>
-            ${title}
-          </h3>
+</article>
 
-        </div>
-
-      </div>
-
-
-      <p>
-        ${description}
-      </p>
-
-
-      <div class="meta">
-
-        <span>
-          🏢 ${organization}
-        </span>
-
-        <span>
-          📍 ${location}
-        </span>
-
-        <span>
-          📅 Deadline: ${deadline}
-        </span>
-
-        <span>
-          Source: ${source}
-        </span>
-
-      </div>
-
-
-      <div class="opportunity-actions">
-
-        ${
-          applicationURL
-            ? `
-
-              <a
-                href="${escapeAttribute(
-                  applicationURL
-                )}"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="btn btn-primary"
-                style="text-decoration:none">
-
-                View / Apply
-
-              </a>
-
-            `
-            : ""
-        }
-
-
-        <button
-          class="btn btn-secondary"
-          onclick='saveOpportunity(${JSON.stringify(
-            item
-          )})'>
-
-          Save
-
-        </button>
-
-      </div>
-
-    </article>
-
-  `;
+`;
 
 }
 
@@ -2407,172 +1511,123 @@ function opportunityCard(item) {
 
 async function saveOpportunity(item) {
 
-  const {
-    data: {
-      user
-    }
-  } =
-    await supabaseClient
-      .auth
-      .getUser();
+const access =
+await getAccountAccess();
+
+if(!access.user) {
+
+showToast("Please login to save opportunities.");
+openPage("auth");
+updateHeader("auth");
+return;
+
+}
+
+if(!access.allowed) {
+
+showToast("Please choose a subscription plan first.");
+openPage("subscription");
+updateHeader("subscription");
+return;
+
+}
 
 
-  if (!user) {
+const {
+error
+} =
+await supabaseClient
+.from("opportunities")
+.upsert({
 
-    showToast(
-      "Please login to save opportunities."
-    );
+title:item.title,
+description:item.description,
+category:item.category,
+organization_name:item.organization_name,
+country:item.country,
+location:item.location,
+remote:item.remote,
+source_name:item.source_name,
+source_url:item.source_url,
+application_url:item.application_url,
+posted_at:item.posted_at,
+deadline:item.deadline,
+status:"active"
 
-    openPage("auth");
-
-    updateHeader("auth");
-
-    return;
-  }
-
-
-  const {
-    error
-  } =
-    await supabaseClient
-      .from("opportunities")
-      .upsert({
-
-        title:
-          item.title,
-
-        description:
-          item.description,
-
-        category:
-          item.category,
-
-        organization_name:
-          item.organization_name,
-
-        country:
-          item.country,
-
-        location:
-          item.location,
-
-        remote:
-          item.remote,
-
-        source_name:
-          item.source_name,
-
-        source_url:
-          item.source_url,
-
-        application_url:
-          item.application_url,
-
-        posted_at:
-          item.posted_at,
-
-        deadline:
-          item.deadline,
-
-        status:
-          "active"
-
-      }, {
-
-        onConflict:
-          "id"
-
-      });
+},{
+onConflict:"id"
+});
 
 
-  if (error) {
+if(error) {
 
-    console.error(error);
+console.error(error);
 
-    showToast(
-      "Unable to save this opportunity."
-    );
+showToast(
+"Unable to save this opportunity."
+);
 
-    return;
+return;
 
-  }
-
-
-  const {
-    data: opportunity
-  } =
-    await supabaseClient
-      .from("opportunities")
-      .select("id")
-      .eq(
-        "title",
-        item.title
-      )
-      .eq(
-        "organization_name",
-        item.organization_name
-      )
-      .limit(1)
-      .maybeSingle();
+}
 
 
-  if (!opportunity) {
-
-    showToast(
-      "Opportunity could not be saved."
-    );
-
-    return;
-
-  }
-
-
-  const {
-    error: saveError
-  } =
-    await supabaseClient
-      .from("saved_opportunities")
-      .insert({
-
-        user_id:
-          user.id,
-
-        opportunity_id:
-          opportunity.id
-
-      });
+const {
+data:opportunity
+} =
+await supabaseClient
+.from("opportunities")
+.select("id")
+.eq("title",item.title)
+.eq("organization_name",item.organization_name)
+.limit(1)
+.maybeSingle();
 
 
-  if (saveError) {
+if(!opportunity) {
 
-    if (
-      saveError.code ===
-      "23505"
-    ) {
+showToast(
+"Opportunity could not be saved."
+);
 
-      showToast(
-        "Already saved."
-      );
+return;
 
-    } else {
-
-      console.error(
-        saveError
-      );
-
-      showToast(
-        "Could not save opportunity."
-      );
-
-    }
-
-    return;
-  }
+}
 
 
-  showToast(
-    "Opportunity saved."
-  );
+const {
+error:saveError
+} =
+await supabaseClient
+.from("saved_opportunities")
+.insert({
+
+user_id:access.user.id,
+opportunity_id:opportunity.id
+
+});
+
+
+if(saveError) {
+
+if(saveError.code==="23505") {
+
+showToast("Already saved.");
+
+} else {
+
+console.error(saveError);
+
+showToast("Could not save opportunity.");
+
+}
+
+return;
+
+}
+
+
+showToast("Opportunity saved.");
 
 }
 
@@ -2581,65 +1636,35 @@ async function saveOpportunity(item) {
 // VERIFY METHOD
 // =====================================================
 
-let selectedMethod =
-  "link";
+let selectedMethod="link";
 
 
 function selectMethod(method) {
 
-  selectedMethod =
-    method;
+selectedMethod=method;
+
+document.getElementById("linkInput").style.display =
+method==="link"?"block":"none";
+
+document.getElementById("textInput").style.display =
+method==="text"?"block":"none";
+
+document.getElementById("imageInput").style.display =
+method==="image"?"block":"none";
 
 
-  document
-    .getElementById(
-      "linkInput"
-    )
-    .style.display =
-      method === "link"
-        ? "block"
-        : "none";
+document
+.querySelectorAll(".method-buttons button")
+.forEach(button => {
+
+button.classList.remove("active");
+
+});
 
 
-  document
-    .getElementById(
-      "textInput"
-    )
-    .style.display =
-      method === "text"
-        ? "block"
-        : "none";
-
-
-  document
-    .getElementById(
-      "imageInput"
-    )
-    .style.display =
-      method === "image"
-        ? "block"
-        : "none";
-
-
-  document
-    .querySelectorAll(
-      ".method-buttons button"
-    )
-    .forEach(button => {
-
-      button.classList
-        .remove("active");
-
-    });
-
-
-  document
-    .getElementById(
-      method +
-      "Method"
-    )
-    .classList
-    .add("active");
+document
+.getElementById(method+"Method")
+.classList.add("active");
 
 }
 
@@ -2650,234 +1675,173 @@ function selectMethod(method) {
 
 async function verifyOpportunity() {
 
-  const {
-    data: {
-      user
-    }
-  } =
-    await supabaseClient
-      .auth
-      .getUser();
+const access =
+await getAccountAccess();
 
 
-  if (!user) {
+if(!access.user) {
 
-    showToast(
-      "Please login before submitting a verification request."
-    );
+showToast(
+"Please login before submitting a verification request."
+);
 
-    openPage("auth");
+openPage("auth");
+updateHeader("auth");
 
-    updateHeader("auth");
+return;
 
-    return;
-  }
+}
 
 
-  let evidence =
-    "";
+if(!access.allowed) {
 
-  let imageURL =
-    null;
+showToast(
+"Please choose a subscription plan first."
+);
 
+openPage("subscription");
+updateHeader("subscription");
 
-  if (
-    selectedMethod ===
-    "link"
-  ) {
+return;
 
-    evidence =
-      document
-        .getElementById(
-          "verifyLink"
-        )
-        .value
-        .trim();
+}
 
 
-    if (!evidence) {
+let evidence="";
+let imageURL=null;
 
-      showToast(
-        "Please enter the opportunity link."
-      );
 
-      return;
+if(selectedMethod==="link") {
 
-    }
+evidence =
+document.getElementById("verifyLink").value.trim();
 
-  }
+if(!evidence) {
 
+showToast(
+"Please enter the opportunity link."
+);
 
-  if (
-    selectedMethod ===
-    "text"
-  ) {
+return;
 
-    evidence =
-      document
-        .getElementById(
-          "verifyText"
-        )
-        .value
-        .trim();
+}
 
+}
 
-    if (!evidence) {
 
-      showToast(
-        "Please paste the opportunity text."
-      );
+if(selectedMethod==="text") {
 
-      return;
+evidence =
+document.getElementById("verifyText").value.trim();
 
-    }
+if(!evidence) {
 
-  }
+showToast(
+"Please paste the opportunity text."
+);
 
+return;
 
-  if (
-    selectedMethod ===
-    "image"
-  ) {
+}
 
-    const file =
-      document
-        .getElementById(
-          "verifyImage"
-        )
-        .files[0];
+}
 
 
-    if (!file) {
+if(selectedMethod==="image") {
 
-      showToast(
-        "Please upload an image."
-      );
+const file =
+document.getElementById("verifyImage").files[0];
 
-      return;
+if(!file) {
 
-    }
+showToast(
+"Please upload an image."
+);
 
+return;
 
-    const fileName =
-      `${user.id}/${Date.now()}-${file.name}`;
+}
 
 
-    const upload =
-      await supabaseClient
-        .storage
-        .from(
-          "opportunity-evidence"
-        )
-        .upload(
-          fileName,
-          file
-        );
+const fileName =
+`${access.user.id}/${Date.now()}-${file.name}`;
 
+const upload =
+await supabaseClient
+.storage
+.from("opportunity-evidence")
+.upload(fileName,file);
 
-    if (upload.error) {
 
-      console.error(
-        upload.error
-      );
+if(upload.error) {
 
-      showToast(
-        "Image upload failed."
-      );
+console.error(upload.error);
 
-      return;
+showToast("Image upload failed.");
 
-    }
+return;
 
+}
 
-    const publicURL =
-      supabaseClient
-        .storage
-        .from(
-          "opportunity-evidence"
-        )
-        .getPublicUrl(
-          fileName
-        );
 
+const publicURL =
+supabaseClient
+.storage
+.from("opportunity-evidence")
+.getPublicUrl(fileName);
 
-    imageURL =
-      publicURL
-        .data
-        .publicUrl;
+imageURL =
+publicURL.data.publicUrl;
 
+evidence="Image uploaded";
 
-    evidence =
-      "Image uploaded";
+}
 
-  }
 
+const {
+error
+} =
+await supabaseClient
+.from("verification_requests")
+.insert({
 
-  const {
-    error
-  } =
-    await supabaseClient
-      .from(
-        "verification_requests"
-      )
-      .insert({
+user_id:access.user.id,
+evidence_type:selectedMethod,
+evidence,
+image_url:imageURL,
+status:"pending"
 
-        user_id:
-          user.id,
+});
 
-        evidence_type:
-          selectedMethod,
 
-        evidence:
-          evidence,
+if(error) {
 
-        image_url:
-          imageURL,
+console.error(error);
 
-        status:
-          "pending"
+showToast(
+"Could not submit verification request."
+);
 
-      });
+return;
 
+}
 
-  if (error) {
 
-    console.error(
-      error
-    );
+const result =
+document.getElementById("verifyResult");
 
-    showToast(
-      "Could not submit verification request."
-    );
+result.style.display="block";
 
-    return;
+result.innerHTML=`
 
-  }
+<strong>Request submitted.</strong>
 
+<br><br>
 
-  const result =
-    document
-      .getElementById(
-        "verifyResult"
-      );
+Your verification request has been received.
+You can track its status from your account.
 
-
-  result.style.display =
-    "block";
-
-
-  result.innerHTML = `
-
-    <strong>
-      Request submitted.
-    </strong>
-
-    <br><br>
-
-    Your verification request has been received.
-    You can track its status from your account.
-
-  `;
+`;
 
 }
 
@@ -2888,158 +1852,96 @@ async function verifyOpportunity() {
 
 async function submitOrganization() {
 
-  const {
-    data: {
-      user
-    }
-  } =
-    await supabaseClient
-      .auth
-      .getUser();
+const access =
+await getAccountAccess();
 
 
-  if (!user) {
+if(!access.user) {
 
-    showToast(
-      "Please login first."
-    );
+showToast("Please login first.");
+openPage("auth");
+updateHeader("auth");
+return;
 
-    openPage("auth");
-
-    updateHeader("auth");
-
-    return;
-
-  }
+}
 
 
-  const organizationName =
-    document
-      .getElementById(
-        "orgName"
-      )
-      .value
-      .trim();
+if(!access.allowed) {
+
+showToast(
+"Please choose a subscription plan first."
+);
+
+openPage("subscription");
+updateHeader("subscription");
+return;
+
+}
 
 
-  const website =
-    document
-      .getElementById(
-        "orgWebsite"
-      )
-      .value
-      .trim();
+const organizationName =
+document.getElementById("orgName").value.trim();
+
+const website =
+document.getElementById("orgWebsite").value.trim();
+
+const email =
+document.getElementById("orgEmail").value.trim();
+
+const description =
+document.getElementById("orgDescription").value.trim();
 
 
-  const email =
-    document
-      .getElementById(
-        "orgEmail"
-      )
-      .value
-      .trim();
+if(!organizationName) {
+
+showToast(
+"Please enter your organization name."
+);
+
+return;
+
+}
 
 
-  const description =
-    document
-      .getElementById(
-        "orgDescription"
-      )
-      .value
-      .trim();
+const {
+error
+} =
+await supabaseClient
+.from("organization_requests")
+.insert({
+
+user_id:access.user.id,
+organization_name:organizationName,
+website,
+contact_email:email,
+description,
+status:"pending"
+
+});
 
 
-  if (!organizationName) {
+if(error) {
 
-    showToast(
-      "Please enter your organization name."
-    );
+console.error(error);
 
-    return;
+showToast(
+"Could not submit organization request."
+);
 
-  }
+return;
 
-
-  const {
-    error
-  } =
-    await supabaseClient
-      .from(
-        "organization_requests"
-      )
-      .insert({
-
-        user_id:
-          user.id,
-
-        organization_name:
-          organizationName,
-
-        website:
-          website,
-
-        contact_email:
-          email,
-
-        description:
-          description,
-
-        status:
-          "pending"
-
-      });
+}
 
 
-  if (error) {
-
-    console.error(
-      error
-    );
-
-    showToast(
-      "Could not submit organization request."
-    );
-
-    return;
-
-  }
+showToast(
+"Organization request submitted."
+);
 
 
-  showToast(
-    "Organization request submitted."
-  );
-
-
-  document
-    .getElementById(
-      "orgName"
-    )
-    .value =
-      "";
-
-
-  document
-    .getElementById(
-      "orgWebsite"
-    )
-    .value =
-      "";
-
-
-  document
-    .getElementById(
-      "orgEmail"
-    )
-    .value =
-      "";
-
-
-  document
-    .getElementById(
-      "orgDescription"
-    )
-    .value =
-      "";
+document.getElementById("orgName").value="";
+document.getElementById("orgWebsite").value="";
+document.getElementById("orgEmail").value="";
+document.getElementById("orgDescription").value="";
 
 }
 
@@ -3048,74 +1950,32 @@ async function submitOrganization() {
 // AUTH
 // =====================================================
 
-let isSignUp =
-  false;
+let isSignUp=false;
 
 
 function toggleAuth() {
 
-  isSignUp =
-    !isSignUp;
+isSignUp=!isSignUp;
 
+document.getElementById("authTitle").textContent =
+isSignUp?"Create your account":"Login";
 
-  document
-    .getElementById(
-      "authTitle"
-    )
-    .textContent =
-      isSignUp
-        ? "Create your account"
-        : "Login";
+document.getElementById("authDescription").textContent =
+isSignUp
+?"Create an account to continue to your OpportunityCheck plan."
+:"Login to continue to your OpportunityCheck account.";
 
+document.getElementById("nameGroup").style.display =
+isSignUp?"block":"none";
 
-  document
-    .getElementById(
-      "authDescription"
-    )
-    .textContent =
-      isSignUp
-        ? "Create an account to continue to your OpportunityCheck plan."
-        : "Login to continue to your OpportunityCheck account.";
+document.getElementById("authButton").textContent =
+isSignUp?"Create account":"Login";
 
+document.getElementById("switchText").textContent =
+isSignUp?"Already have an account?":"Don't have an account?";
 
-  document
-    .getElementById(
-      "nameGroup"
-    )
-    .style.display =
-      isSignUp
-        ? "block"
-        : "none";
-
-
-  document
-    .getElementById(
-      "authButton"
-    )
-    .textContent =
-      isSignUp
-        ? "Create account"
-        : "Login";
-
-
-  document
-    .getElementById(
-      "switchText"
-    )
-    .textContent =
-      isSignUp
-        ? "Already have an account?"
-        : "Don't have an account?";
-
-
-  document
-    .getElementById(
-      "switchButton"
-    )
-    .textContent =
-      isSignUp
-        ? "Login"
-        : "Create account";
+document.getElementById("switchButton").textContent =
+isSignUp?"Login":"Create account";
 
 }
 
@@ -3126,208 +1986,146 @@ function toggleAuth() {
 
 async function handleAuth() {
 
-  const email =
-    document
-      .getElementById(
-        "authEmail"
-      )
-      .value
-      .trim();
+const email =
+document.getElementById("authEmail").value.trim();
 
+const password =
+document.getElementById("authPassword").value;
 
-  const password =
-    document
-      .getElementById(
-        "authPassword"
-      )
-      .value;
+const name =
+document.getElementById("authName").value.trim();
 
 
-  const name =
-    document
-      .getElementById(
-        "authName"
-      )
-      .value
-      .trim();
+if(!email || !password) {
 
+showToast(
+"Please enter your email and password."
+);
 
-  if (
-    !email ||
-    !password
-  ) {
+return;
 
-    showToast(
-      "Please enter your email and password."
-    );
+}
 
-    return;
 
-  }
+if(isSignUp) {
 
+if(!name) {
 
-  if (isSignUp) {
+showToast(
+"Please enter your full name."
+);
 
-    if (!name) {
+return;
 
-      showToast(
-        "Please enter your full name."
-      );
+}
 
-      return;
 
-    }
+const {
+data,
+error
+} =
+await supabaseClient
+.auth
+.signUp({
 
+email,
+password,
 
-    const {
-      error
-    } =
-      await supabaseClient
-        .auth
-        .signUp({
+options:{
+data:{
+full_name:name
+}
+}
 
-          email:
-            email,
+});
 
-          password:
-            password,
 
-          options: {
+if(error) {
 
-            data: {
+showToast(error.message);
+return;
 
-              full_name:
-                name
+}
 
-            }
 
-          }
+if(data.session) {
 
-        });
+showToast(
+"Account created. Choose your plan."
+);
 
+await updateHeader("subscription");
 
-    if (error) {
+openPage("subscription");
 
-      showToast(
-        error.message
-      );
+return;
 
-      return;
+}
 
-    }
 
+showToast(
+"Account created. Check your email if confirmation is required."
+);
 
-    /*
-      After account creation, send the user
-      to the subscription page if Supabase
-      has created an active session.
+isSignUp=false;
 
-      If email confirmation is required,
-      Supabase will ask the user to confirm
-      their email first.
-    */
+toggleAuth();
 
-    const {
-      data: {
-        user
-      }
-    } =
-      await supabaseClient
-        .auth
-        .getUser();
+return;
 
+}
 
-    if (user) {
 
-      showToast(
-        "Account created. Choose your plan."
-      );
+const {
+error
+} =
+await supabaseClient
+.auth
+.signInWithPassword({
 
-      openPage(
-        "subscription"
-      );
+email,
+password
 
-      updateHeader(
-        "subscription"
-      );
+});
 
-      return;
 
-    }
+if(error) {
 
+showToast(error.message);
+return;
 
-    showToast(
-      "Account created. Check your email if confirmation is required."
-    );
+}
 
 
-    isSignUp =
-      false;
+showToast("Login successful.");
 
 
-    toggleAuth();
+/*
+After login:
+Admin -> Dashboard
+Active subscriber -> Dashboard
+No subscription -> Subscription
+*/
 
+const access =
+await getAccountAccess();
 
-    return;
 
-  }
+if(access.allowed) {
 
+await loadDashboard();
 
-  const {
-    error
-  } =
-    await supabaseClient
-      .auth
-      .signInWithPassword({
+openPage("dashboard");
 
-        email:
-          email,
+await updateHeader("dashboard");
 
-        password:
-          password
+} else {
 
-      });
+openPage("subscription");
 
+await updateHeader("subscription");
 
-  if (error) {
-
-    showToast(
-      error.message
-    );
-
-    return;
-
-  }
-
-
-  showToast(
-    "Login successful. Choose your plan."
-  );
-
-
-  await loadDashboard();
-
-
-  /*
-    For now, every successful login goes
-    to the subscription page.
-
-    Later, when the check-subscription
-    Edge Function is connected, this will
-    become:
-
-    active subscriber → Dashboard
-    new/unpaid user → Subscription
-  */
-
-  openPage(
-    "subscription"
-  );
-
-
-  updateHeader(
-    "subscription"
-  );
+}
 
 }
 
@@ -3338,77 +2136,53 @@ async function handleAuth() {
 
 async function choosePlan(plan) {
 
-  const {
-    data: {
-      user
-    }
-  } =
-    await supabaseClient
-      .auth
-      .getUser();
+const {
+data:{
+user
+}
+} =
+await supabaseClient.auth.getUser();
 
 
-  if (!user) {
+if(!user) {
 
-    showToast(
-      "Please login first."
-    );
+showToast("Please login first.");
 
-    openPage(
-      "auth"
-    );
+openPage("auth");
 
-    updateHeader(
-      "auth"
-    );
+updateHeader("auth");
 
-    return;
+return;
 
-  }
+}
 
 
-  const planCode =
-    PAYSTACK_PLANS[
-      plan
-    ];
+const planCode =
+PAYSTACK_PLANS[plan];
 
 
-  if (!planCode) {
+if(!planCode) {
 
-    showToast(
-      "Invalid plan selected."
-    );
+showToast("Invalid plan selected.");
 
-    return;
+return;
 
-  }
+}
 
 
-  /*
-    Paystack checkout will be connected
-    here through the secure Supabase
-    create-checkout Edge Function.
+/*
+PAYSTACK CHECKOUT WILL BE CONNECTED
+THROUGH THE SECURE EDGE FUNCTION LATER.
 
-    We are intentionally not putting
-    your Paystack secret key in this
-    frontend code.
-  */
+The frontend never receives the Paystack secret key.
+*/
 
-  showToast(
-    "Plan selected. Paystack checkout will be connected next."
-  );
+showToast(
+`${capitalize(plan)} selected. Payment setup will be connected next.`
+);
 
-
-  console.log(
-    "Selected plan:",
-    plan
-  );
-
-
-  console.log(
-    "Paystack plan code:",
-    planCode
-  );
+console.log("Selected plan:",plan);
+console.log("Paystack plan code:",planCode);
 
 }
 
@@ -3419,24 +2193,13 @@ async function choosePlan(plan) {
 
 async function signOut() {
 
-  await supabaseClient
-    .auth
-    .signOut();
+await supabaseClient.auth.signOut();
 
+showToast("Signed out.");
 
-  showToast(
-    "Signed out."
-  );
+openPage("home");
 
-
-  openPage(
-    "home"
-  );
-
-
-  updateHeader(
-    "home"
-  );
+await updateHeader("home");
 
 }
 
@@ -3447,154 +2210,208 @@ async function signOut() {
 
 async function loadDashboard() {
 
-  const {
-    data: {
-      user
-    }
-  } =
-    await supabaseClient
-      .auth
-      .getUser();
+const {
+data:{
+user
+}
+} =
+await supabaseClient.auth.getUser();
 
 
-  if (!user) return;
+if(!user) return;
 
 
-  const saved =
-    await supabaseClient
-      .from(
-        "saved_opportunities"
-      )
-      .select(
-        "id",
-        {
-          count:
-            "exact",
-
-          head:
-            true
-        }
-      )
-      .eq(
-        "user_id",
-        user.id
-      );
+const {
+data:profile
+} =
+await supabaseClient
+.from("profiles")
+.select("role,full_name,email")
+.eq("id",user.id)
+.maybeSingle();
 
 
-  const verification =
-    await supabaseClient
-      .from(
-        "verification_requests"
-      )
-      .select(
-        "id",
-        {
-          count:
-            "exact",
-
-          head:
-            true
-        }
-      )
-      .eq(
-        "user_id",
-        user.id
-      );
+const dashboardGreeting =
+document.getElementById("dashboardGreeting");
 
 
-  const organization =
-    await supabaseClient
-      .from(
-        "organization_requests"
-      )
-      .select(
-        "id",
-        {
-          count:
-            "exact",
+if(profile?.full_name) {
 
-          head:
-            true
-        }
-      )
-      .eq(
-        "user_id",
-        user.id
-      );
+dashboardGreeting.textContent =
+`Welcome back, ${profile.full_name}`;
+
+} else {
+
+dashboardGreeting.textContent =
+"Welcome back";
+
+}
 
 
-  document
-    .getElementById(
-      "savedCount"
-    )
-    .textContent =
-      saved.count ||
-      0;
+/*
+Show current plan.
+*/
+
+const {
+data:subscription
+} =
+await supabaseClient
+.from("subscriptions")
+.select("plan,status,expires_at")
+.eq("user_id",user.id)
+.eq("status","active")
+.order("created_at",{ascending:false})
+.limit(1)
+.maybeSingle();
 
 
-  document
-    .getElementById(
-      "verificationCount"
-    )
-    .textContent =
-      verification.count ||
-      0;
+const planStatus =
+document.getElementById("planStatus");
 
 
-  document
-    .getElementById(
-      "organizationCount"
-    )
-    .textContent =
-      organization.count ||
-      0;
+if(profile?.role==="admin") {
+
+planStatus.textContent =
+"Admin account — full access";
+
+} else if(subscription) {
+
+const planName =
+capitalize(subscription.plan);
+
+planStatus.textContent =
+`${planName} plan — Active`;
+
+} else {
+
+planStatus.textContent =
+"No active subscription";
+
+}
+
+
+/*
+Load dashboard counts.
+*/
+
+const saved =
+await supabaseClient
+.from("saved_opportunities")
+.select("id",{count:"exact",head:true})
+.eq("user_id",user.id);
+
+
+const verification =
+await supabaseClient
+.from("verification_requests")
+.select("id",{count:"exact",head:true})
+.eq("user_id",user.id);
+
+
+const organization =
+await supabaseClient
+.from("organization_requests")
+.select("id",{count:"exact",head:true})
+.eq("user_id",user.id);
+
+
+document.getElementById("savedCount").textContent =
+saved.count || 0;
+
+document.getElementById("verificationCount").textContent =
+verification.count || 0;
+
+document.getElementById("organizationCount").textContent =
+organization.count || 0;
 
 }
 
 
 // =====================================================
-// ESCAPE HTML
+// DASHBOARD FEATURE PLACEHOLDERS
+// =====================================================
+// These buttons are now present in the dashboard.
+// Their actual database/backend functions will be
+// connected in the next stage.
+
+function showFeature(feature) {
+
+const accessMessage =
+document.getElementById("featureMessage");
+
+const names = {
+
+saved:"Saved Opportunities",
+
+reminders:"Deadline Reminders",
+
+alerts:"Alerts & Notifications",
+
+safety:"Safety Checks",
+
+readiness:"Application Readiness",
+
+history:"History"
+
+};
+
+
+accessMessage.style.display="block";
+
+accessMessage.innerHTML=`
+
+<h3>${names[feature] || "OpportunityCheck Feature"}</h3>
+
+<p>
+This feature is part of the OpportunityCheck service.
+Its database and backend function will be connected next.
+Your dashboard button is already in place.
+</p>
+
+<br>
+
+<button
+class="btn btn-secondary"
+onclick="showPage('subscription')">
+View Subscription
+</button>
+
+`;
+
+}
+
+
+// =====================================================
+// ESCAPE
 // =====================================================
 
 function escapeHTML(value) {
 
-  return String(value)
+return String(value)
 
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-
-    .replace(
-      /</g,
-      "&lt;"
-    )
-
-    .replace(
-      />/g,
-      "&gt;"
-    )
-
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-
-    .replace(
-      /'/g,
-      "&#039;"
-    );
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 
 }
 
 
 function escapeAttribute(value) {
 
-  return String(value)
-    .replace(
-      /"/g,
-      "&quot;"
-    );
+return String(value)
+.replace(/"/g,"&quot;");
+
+}
+
+
+function capitalize(value) {
+
+return String(value || "")
+.charAt(0)
+.toUpperCase() +
+String(value || "").slice(1);
 
 }
 
@@ -3603,44 +2420,51 @@ function escapeAttribute(value) {
 // AUTH STATE
 // =====================================================
 
-supabaseClient
-  .auth
-  .onAuthStateChange(
-    async (event, session) => {
+supabaseClient.auth.onAuthStateChange(
+async(event,session) => {
 
-      if (
-        event ===
-        "SIGNED_IN" &&
-        session
-      ) {
+if(event==="SIGNED_IN" && session) {
 
-        await loadDashboard();
+await loadDashboard();
 
-        updateHeader();
+await updateHeader("dashboard");
 
-      }
+}
 
+if(event==="SIGNED_OUT") {
 
-      if (
-        event ===
-        "SIGNED_OUT"
-      ) {
+await updateHeader("home");
 
-        updateHeader(
-          "home"
-        );
+}
 
-      }
-
-    }
-  );
+});
 
 
 // =====================================================
-// INITIAL HEADER STATE
+// INITIAL STATE
 // =====================================================
 
-updateHeader("home");
+(async function(){
+
+const {
+data:{
+user
+}
+} =
+await supabaseClient.auth.getUser();
+
+
+if(user) {
+
+await updateHeader("dashboard");
+
+} else {
+
+await updateHeader("home");
+
+}
+
+})();
 
 </script>
 
