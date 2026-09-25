@@ -1697,25 +1697,21 @@ footer{
 
   <div id="notificationsPanel">
 
-    <div class="alert-list">
+    <div id="notificationsList" class="alert-list">
 
-      <div class="alert-item">
+      <div class="coming">
 
-        <div class="alert-icon">
+        <div class="big-icon">
           🔔
         </div>
 
-        <div>
+        <h3>
+          Loading notifications...
+        </h3>
 
-          <h3>
-            Notifications
-          </h3>
-
-          <p style="color:#687487;margin-top:6px">
-            Your notification system will appear here.
-          </p>
-
-        </div>
+        <p>
+          Checking for new notifications.
+        </p>
 
       </div>
 
@@ -2673,12 +2669,36 @@ footer{
     </button>
 
 
+    <!-- NOTIFICATION BADGE ADDED HERE -->
+
     <button
       id="bottomAlerts"
-      onclick="bottomNavigate('alerts')">
+      onclick="bottomNavigate('alerts')"
+      style="position:relative">
 
       <span class="nav-icon">
         🔔
+      </span>
+
+      <span
+        id="notificationBadge"
+        style="
+          display:none;
+          position:absolute;
+          top:5px;
+          right:24%;
+          min-width:18px;
+          height:18px;
+          padding:0 5px;
+          border-radius:20px;
+          background:#d93025;
+          color:#fff;
+          font-size:10px;
+          font-weight:800;
+          align-items:center;
+          justify-content:center;
+          line-height:18px;
+        ">
       </span>
 
       Alerts
@@ -2764,6 +2784,13 @@ let isSignUp = false;
 
 
 /* =========================================================
+   NOTIFICATION REAL-TIME STATE
+========================================================= */
+
+let notificationChannel = null;
+
+
+/* =========================================================
    PAGE NAVIGATION
 ========================================================= */
 
@@ -2803,10 +2830,13 @@ function openPageDirect(pageName){
   });
 
   updateBottomNavigation(pageName);
+
 }
 
 
 async function openProtected(pageName){
+
+  closeMoreMenuNow();
 
   const {
     data:{
@@ -2824,6 +2854,7 @@ async function openProtected(pageName){
     openPageDirect("auth");
 
     return;
+
   }
 
   openPageDirect(pageName);
@@ -2834,6 +2865,14 @@ async function openProtected(pageName){
   ){
 
     await loadDashboard();
+
+  }
+
+  if(pageName === "alerts"){
+
+    await loadNotifications();
+
+    await updateNotificationBadge();
 
   }
 
@@ -2860,11 +2899,6 @@ function showPage(pageName){
 function bottomNavigate(pageName){
 
   if(pageName === "home"){
-
-    const loggedIn =
-      document
-        .getElementById("homeLoggedIn")
-        .style.display !== "none";
 
     openPageDirect("home");
 
@@ -2981,41 +3015,6 @@ function closeMoreMenuNow(){
   document
     .getElementById("menuOverlay")
     .classList.remove("open");
-
-}
-
-
-function openProtected(pageName){
-
-  closeMoreMenuNow();
-
-  supabaseClient.auth.getUser()
-    .then(({data}) => {
-
-      if(!data.user){
-
-        showToast(
-          "Please sign in to continue."
-        );
-
-        openPageDirect("auth");
-
-        return;
-
-      }
-
-      openPageDirect(pageName);
-
-      if(
-        pageName === "dashboard" ||
-        pageName === "profile"
-      ){
-
-        loadDashboard();
-
-      }
-
-    });
 
 }
 
@@ -3302,6 +3301,12 @@ async function handleAuth(){
   await updateHeader();
 
   await loadDashboard();
+
+  await loadNotifications();
+
+  await updateNotificationBadge();
+
+  await startNotificationListener();
 
   openPageDirect("home");
 
@@ -4427,6 +4432,545 @@ async function loadDashboard(){
 
   }
 
+
+  /* NOTIFICATION BADGE */
+
+  await updateNotificationBadge();
+
+}
+
+
+/* =========================================================
+   NOTIFICATION SYSTEM
+========================================================= */
+
+async function loadNotifications(){
+
+  const container =
+    document.getElementById(
+      "notificationsList"
+    );
+
+  if(!container){
+
+    return;
+
+  }
+
+
+  const {
+    data:{
+      user
+    }
+  } =
+    await supabaseClient.auth.getUser();
+
+
+  if(!user){
+
+    container.innerHTML = `
+
+      <div class="coming">
+
+        <div class="big-icon">
+          🔒
+        </div>
+
+        <h3>
+          Please sign in
+        </h3>
+
+        <p>
+          Sign in to view your notifications.
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  container.innerHTML = `
+
+    <div class="loading">
+      Loading notifications...
+    </div>
+
+  `;
+
+
+  const {
+    data:notifications,
+    error
+  } =
+    await supabaseClient
+      .from("notifications")
+      .select("*")
+      .eq(
+        "user_id",
+        user.id
+      )
+      .order(
+        "created_at",
+        {
+          ascending:false
+        }
+      );
+
+
+  if(error){
+
+    console.error(
+      "NOTIFICATION LOAD ERROR:",
+      error
+    );
+
+    container.innerHTML = `
+
+      <div class="empty">
+
+        <h3>
+          Unable to load notifications
+        </h3>
+
+        <br>
+
+        <p>
+          Please try again.
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  if(
+    !notifications ||
+    notifications.length === 0
+  ){
+
+    container.innerHTML = `
+
+      <div class="coming">
+
+        <div class="big-icon">
+          🔔
+        </div>
+
+        <h3>
+          No notifications yet
+        </h3>
+
+        <p>
+          Important updates will appear here.
+        </p>
+
+      </div>
+
+    `;
+
+    await updateNotificationBadge();
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    notifications
+      .map(notification => {
+
+        const createdAt =
+          new Date(
+            notification.created_at
+          );
+
+
+        const formattedDate =
+          Number.isNaN(
+            createdAt.getTime()
+          )
+            ? ""
+            : createdAt.toLocaleString(
+                "en-NG",
+                {
+                  dateStyle:"medium",
+                  timeStyle:"short"
+                }
+              );
+
+
+        const unread =
+          !notification.is_read;
+
+
+        return `
+
+          <div
+            class="alert-item"
+            onclick="markNotificationAsRead('${escapeAttribute(notification.id)}')"
+            style="
+              cursor:pointer;
+              position:relative;
+              ${
+                unread
+                  ? "background:#f4f8ff;"
+                  : ""
+              }
+            "
+          >
+
+            <div class="alert-icon">
+
+              ${
+                notification.type === "deadline"
+                  ? "⏰"
+                  : notification.type === "opportunity"
+                    ? "📢"
+                    : "🔔"
+              }
+
+            </div>
+
+
+            <div style="flex:1">
+
+              <h3>
+
+                ${escapeHTML(
+                  notification.title ||
+                  "Notification"
+                )}
+
+              </h3>
+
+
+              <p
+                style="
+                  color:#687487;
+                  margin-top:6px;
+                  line-height:1.5;
+                "
+              >
+
+                ${escapeHTML(
+                  notification.message ||
+                  ""
+                )}
+
+              </p>
+
+
+              ${
+                formattedDate
+                  ? `
+
+                    <small
+                      style="
+                        display:block;
+                        margin-top:9px;
+                        color:#8a94a6;
+                      "
+                    >
+
+                      ${escapeHTML(
+                        formattedDate
+                      )}
+
+                    </small>
+
+                  `
+                  : ""
+              }
+
+            </div>
+
+
+            ${
+              unread
+                ? `
+
+                  <span
+                    style="
+                      width:9px;
+                      height:9px;
+                      border-radius:50%;
+                      background:#125bd1;
+                      display:block;
+                      flex-shrink:0;
+                      margin-top:6px;
+                    "
+                  ></span>
+
+                `
+                : ""
+            }
+
+          </div>
+
+        `;
+
+      })
+      .join("");
+
+
+  await updateNotificationBadge();
+
+}
+
+
+async function updateNotificationBadge(){
+
+  const badge =
+    document.getElementById(
+      "notificationBadge"
+    );
+
+
+  if(!badge){
+
+    return;
+
+  }
+
+
+  const {
+    data:{
+      user
+    }
+  } =
+    await supabaseClient.auth.getUser();
+
+
+  if(!user){
+
+    badge.style.display =
+      "none";
+
+    return;
+
+  }
+
+
+  const {
+    count,
+    error
+  } =
+    await supabaseClient
+      .from("notifications")
+      .select(
+        "id",
+        {
+          count:"exact",
+          head:true
+        }
+      )
+      .eq(
+        "user_id",
+        user.id
+      )
+      .eq(
+        "is_read",
+        false
+      );
+
+
+  if(error){
+
+    console.error(
+      "NOTIFICATION COUNT ERROR:",
+      error
+    );
+
+    badge.style.display =
+      "none";
+
+    return;
+
+  }
+
+
+  const unreadCount =
+    count || 0;
+
+
+  if(unreadCount > 0){
+
+    badge.textContent =
+      unreadCount > 99
+        ? "99+"
+        : unreadCount;
+
+    badge.style.display =
+      "flex";
+
+  }else{
+
+    badge.textContent =
+      "";
+
+    badge.style.display =
+      "none";
+
+  }
+
+}
+
+
+async function markNotificationAsRead(
+  notificationId
+){
+
+  const {
+    data:{
+      user
+    }
+  } =
+    await supabaseClient.auth.getUser();
+
+
+  if(!user){
+
+    return;
+
+  }
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("notifications")
+      .update({
+        is_read:true
+      })
+      .eq(
+        "id",
+        notificationId
+      )
+      .eq(
+        "user_id",
+        user.id
+      );
+
+
+  if(error){
+
+    console.error(
+      "MARK NOTIFICATION READ ERROR:",
+      error
+    );
+
+    showToast(
+      "Unable to update notification."
+    );
+
+    return;
+
+  }
+
+
+  await loadNotifications();
+
+  await updateNotificationBadge();
+
+}
+
+
+/* =========================================================
+   REAL-TIME NOTIFICATIONS
+========================================================= */
+
+async function startNotificationListener(){
+
+  const {
+    data:{
+      user
+    }
+  } =
+    await supabaseClient.auth.getUser();
+
+
+  if(!user){
+
+    return;
+
+  }
+
+
+  if(notificationChannel){
+
+    await supabaseClient
+      .removeChannel(
+        notificationChannel
+      );
+
+  }
+
+
+  notificationChannel =
+    supabaseClient
+      .channel(
+        "user-notifications-" +
+        user.id
+      )
+      .on(
+        "postgres_changes",
+        {
+          event:"INSERT",
+          schema:"public",
+          table:"notifications",
+          filter:
+            `user_id=eq.${user.id}`
+        },
+        payload => {
+
+          console.log(
+            "NEW NOTIFICATION:",
+            payload.new
+          );
+
+
+          showToast(
+            payload.new.title ||
+            "New notification"
+          );
+
+
+          loadNotifications();
+
+          updateNotificationBadge();
+
+        }
+      )
+      .subscribe();
+
+}
+
+
+async function stopNotificationListener(){
+
+  if(
+    notificationChannel
+  ){
+
+    await supabaseClient
+      .removeChannel(
+        notificationChannel
+      );
+
+    notificationChannel =
+      null;
+
+  }
+
 }
 
 
@@ -4533,6 +5077,13 @@ function selectAlertTab(
       ? "block"
       : "none";
 
+
+  if(tab === "notifications"){
+
+    loadNotifications();
+
+  }
+
 }
 
 
@@ -4544,9 +5095,27 @@ async function signOut(){
 
   closeMoreMenuNow();
 
+  await stopNotificationListener();
+
   await supabaseClient.auth.signOut();
 
   await updateHeader();
+
+  const badge =
+    document.getElementById(
+      "notificationBadge"
+    );
+
+  if(badge){
+
+    badge.textContent =
+      "";
+
+    badge.style.display =
+      "none";
+
+  }
+
 
   document.getElementById(
     "homePublic"
@@ -4600,12 +5169,20 @@ supabaseClient.auth.onAuthStateChange(
 
       await loadDashboard();
 
+      await loadNotifications();
+
+      await updateNotificationBadge();
+
+      await startNotificationListener();
+
     }
 
 
     if(
       event === "SIGNED_OUT"
     ){
+
+      await stopNotificationListener();
 
       document.getElementById(
         "homePublic"
@@ -4620,6 +5197,8 @@ supabaseClient.auth.onAuthStateChange(
 
 
       await updateHeader();
+
+      await updateNotificationBadge();
 
     }
 
@@ -4659,6 +5238,12 @@ async function initializeApp(){
 
     await loadDashboard();
 
+    await loadNotifications();
+
+    await updateNotificationBadge();
+
+    await startNotificationListener();
+
   }else{
 
     document.getElementById(
@@ -4674,6 +5259,8 @@ async function initializeApp(){
 
 
     await updateHeader();
+
+    await updateNotificationBadge();
 
   }
 
