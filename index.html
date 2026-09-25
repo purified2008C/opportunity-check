@@ -1807,10 +1807,48 @@ async function requireLogin(pageName) {
   }
 
 
-  // 2. Check the user's subscription
+  // 2. Check whether this user is an admin
+  const {
+    data: profile,
+    error: profileError
+  } = await supabaseClient
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .maybeSingle();
+
+
+  // 3. Stop if the profile check fails
+  if (profileError) {
+
+    console.error(
+      "Profile check error:",
+      profileError
+    );
+
+    showToast(
+      "Unable to check your account. Please try again."
+    );
+
+    return;
+  }
+
+
+  // 4. Admin/creator gets full access without subscription
+  if (profile && profile.role === "admin") {
+
+    openPage(pageName);
+
+    updateHeader(pageName);
+
+    return;
+  }
+
+
+  // 5. Normal users must have an active subscription
   const {
     data: subscription,
-    error
+    error: subscriptionError
   } = await supabaseClient
     .from("subscriptions")
     .select("plan, status, expires_at")
@@ -1823,12 +1861,12 @@ async function requireLogin(pageName) {
     .maybeSingle();
 
 
-  // 3. If Supabase gives an error
-  if (error) {
+  // 6. Subscription check failed
+  if (subscriptionError) {
 
     console.error(
       "Subscription check error:",
-      error
+      subscriptionError
     );
 
     showToast(
@@ -1839,7 +1877,7 @@ async function requireLogin(pageName) {
   }
 
 
-  // 4. No active subscription
+  // 7. No active subscription
   if (!subscription) {
 
     showToast(
@@ -1854,7 +1892,7 @@ async function requireLogin(pageName) {
   }
 
 
-  // 5. Check whether the subscription has expired
+  // 8. Subscription has expired
   if (
     subscription.expires_at &&
     new Date(subscription.expires_at) < new Date()
@@ -1872,7 +1910,7 @@ async function requireLogin(pageName) {
   }
 
 
-  // 6. User is logged in AND has an active subscription
+  // 9. Normal user has an active subscription
   openPage(pageName);
 
   updateHeader(pageName);
