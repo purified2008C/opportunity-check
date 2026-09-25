@@ -1791,15 +1791,13 @@ async function requireLogin(pageName) {
     data: {
       user
     }
-  } =
-    await supabaseClient.auth.getUser();
+  } = await supabaseClient.auth.getUser();
 
 
+  // 1. User is not logged in
   if (!user) {
 
-    showToast(
-      "Please login to continue."
-    );
+    showToast("Please login to continue.");
 
     openPage("auth");
 
@@ -1809,12 +1807,77 @@ async function requireLogin(pageName) {
   }
 
 
+  // 2. Check the user's subscription
+  const {
+    data: subscription,
+    error
+  } = await supabaseClient
+    .from("subscriptions")
+    .select("plan, status, expires_at")
+    .eq("user_id", user.id)
+    .eq("status", "active")
+    .order("created_at", {
+      ascending: false
+    })
+    .limit(1)
+    .maybeSingle();
+
+
+  // 3. If Supabase gives an error
+  if (error) {
+
+    console.error(
+      "Subscription check error:",
+      error
+    );
+
+    showToast(
+      "Unable to check your subscription. Please try again."
+    );
+
+    return;
+  }
+
+
+  // 4. No active subscription
+  if (!subscription) {
+
+    showToast(
+      "Please choose a subscription plan to continue."
+    );
+
+    openPage("subscription");
+
+    updateHeader("subscription");
+
+    return;
+  }
+
+
+  // 5. Check whether the subscription has expired
+  if (
+    subscription.expires_at &&
+    new Date(subscription.expires_at) < new Date()
+  ) {
+
+    showToast(
+      "Your subscription has expired. Please renew your plan."
+    );
+
+    openPage("subscription");
+
+    updateHeader("subscription");
+
+    return;
+  }
+
+
+  // 6. User is logged in AND has an active subscription
   openPage(pageName);
 
   updateHeader(pageName);
 
 }
-
 
 // =====================================================
 // OPEN PAGE
